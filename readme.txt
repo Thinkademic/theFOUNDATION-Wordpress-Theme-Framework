@@ -1,1 +1,1 @@
-theFOUNDATION Wordpress Theme Framework.
+theFOUNDATION Wordpress Theme Framework Master.
