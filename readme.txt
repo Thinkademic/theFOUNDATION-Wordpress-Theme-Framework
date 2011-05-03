@@ -1,4 +1,5 @@
-=== theFOUNDATION WordPress Theme Framework ===Contributors: BaoQuoc Doan
+=== theFOUNDATION WordPress Theme Framework ===
+Contributors: BaoQuoc Doan
 Donate link: 
 Requires at least: 3.1
 Tested up to: 3.1
