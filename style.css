@@ -1,0 +1,68 @@
+/*
+Theme Name: Foundation Theme Framework
+Theme URI: http: //www.mantone.com/
+Description: A Theme Framework by Mantone
+Author: Mr. Wok
+Author URI:
+Template: thefoundation
+Version: 6.0
+Tags: 
+License:
+License URI:
+*/
+
+/*------- WORDPRESS CLASSES -------*/
+.sticky
+{
+	background: #CCCCCC;
+}
+.bypostauthor
+{
+	display: inline;
+}
+.aligncenter, DIV.aligncenter
+{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.alignleft
+{
+	float: left;
+}
+.alignright
+{
+	float: right;
+}
+.wp-caption
+{
+	background-color: #F3F3F3;
+	border: 1px solid #DDD;
+	-khtml-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+/*optional rounded corners for browsers that support it*/
+	margin: 10px;
+	padding-top: 4px;
+	text-align: center;
+}
+.wp-caption IMG
+{
+	border: 0 none #000000;
+	margin: 0;
+	padding: 0;
+}
+.wp-caption P.wp-caption-text
+{
+	font-size: 11px;
+	line-height: 17px;
+	margin: 0;
+	padding: 0 4px 5px;
+}
+.gallery dl {}
+.gallery dt {}
+.gallery dd {}
+.gallery dl a {}
+.gallery dl img {}
+.gallery-caption {}
