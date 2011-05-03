@@ -1,4 +1,4 @@
-	<?php thefdt_loop_header(); ?>	
+<?php thefdt_loop_header(); ?>	
 			
 	<?php if (have_posts()) : ?>
 		<?php while (have_posts()) : the_post(); ?>
@@ -10,6 +10,7 @@
 					<?php
 						show_mediagalleries();
 						the_content("Continue reading...");
+						wp_link_pages();
 					?>
 				</div>
 
@@ -26,4 +27,4 @@
 			</div>
 	<?php endif; ?>
 	
-	<?php thefdt_loop_footer(); ?>
+<?php thefdt_loop_footer(); ?>
