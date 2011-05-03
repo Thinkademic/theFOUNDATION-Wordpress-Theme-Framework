@@ -21,6 +21,7 @@
 		<div id="primary">
 			<?php get_template_part( 'navigate', 'single'); ?>		
 
+			
 			<?php get_template_part( 'loop', 'single'); ?>
 			
 			<div id="comments_section">
