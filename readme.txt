@@ -1,1 +1,1 @@
-theFOUNDATION Wordpress Theme Framework Master.
+theFOUNDATION Wordpress Theme Framework Master Branch
