@@ -20,7 +20,7 @@
 		
 		<div id="primary">
 			<?php dynamicsidebar( "Primary Featured", '<div id="primary-featured">', '</div>' ); ?>
-			
+					
 			<div id="postbox">
 				<?php get_template_part( 'loop', 'index'); ?>	
 			</div>

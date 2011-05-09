@@ -5,7 +5,6 @@
 			<div id="post-<?php the_ID(); ?>" <?php post_class('item'); ?>>
 
 				<?php get_template_part( 'itemhead', 'index'); ?>	
-
 				<div class="itemtext">
 					<?php
 						show_mediagalleries();
@@ -13,17 +12,14 @@
 						wp_link_pages();
 					?>
 				</div>
-
+				<?php get_template_part( 'itemfoot', 'index'); ?>					
 				
 			</div>
-					
 		<?php endwhile; ?>		
 
 	<?php else : ?>
 			<div class="item">
-			
 				<?php get_template_part( 'nothing' ); ?>
-
 			</div>
 	<?php endif; ?>
 	

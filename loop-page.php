@@ -5,15 +5,15 @@
 			<div id="post-<?php the_ID(); ?>" <?php post_class('item'); ?>>	
 
 				<?php get_template_part( 'itemhead', 'page'); ?>			
-
 				<div class="itemtext">
 					<?php 
 							show_mediagalleries();
 							the_content("Continue reading...");				
 					?>			
 				</div>
+				<?php get_template_part( 'itemfoot', 'page'); ?>
+				
 			</div>
-					
 		<?php endwhile; ?>		
 
 		<!-- NAVIGATION -->
