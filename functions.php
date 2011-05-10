@@ -87,7 +87,9 @@ function thefdt_setup() {
 		
 
 	#	ENABLE THEME FEATURES
-		add_custom_background();
+		if(false)
+			add_custom_background();
+			
 		add_theme_support( 'post-thumbnails' );	
 																		
 	#	AUTOMATIC FEED LINKS
@@ -1416,6 +1418,16 @@ function buildmarkup_from_query( $queryargs , $optionargs, $markup = null, $retu
 
 
 
+function checkbox_truefalse($input) {
+
+	if($input == "" ){
+		$output = "false";
+	} else {
+		$output = "true";
+	}	
+
+	return $output;
+}
 
 
 

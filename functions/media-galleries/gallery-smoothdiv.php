@@ -113,4 +113,55 @@ function smoothscroller_extractMedia( $atts = null ){
 }
 
 
+
+
+
+
+
+
+function smoothdiv_jquery() {
+
+	$jqpostid = get_query_var('jqpostid');		// WE HAVE TO GET THE POST ID, BECAUSE THE REDIRECT DOESN'T PICKUP THE POST META DATA
+	$meta = get_post_meta($jqpostid, THEMECUSTOMMETAKEY, true);	
+	
+if($meta["gallery_type"] == "smoothdiv" ):		
+print <<<END
+	$(function(){
+	
+	/*****************************
+		SMOOTH DIV
+	*****************************/
+	$("div#makeMeScrollable").smoothDivScroll({
+		scrollingHotSpotLeft:	"div.scrollingHotSpotLeft",				// The identifier for the hotspot that triggers scrolling left.
+		scrollingHotSpotRight:	"div.scrollingHotSpotRight",		// The identifier for the hotspot that triggers scrolling right.
+		scrollWrapper:	"div.scrollWrapper",					// The identifier of the wrapper element that surrounds the scrollable area.
+		scrollableArea:	"div.scrollableArea",					// The identifier of the actual element that is scrolled left or right.	
+		scrollingSpeed: 12, 
+		mouseDownSpeedBooster: 3, 
+		// autoScroll: "onstart", 
+		autoScrollDirection: "endlessloop", 
+		autoScrollSpeed: 2, 
+		visibleHotSpots: "always", 
+		hotSpotsVisibleTime: 9
+		}
+	);
+	
+	$('div#makeMeScrollable IMG').removeAttr("title");	
+	$('div#makeMeScrollable IMG A').removeAttr("title");	
+
+
+	});
+	
+END;
+endif;
+
+
+}
+add_action('fdt_print_dyanmic_galleries_js','anythingslider_jquery');
+
+
+
+
+
+
 ?>
