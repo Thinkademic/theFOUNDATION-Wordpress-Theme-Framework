@@ -354,8 +354,122 @@ function get_socialprofile( $args = null ) {
 
 
 
+/************************************************************************
+ THE EXISTING THE_CATEGORY() FUNCTION HAS NO WAY OF TELLING HOW MANY 
+ CATEGORIES THERE ARE, AND SO CAN'T DO SOMETHING FANCY LIKE INSERTING THE 
+ WORD "AND" BETWEEN THE PENULTIMATE (SECOND-TO-LAST) AND ULTIMATE CATEGORIES.
+
+ EXAMPLE:
+ SINGLE CATEGORY: CATEGORY1
+ TWO CATEGORIES: CATEGORY1 AND CATEGORY 2
+ THREE CATEGORIES: CATEGORY1, CATEGORY2 AND CATEGORY3
+ FOUR CATEGORIES: CATEGORY 1, CATEGORY 2, CATEGORY 3 AND CATEGORY 4
+
+ REFERENCE ::
+ Link: http://txfx.net/2004/07/22/wordpress-conversational-categories/
+************************************************************************/
+function the_nice_category($normal_separator = ', ', $penultimate_separator = ' and ') {
+	echo  get_the_nice_category($normal_sperator, $penultimate_separator);
+}
+
+function get_the_nice_category($normal_separator = ', ', $penultimate_separator = ' and ') {
+	$categories = get_the_category();
+
+	  if (empty($categories)) {
+		_e('Uncategorized');
+		return;
+	}
+
+	$thelist = '';
+		$i = 1;
+		$n = count($categories);
+		foreach ($categories as $category) {
+			$category->cat_name = $category->cat_name;
+				if (1 < $i && $i != $n) $thelist .= $normal_separator;
+				if (1 < $i && $i == $n) $thelist .= $penultimate_separator;
+			$thelist .= '<a href="' . get_category_link($category->cat_ID) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a>';
+					 ++$i;
+		}
+	return apply_filters('the_category', $thelist, $normal_separator);
+}
 
 
+
+// WE USED THESE FUNTIONS IN THE HORIZONTAL SCROLL PAGE
+function get_attachment_items( $slip_content = null ) {
+	global $wp_query, $post, $paged;
+	
+	$postmeta_gallery_field = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
+	$orderby = $postmeta_gallery_field["gallery_orderby"];
+		
+	$queryargs = array (
+			//	'post_type' => 'portfolio', 
+				'posts_per_page' => 100,
+			//	'post_status' => 'future'	
+				'post_parent' => $post->ID,
+				"post_status" => "null",
+				"post_type" => "attachment",
+				"orderby" => $orderby,
+				"order" => "ASC",
+				"showposts" => "100",
+				"post_mime_type" => "image/jpeg,image/gif,image/jpg,image/png" 					
+				);	
+				
+	$markup = array (	"entry_wrapper" => "portfolio_item",
+						"entry_image" => "portfolio_image",
+						"entry_content_wrapper" => "portfolio_content_wrapper",
+						"entry_content" => "portfolio_content"
+					);				
+
+	$options = array (
+						"type_of_content" => false,					// SEE retrieve_content()
+						"type_of_media" => "attachment",			// SEE retrieve_media()
+						"mediasize" => "medium",
+						"hyperlink_target" => "linktoself",
+						"hyperlink_enable" => true,						
+						"media_has_hyperlink" => "true",
+						"image_after_title" => true,
+						"title_format" => "notitle",					// false = title will not be shown | 'a' = hyperlink will wrap title | 'tagname' = tagname will wrap title, <tagname>title</tagname>
+						"wrapper_class_counter" => true,
+						"filtername" => "buildmarkup_from_query_action"
+					);
+					
+	// Use a filter to insert Postmeta data, Slips it in our custom query function
+	// add_filter('buildmarkup_from_query_action', 'get_list_upcoming_events_filter');			// Use a filter to insert Postmeta data, Slips it in our custom query function	
+
+	
+	$attachment_items = buildmarkup_from_query( $queryargs , $options, $markup, true);
+
+	if(isset($slip_content)){
+		foreach ($slip_content as $num => $content ) {							// LOOP THROUGH THE POST DATA
+			$attachment_items = slip_array_element( $attachment_items, $content, $num );
+		}	
+	}
+	
+	foreach ($attachment_items as $item) {							// Loop through the POST data
+		$output .= $item;
+	}
+	
+	return $output;
+}	
+
+
+function slip_array_element( $target, $slip_content, $slip_num ) {
+	$counter = 0;
+	
+	foreach ($target as $item) {							// Loop through the POST data
+		$counter++;
+		
+		// Slip in Content Between
+		if($slip_num == $counter) {
+			$output[] = $slip_content;	
+		}
+		
+		$output[] = $item;
+	}	
+
+	return $output;
+}
 
 
 ?>

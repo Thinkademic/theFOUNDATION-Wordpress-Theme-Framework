@@ -1,6 +1,6 @@
 <?php
 /**************************************************************
-  DEFINE UNIVERSAL CONSTANTS
+  DEFINE UNIVERSAL CONSTANTS IF NOT DEFINED IN CHILD THEME
 **************************************************************/
 define( 'TEXTDOMAIN', 'thefdt' );
 define( 'THEMECUSTOMMETAKEY', '_fsl_media_options' );
@@ -18,10 +18,6 @@ require_once(TEMPLATEPATH . '/functions/functions-sandbox.php');
  [01] CUSTOM POST TYPES
 	NOTE: SHOULD BE INCLUDED IN THE CHILD THEME
 **************************************************************/
-#require_once(TEMPLATEPATH . '/functions/functions-posttype-event.php');
-#require_once(TEMPLATEPATH . '/functions/functions-posttype-portfolio.php');
-#require_once(TEMPLATEPATH . '/functions/functions-posttype-swatch.php');
-#require_once(TEMPLATEPATH . '/functions/functions-posttype-product.php');
 
 
 /**************************************************************
@@ -34,7 +30,7 @@ require_once(TEMPLATEPATH . '/functions/functions-appearance-menu.php');
 
 
 /**************************************************************
- [03] ENABLE JQUERY + JQUERY LIBRARIES
+ [03] ENQUEUE JQUERY + JQUERY LIBRARIES
 **************************************************************/
 require_once(TEMPLATEPATH . '/functions/functions-jquery.php');
 
@@ -82,30 +78,6 @@ require_once(TEMPLATEPATH . '/functions/functions-adminbar.php');
 
 
 /**************************************************************
- FOUNDATION DEFAULT OPTIONS
- 
- Documentation can be found here
- wpthemes.foodshelterlove.com/themeoptions
- 03.07.2011
-**************************************************************/
-function thefdt_default_options() {
-	$options = array(
-		'version' => 1,
-		'content_width' => '480',
-		'index_primary_h2' => 'Latest Blog',		
-		'primary_blog_header_enable' => true,
-		'mediagallery_options_panel' => true,
-		'mediagallery_orbit' => false,
-		'mediagallery_fancytransitions' => false,
-		'mediagallery_jcycle' => false,
-		'mediagallery_anythingslider' => false,
-		'mediagallery_smoothscroller' => false		
-	);
-	return $options;
-}
-
-
-/**************************************************************
  FOUNDATION THEME SETUP
  01.06.2011
 **************************************************************/
@@ -135,48 +107,6 @@ function thefdt_setup() {
 		}
 	
 }
-
-
-
-
-
-
-/**************************************************************
- ADD ADDITIONAL USER PROFILE FIELDS
-**************************************************************/
-add_filter('user_contactmethods','add_more_contactmethods',10,1);
-function add_more_contactmethods( $contactmethods ) {
-
-    #	REMOVE UNWANTED FIELDS
-		unset($contactmethods['aim']);
-		unset($contactmethods['jabber']);
-		unset($contactmethods['yim']);
-
-    #	ADD TWITTER
-		$contactmethods['twitter'] = 'Twitter';
-
-    #	ADD PHONE
-		$contactmethods['phone'] = 'Phone Number';
-
-    #	ADD FAX
-		$contactmethods['fax'] = 'Fax Number';
-
-    #	ADD ADDRESS
-		$contactmethods['address1'] = 'Address Line 1';
-		$contactmethods['address2'] = 'Address Line 2';
-		$contactmethods['city'] = 'City';
-		$contactmethods['state'] = 'State/Province';
-		$contactmethods['country'] = 'Country';	
-		$contactmethods['zip'] = 'Zip Code';
-
-
-    return $contactmethods;
-}
-
-
-
-
-
 
 
 
@@ -224,6 +154,37 @@ function add_image_value($column_name, $post_id) {
 
 
 
+/**************************************************************
+ ADD ADDITIONAL USER PROFILE FIELDS
+**************************************************************/
+add_filter('user_contactmethods','add_more_contactmethods',10,1);
+function add_more_contactmethods( $contactmethods ) {
+
+    #	REMOVE UNWANTED FIELDS
+		unset($contactmethods['aim']);
+		unset($contactmethods['jabber']);
+		unset($contactmethods['yim']);
+
+    #	ADD TWITTER
+		$contactmethods['twitter'] = 'Twitter';
+
+    #	ADD PHONE
+		$contactmethods['phone'] = 'Phone Number';
+
+    #	ADD FAX
+		$contactmethods['fax'] = 'Fax Number';
+
+    #	ADD ADDRESS
+		$contactmethods['address1'] = 'Address Line 1';
+		$contactmethods['address2'] = 'Address Line 2';
+		$contactmethods['city'] = 'City';
+		$contactmethods['state'] = 'State/Province';
+		$contactmethods['country'] = 'Country';	
+		$contactmethods['zip'] = 'Zip Code';
+
+
+    return $contactmethods;
+}
 
 
 
@@ -699,11 +660,7 @@ function FLV_Hack_upload_mimes($mimes) {
 
 
 /********************************************************
- HERE'S A WORDPRESS CODE SNIPPETS I THOUGHT YOU MIGHT FIND USEFUL. 
- IT IS A FUNCTIONS YOU CAN DUMP IN FUNCTIONS.PHP AND THEN USE IN YOUR THEME. 
- THIS ONE WOULD GET YOU THE FIRST IMAGE FROM ANY POST YOU PASS IT. 
- THIS IS A GREAT WAY FOR YOU GUYS TO GET THUMBNAILS FOR YOUR
- POSTS WITHOUT EXTRA EFFORT. HERE WE GO:
+ GET FIRST FUNCTIONS
 ********************************************************/
 function get_first_image($post_ID, $size = "thumbnail", $num = 0){
 	$thumbargs = array(
@@ -721,7 +678,6 @@ function get_first_image($post_ID, $size = "thumbnail", $num = 0){
 		return false;
 	}
 }
-
 
 function get_first_image_url($post_ID, $num = 0 ){
 	$thumbargs = array(
@@ -759,12 +715,6 @@ function get_first_image_attachment_link($post_ID, $num = 0 ){
 	}
 }
 
-
-
-
-
-
-
 function get_first_video_url($post_ID, $num = 0){
 	$thumbargs = array(
 		'post_type' => 'attachment',
@@ -782,48 +732,6 @@ function get_first_video_url($post_ID, $num = 0){
 	} else {
 		return false;
 	}
-}
-
-
-
-
-/************************************************************************
- THE EXISTING THE_CATEGORY() FUNCTION HAS NO WAY OF TELLING HOW MANY 
- CATEGORIES THERE ARE, AND SO CAN'T DO SOMETHING FANCY LIKE INSERTING THE 
- WORD "AND" BETWEEN THE PENULTIMATE (SECOND-TO-LAST) AND ULTIMATE CATEGORIES.
-
- EXAMPLE:
- SINGLE CATEGORY: CATEGORY1
- TWO CATEGORIES: CATEGORY1 AND CATEGORY 2
- THREE CATEGORIES: CATEGORY1, CATEGORY2 AND CATEGORY3
- FOUR CATEGORIES: CATEGORY 1, CATEGORY 2, CATEGORY 3 AND CATEGORY 4
-
- REFERENCE ::
- Link: http://txfx.net/2004/07/22/wordpress-conversational-categories/
-************************************************************************/
-function the_nice_category($normal_separator = ', ', $penultimate_separator = ' and ') {
-	echo  get_the_nice_category($normal_sperator, $penultimate_separator);
-}
-
-function get_the_nice_category($normal_separator = ', ', $penultimate_separator = ' and ') {
-	$categories = get_the_category();
-
-	  if (empty($categories)) {
-		_e('Uncategorized');
-		return;
-	}
-
-	$thelist = '';
-		$i = 1;
-		$n = count($categories);
-		foreach ($categories as $category) {
-			$category->cat_name = $category->cat_name;
-				if (1 < $i && $i != $n) $thelist .= $normal_separator;
-				if (1 < $i && $i == $n) $thelist .= $penultimate_separator;
-			$thelist .= '<a href="' . get_category_link($category->cat_ID) . '" title="' . sprintf(__("View all posts in %s"), $category->cat_name) . '">'.$category->cat_name.'</a>';
-					 ++$i;
-		}
-	return apply_filters('the_category', $thelist, $normal_separator);
 }
 
 
@@ -976,7 +884,6 @@ function retrieve_content_by_title($format = "content", $page_title, $output = "
 	return $content;
 
 }
-
 
 /* ***************************************************************
 	WRAPPER FUNCTION, emulates the_title() 
@@ -1190,9 +1097,6 @@ function retrieve_headline( $args ) {
 	
 	return $title;
 }
-
-
-
 
 
 function retrieve_media( $querytype = "default", $imagesize = "thumbnail", $hyperlink_target = false, $hyperlink_enable = false, $hyperlink_imagesize = null ) {
@@ -1518,83 +1422,5 @@ function buildmarkup_from_query( $queryargs , $optionargs, $markup = null, $retu
 
 
 
-
-// WE USED THESE FUNTIONS IN THE HORIZONTAL SCROL PAGE
-function get_attachment_items( $slip_content = null ) {
-	global $wp_query, $post, $paged;
-	
-	$postmeta_gallery_field = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
-	$orderby = $postmeta_gallery_field["gallery_orderby"];
-		
-	$queryargs = array (
-			//	'post_type' => 'portfolio', 
-				'posts_per_page' => 100,
-			//	'post_status' => 'future'	
-				'post_parent' => $post->ID,
-				"post_status" => "null",
-				"post_type" => "attachment",
-				"orderby" => $orderby,
-				"order" => "ASC",
-				"showposts" => "100",
-				"post_mime_type" => "image/jpeg,image/gif,image/jpg,image/png" 					
-				);	
-				
-	$markup = array (	"entry_wrapper" => "portfolio_item",
-						"entry_image" => "portfolio_image",
-						"entry_content_wrapper" => "portfolio_content_wrapper",
-						"entry_content" => "portfolio_content"
-					);				
-
-	$options = array (
-						"type_of_content" => false,					// SEE retrieve_content()
-						"type_of_media" => "attachment",			// SEE retrieve_media()
-						"mediasize" => "medium",
-						"hyperlink_target" => "linktoself",
-						"hyperlink_enable" => true,						
-						"media_has_hyperlink" => "true",
-						"image_after_title" => true,
-						"title_format" => "notitle",					// false = title will not be shown | 'a' = hyperlink will wrap title | 'tagname' = tagname will wrap title, <tagname>title</tagname>
-						"wrapper_class_counter" => true,
-						"filtername" => "buildmarkup_from_query_action"
-					);
-					
-	// Use a filter to insert Postmeta data, Slips it in our custom query function
-	// add_filter('buildmarkup_from_query_action', 'get_list_upcoming_events_filter');			// Use a filter to insert Postmeta data, Slips it in our custom query function	
-
-	
-	$attachment_items = buildmarkup_from_query( $queryargs , $options, $markup, true);
-
-	if(isset($slip_content)){
-		foreach ($slip_content as $num => $content ) {							// LOOP THROUGH THE POST DATA
-			$attachment_items = slip_array_element( $attachment_items, $content, $num );
-		}	
-	}
-	
-	foreach ($attachment_items as $item) {							// Loop through the POST data
-		$output .= $item;
-	}
-	
-	return $output;
-}	
-
-
-
-
-function slip_array_element( $target, $slip_content, $slip_num ) {
-	$counter = 0;
-	
-	foreach ($target as $item) {							// Loop through the POST data
-		$counter++;
-		
-		// Slip in Content Between
-		if($slip_num == $counter) {
-			$output[] = $slip_content;	
-		}
-		
-		$output[] = $item;
-	}	
-
-	return $output;
-}
 
 ?>
