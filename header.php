@@ -13,10 +13,9 @@
 	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/css/reset.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/css/text.css" type="text/css" media="screen" />	
 	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
-	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/css/menu.css" type="text/css" media="screen" />	
-	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/css/elements.css" type="text/css" media="screen" />		
+	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/css/menu.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/css/widgets.css" type="text/css" media="screen" />	
 	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/css/mediagalleries.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/css/pagestyles.css" type="text/css" media="screen" />	
 	
 	<!-- RSS + PING BACK URL -->
 	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name'); ?> RSS Feed" href="<?php bloginfo('rss2_url'); ?>" />
@@ -24,7 +23,6 @@
 	
 	
 <?php
-if ( is_singular() ) wp_enqueue_script( 'comment-reply' );
 wp_head(); 
 ?>
  
