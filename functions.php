@@ -87,7 +87,7 @@ function thefdt_setup() {
 		
 
 	#	ENABLE THEME FEATURES
-		if(false)
+		if( of_get_option('enable_wordpress_background', false) )
 			add_custom_background();
 			
 		add_theme_support( 'post-thumbnails' );	

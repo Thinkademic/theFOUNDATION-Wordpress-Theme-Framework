@@ -14,24 +14,20 @@ if (!function_exists('theme_header_setup')) {
 		add_custom_image_header( 'enable_header_style', 'enable_admin_header_style' );								// 	SETUP HEADER STYLE SHEET FUNCTION
 		
 		register_default_headers( 																														//		REGISTER HEADERS
-			array (
-						'default' => array (
-							'url' => '%s/images/header/header_default.png',
-							'thumbnail_url' => '%s/images/header/header_default.png',
-							'description' => __( 'MUSEUM', 'thefoundation' )
-							),
-						'bardeaux' => array (
-							'url' => '%s/images/logo/logo_bardeaux.png',
-							'thumbnail_url' => '%s/images/logo/logo_bardeaux.png',
-							'description' => __( 'Bardeaux', 'thefoundation' )
-							)					
-			) 
+				array (
+							'Default Child Theme Header Image' => array (
+								'url' => '%s/images/header/header_default.png',
+								'thumbnail_url' => '%s/images/header/header_default.png',
+								'description' => __( 'Default Child Theme Header Image', 'thefoundation' )
+								)				
+				) 
 		);
 	
 	
 	}
 }
-theme_header_setup();
+if( of_get_option('enable_wordpress_header', false ) )
+	theme_header_setup();
 
 
 
