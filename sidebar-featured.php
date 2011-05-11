@@ -1,3 +1,3 @@
-<div class="sidebox">
+<div class="sidebar-featured">
 	<?php dynamicsidebar("Sidebar Featured"); ?>
 </div>
