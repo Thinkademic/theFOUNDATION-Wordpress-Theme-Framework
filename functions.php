@@ -14,15 +14,11 @@ if ( ! isset( $content_width ) ) $content_width = 540;		// SHOULD BE OVER WRITTE
 require_once(TEMPLATEPATH . '/functions/functions-sandbox.php');
 
 
-/**************************************************************
- [01] CUSTOM POST TYPES
-	NOTE: SHOULD BE INCLUDED IN THE CHILD THEME
-**************************************************************/
-
 
 /**************************************************************
  [02] PARENT THEME APPEARANCE FEATURES
 **************************************************************/
+require_once(TEMPLATEPATH . '/functions/functions-appearance-themeoptions.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-sidebars.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-header.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-widgets.php');
@@ -1428,6 +1424,8 @@ function checkbox_truefalse($input) {
 
 	return $output;
 }
+
+
 
 
 

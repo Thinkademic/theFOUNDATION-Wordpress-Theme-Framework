@@ -31,10 +31,7 @@ function show_mediagalleries( $targetid = null ) {
 		show_foundation_gallery();
 		
 	if (function_exists('show_nivoslider'))
-		show_nivoslider();
-
-	if(function_exists('the_post_thumbnail'))
-		the_post_thumbnail();
+		show_nivoslider();		
 }
 
 
