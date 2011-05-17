@@ -130,7 +130,9 @@ function enqueue_template_layout() {
 		// SETTINGS -> MEDIA -> EMBED -> MAX WIDTH
 		// AND ALTER THE CONTENT WIDTH
 		if($layout_file_name == 'layout-p.css' || $layout_file_name == 'layout-ts-p.css' || $layout_file_name == 'layout-p-bs.css' ) {
-			$content_width = of_get_option(  'set_content_full_width_primary', '880' );		
+			$content_width = of_get_option(  'set_content_full_width_primary', get_option('large_size_w') );		
+		} else {
+			$content_width = of_get_option(  'set_content_width_primary', get_option('medium_size_w') );		
 		}
 
 		// REGISTER & ENQUEUE STYLE

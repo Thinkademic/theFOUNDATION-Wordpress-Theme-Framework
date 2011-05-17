@@ -106,8 +106,9 @@ function nivoslider_extractMedia( $atts = null ) {
 
 
 
-
-
+/*
+ *	BUILD THE JQUERY
+ */
 function build_jquery_nivoslider( $atts = null ) {
 
 	if($atts == null)
@@ -159,9 +160,11 @@ END;
 }
 
 
-/**************************************************************
- JQUERY FOR NIVOSLIDER
-**************************************************************/
+
+
+/*
+ *	JQUERY FOR NIVOSLIDER
+ */
 function jquery_nivoslider() {
 
 	$pass_postid = explode( "-", get_query_var('jqids') );
@@ -204,9 +207,7 @@ function jquery_nivoslider() {
 		endif;	
 	
 	}	
-	
-
-	
+		
 if( $more_jquery_functions ) :		
 print <<<END
 
@@ -312,8 +313,6 @@ print <<<END
 	right:0px;
 }
 
-
-
 /* Control  BULLET NAV STYLES (e.g. 1,2,3...) */
 .nivoslider .nivo-controlNav
 {
@@ -340,41 +339,7 @@ print <<<END
 	background: url({$STYLESHEETPATH}/images/bullets/green.png) no-repeat center center;
 }
 
-/* Control nav styles (e.g. 1,2,3...) */
-#slider3 .nivo-controlNav
-{
-	position: absolute;
-	left: 185px;
-	bottom: -70px;
-}
-#slider3 .nivo-controlNav A
-{
-	display: inline;
-}
-#slider3 .nivo-controlNav IMG
-{
-	display: inline;
-	position: relative;
-	margin-right: 10px;
-	-moz-box-shadow: 0px 0px 5px #333;
-	-webkit-box-shadow: 0px 0px 5px #333;
-	box-shadow: 0px 0px 5px #333;
-}
-#slider3 .nivo-controlNav A.active IMG
-{
-	border: 1px solid #000;
-}
-
-
-
-
 END;
-
-
-
-
-
-
 
 }
 
@@ -389,18 +354,16 @@ function css_nivoslider() {
 	
 	$pass_postid = explode( "-", get_query_var('cssids') );
 	
-	foreach ($pass_postid as $key => $postid) {
-	
+	foreach ($pass_postid as $key => $postid) {	
 		$meta = get_post_meta($postid, THEMECUSTOMMETAKEY, true);	
-		
 		$STYLESHEETPATH = get_stylesheet_directory_uri();;
 		
 		if($meta["gallery_imagesize"] != "" ){	
 			$width = get_option($meta["gallery_imagesize"].'_size_w');
 			$height = get_option($meta["gallery_imagesize"].'_size_h');	
 		} else {
-			$width = 540;
-			$height = 360;
+			$width = get_option('medium_size_w');
+			$height = get_option('medium_size_h');
 		}	
 				
 		$atts = array( 
@@ -408,15 +371,13 @@ function css_nivoslider() {
 				'height' => $height,
 				'STYLESHEETPATH' => $STYLESHEETPATH
 			);
-			
-	if($meta["gallery_type"] == "nivoslider" ):
-			build_css_nivoslider($atts);
-			$more_jquery_functions = true;
-	endif;	
+				
+		if($meta["gallery_type"] == "nivoslider" ):
+				build_css_nivoslider($atts);
+				$more_jquery_functions = true;
+		endif;	
 	
-	}
-		
-
+	}		
 }
 add_action('fdt_print_dynamic_css','css_nivoslider');
 
