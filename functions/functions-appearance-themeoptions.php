@@ -413,6 +413,7 @@ function thefdt_loop_content() {
 *	CONTENT LOOP FUNCTION
 */
 function thefdt_get_loop_content() {
+	global $post;
 
 	// FIND THE CURRENT TEMPLATE
 	$current_template = thefdt_get_current_template();
@@ -431,8 +432,15 @@ function thefdt_get_loop_content() {
 	if( $content_display['show_mediagalleries'])
 		show_mediagalleries();
 	
-	if( $content_display['the_post_thumbnail'])	
-		the_post_thumbnail('medium', array('class' => 'alignleft'));
+	if( $content_display['the_post_thumbnail']) :	
+		$featured_image = get_the_post_thumbnail('medium', array('class' => 'alignleft'));
+	
+		if($featured_image)
+			echo $featured_image;
+		else
+			echo get_first_image($post->ID, 'medium');
+	
+	endif;
 	
 	if( $content_display['the_content'])		
 		the_content();

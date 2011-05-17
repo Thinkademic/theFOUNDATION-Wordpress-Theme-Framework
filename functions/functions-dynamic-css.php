@@ -58,9 +58,7 @@ function add_dynamic_css() {
 	foreach ($posts as $post) {	
 		$meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
 
-        if ( $meta["gallery_type"] != "" ) :
-			$postid_string .= $post->ID . "-";
-		endif;			
+		$postid_string .= $post->ID . "-";
 	}
 
 	// ENQUEUE CSS FROM THEME OPTIONS

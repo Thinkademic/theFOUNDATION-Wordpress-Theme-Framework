@@ -1010,34 +1010,11 @@ END;
  * CSS JCYCLE FUNCTION
  */
 function css_jcycle(){
+	$atts = array( 
+		'width' => 100
+	);
 
-	$pass_postid = explode( "-", get_query_var('cssids') );
-	
-	foreach ($pass_postid as $key => $postid) {	
-	
-		$meta = get_post_meta($postid, THEMECUSTOMMETAKEY, true);	
-		$STYLESHEETPATH = get_stylesheet_directory_uri();;
-		
-		if($meta["gallery_imagesize"] != "" ){	
-			$width = get_option($meta["gallery_imagesize"].'_size_w');
-			$height = get_option($meta["gallery_imagesize"].'_size_h');	
-		} else {
-			$width = get_option('medium_size_w');
-			$height = get_option('medium_size_h');
-		}	
-				
-		$atts = array( 
-				'width' => $width,
-				'height' => $height
-			);
-				
-		if($meta["gallery_type"] == "jcyclegallery" ):
-				build_css_jcycle($atts);
-				$more_jquery_functions = true;
-		endif;	
-	
-	}	
-
+	build_css_jcycle($atts);
 }
 add_action('fdt_print_dynamic_css','css_jcycle');
 

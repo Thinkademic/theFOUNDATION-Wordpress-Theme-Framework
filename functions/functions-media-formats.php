@@ -7,7 +7,7 @@ if(!function_exists('setup_theme_image_formats')) {
 
 		#	UPDATE WORDPRESS OPTIONS UPON ACTIVATION
 			//	http://codex.wordpress.org/Option_Reference
-		#if ( is_admin() && isset($_GET['activated'] )  && $pagenow == 'themes.php' ) {
+			if ( is_admin() && isset($_GET['activated'] )  && $pagenow == 'themes.php' ) {
 				update_option( 'thumbnail_size_w',  '340' );
 				update_option( 'thumbnail_size_h', '225' );
 				update_option( 'thumbnail_crop', 1 );
@@ -17,7 +17,7 @@ if(!function_exists('setup_theme_image_formats')) {
 				
 				update_option( 'large_size_w', '940' );
 				update_option( 'large_size_h', '520' );				
-		#}			
+			}			
 
 			
 
