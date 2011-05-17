@@ -6,7 +6,7 @@
 
 				<?php get_template_part( 'itemhead', 'index'); ?>	
 				<div class="itemtext">
-						<?php thefdt_loop_content() ?>
+						<?php thefdt_loop_content(); ?>
 				</div>
 				<?php get_template_part( 'itemfoot', 'index'); ?>					
 				

@@ -6,10 +6,7 @@
 
 				<?php get_template_part( 'itemhead', 'page'); ?>			
 				<div class="itemtext">
-					<?php 
-							show_mediagalleries();
-							the_content("Continue reading...");				
-					?>			
+						<?php thefdt_loop_content(); ?>	
 				</div>
 				<?php get_template_part( 'itemfoot', 'page'); ?>
 				

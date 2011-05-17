@@ -243,104 +243,132 @@ function jcycle_extractMedia( $atts ) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**************************************************************
- GENERATE JCYCLE
+ 
 **************************************************************/
-function jcycle_jquery() {
+function build_jcycle_jquery( $atts = null ){
 
-	$jqpostid = get_query_var('jqpostid');		// WE HAVE TO GET THE POST ID, BECAUSE THE REDIRECT DOESN'T PICKUP THE POST META DATA
-	$meta = get_post_meta($jqpostid, THEMECUSTOMMETAKEY, true);
-	$fx = set_default_value( $meta["jcyclegallery_effect"], "none" );	
+if($atts == null)
+return;
 
-	$delay = set_default_value( $meta["gallery_transitiondelay"], 2500 );	
-	$autoplay = checkbox_truefalse($meta["gallery_autoplay"]);
-	if ($autoplay == 'false') {
-		$delay = 0;
-	}
-	
-if($meta["gallery_type"] == "jcyclegallery" ):
+extract( $atts, EXTR_SKIP );	
+
 print <<<END
-	$(function(){
 
-			/*****************************
-				JCYCLE
-			*****************************/
-			$('.post-{$jqpostid} .jcyclegallery').each(function(i) {
+$(function(){
 
-				// GRAB ID TO USE AS A IDENTIFIER
-				var target = $(this).children().attr('id');
+	/*****************************
+		JCYCLE FOR {$postid} 
+	*****************************/
+	$('.post-{$postid} .jcyclegallery').each(function(i) {
 
-				// MEDIA CONTROLS HOVER EFFECT
-				$('#'+target+' .media_grouping').hoverIntent(
-					function() { $('#'+target+' .media_controls').fadeIn(); },
-					function() { $('#'+target+' .media_controls').fadeOut(); }  
-				);
+		// GRAB ID TO USE AS A IDENTIFIER
+		var target = $(this).children().attr('id');
 
-				////// JCYCLE PLULGIN STUFF
-				// Hide all the controls
-				$('#'+target+' .media_controls').hide();
-				$('#'+target+' .pause').click(function() { $('.'+target+' .media_assets').cycle('pause'); return false; });
-				$('#'+target+' .play').click(function() { $('.'+target+' .media_assets').cycle('resume'); return false; });
+		// MEDIA CONTROLS HOVER EFFECT
+		$('#'+target+' .media_grouping').hoverIntent(
+			function() { $('#'+target+' .media_controls').fadeIn(); },
+			function() { $('#'+target+' .media_controls').fadeOut(); }  
+		);
 
-
-				// INITIATE JCYCLE SETTINGS
-				$('#'+target+' .media_assets', this).cycle({
-					fx:     '{$fx}', 
-					speed:   1400,
-					next:   '#'+target+' .next, #'+target+' img',
-					prev:   '#'+target+' .prev',
-					timeout: {$delay},
-					nowrap: 0,
-					containerResize: 0,
-					before: adjustHeight,
-					after: jcyclecounter,
-					pager:  '#'+target+' .thumbnav',
-					pagerAnchorBuilder: function(idx, slide) { 
-						// return selector string for existing anchor 
-						return '#'+target+' .thumbnav li:eq(' + idx + ') a IMG'; 
-						// return '#'+target+' .thumbnav li:eq(' + idx + ') a'; 						
-					} 			
-					
-				});
-
-				// REMOVE IMAGE AND LINK TITLE ATTRIBUTES
-				$('#'+target+' .media_assets IMG', this).removeAttr("title");
-				$('#'+target+' .media_assets IMG A', this).removeAttr("title");
-				$('#'+target+' .jcyclethumbs IMG', this).removeAttr("title");
-				$('#'+target+' .jcyclethumbs IMG A', this).removeAttr("title");
-				
-				// HIDE PAUSE/PLAY
-				$('#'+target+' .pause').hide();
-				
-				// EVENT TRIGGERS FOR CLICKING ON PLAY AND PAUSE
-				$('#'+target+' .play').click(function(){
-					$('#'+target+' .media_assets').cycle('resume'); 
-					$('#'+target+' .media_controls').fadeOut(); 
-					$(this).hide();
-					$('#'+target+' .pause').show(); 			
-				});		
-				$('#'+target+' .pause').click(function(){  
-					$('#'+target+' .media_assets').cycle('pause'); 
-					$('#'+target+' .media_controls').fadeOut(); 
-					$(this).hide();
-					$('#'+target+' .play').show();			
-				});
-
-				
-				// INITIATE JCYCLE WITH PAUSE
-				// $('#'+target+' .media_assets').cycle('pause');							
-			});
+		////// JCYCLE PLULGIN STUFF
+		// Hide all the controls
+		$('#'+target+' .media_controls').hide();
+		$('#'+target+' .pause').click(function() { $('.'+target+' .media_assets').cycle('pause'); return false; });
+		$('#'+target+' .play').click(function() { $('.'+target+' .media_assets').cycle('resume'); return false; });
 
 
-			/*****************************
-				SMOOTH DIV THUMBNAV
-				FOR JCYCLE GALLERY
-			*****************************/	
-			$(".post-{$jqpostid} div#thumbnavscrollerable").smoothDivScroll({
+		// INITIATE JCYCLE SETTINGS
+		$('#'+target+' .media_assets', this).cycle({
+			fx:     '{$fx}', 
+			speed:   1400,
+			next:   '#'+target+' .next, #'+target+' img',
+			prev:   '#'+target+' .prev',
+			timeout: {$delay},
+			nowrap: 0,
+			containerResize: 0,
+			before: adjustHeight,
+			after: jcyclecounter,
+			pager:  '#'+target+' .thumbnav',
+			pagerAnchorBuilder: function(idx, slide) { 
+				// return selector string for existing anchor 
+				return '#'+target+' .thumbnav li:eq(' + idx + ') a IMG'; 
+				// return '#'+target+' .thumbnav li:eq(' + idx + ') a'; 						
+			} 			
+			
+		});
+
+		// REMOVE IMAGE AND LINK TITLE ATTRIBUTES
+		$('#'+target+' .media_assets IMG', this).removeAttr("title");
+		$('#'+target+' .media_assets IMG A', this).removeAttr("title");
+		$('#'+target+' .jcyclethumbs IMG', this).removeAttr("title");
+		$('#'+target+' .jcyclethumbs IMG A', this).removeAttr("title");
+		
+		// HIDE PAUSE/PLAY
+		$('#'+target+' .pause').hide();
+		
+		// EVENT TRIGGERS FOR CLICKING ON PLAY AND PAUSE
+		$('#'+target+' .play').click(function(){
+			$('#'+target+' .media_assets').cycle('resume'); 
+			$('#'+target+' .media_controls').fadeOut(); 
+			$(this).hide();
+			$('#'+target+' .pause').show(); 			
+		});		
+		$('#'+target+' .pause').click(function(){  
+			$('#'+target+' .media_assets').cycle('pause'); 
+			$('#'+target+' .media_controls').fadeOut(); 
+			$(this).hide();
+			$('#'+target+' .play').show();			
+		});
+
+		
+		// INITIATE JCYCLE WITH PAUSE
+		// $('#'+target+' .media_assets').cycle('pause');							
+	});
+
+
+	/*****************************
+		SMOOTH DIV THUMBNAV
+		FOR JCYCLE GALLERY
+	*****************************/	
+	$(".post-{$postid} div#thumbnavscrollerable").smoothDivScroll({
+		scrollingHotSpotLeft:	"div.scrollingHotSpotLeft",		// The identifier for the hotspot that triggers scrolling left.
+		scrollingHotSpotRight:	"div.scrollingHotSpotRight",	// The identifier for the hotspot that triggers scrolling right.
+		scrollWrapper:	"div.media_thumbs",						// The identifier of the wrapper element that surrounds the scrollable area.
+		scrollableArea:	"ul.thumbnav",							// The identifier of the actual element that is scrolled left or right.	
+		scrollingSpeed: 12, 
+		mouseDownSpeedBooster: 3, 
+		// autoScroll: "onstart", 
+		autoScrollDirection: "endlessloop", 
+		autoScrollSpeed: 2, 
+		visibleHotSpots: "always", 
+		hotSpotsVisibleTime: 9
+		}
+	);	
+
+	$('div#thumbnavscrollerable IMG').removeAttr("title");	
+	$('div#thumbnavscrollerable IMG A').removeAttr("title");		
+	
+	$(window).resize(function() {
+			$("div#makeMeScrollable").smoothDivScroll({
 				scrollingHotSpotLeft:	"div.scrollingHotSpotLeft",		// The identifier for the hotspot that triggers scrolling left.
 				scrollingHotSpotRight:	"div.scrollingHotSpotRight",	// The identifier for the hotspot that triggers scrolling right.
-				scrollWrapper:	"div.media_thumbs",						// The identifier of the wrapper element that surrounds the scrollable area.
-				scrollableArea:	"ul.thumbnav",							// The identifier of the actual element that is scrolled left or right.	
+				scrollWrapper:	"div.scrollWrapper",					// The identifier of the wrapper element that surrounds the scrollable area.
+				scrollableArea:	"div.scrollableArea",					// The identifier of the actual element that is scrolled left or right.	
 				scrollingSpeed: 12, 
 				mouseDownSpeedBooster: 3, 
 				// autoScroll: "onstart", 
@@ -349,61 +377,85 @@ print <<<END
 				visibleHotSpots: "always", 
 				hotSpotsVisibleTime: 9
 				}
-			);	
+			);			
+	});	
 
-			$('div#thumbnavscrollerable IMG').removeAttr("title");	
-			$('div#thumbnavscrollerable IMG A').removeAttr("title");		
+});
+
+
+	
+END;
+
+
+}
+
+
+
+
+
+
+
+
+
+/**************************************************************
+ GENERATE JCYCLE
+**************************************************************/
+function jcycle_jquery() {
+
+	$pass_postid = explode( "-", get_query_var('jqids') );
+	$more_jquery_functions = false;
+	
+	foreach ($pass_postid as $key => $postid) {
+
+		$meta = get_post_meta($postid, THEMECUSTOMMETAKEY, true);
+		$fx = set_default_value( $meta["jcyclegallery_effect"], "none" );	
+		$autoplay = checkbox_truefalse($meta["gallery_autoplay"]);	
+		if ($autoplay == 'false')
+			$delay = 0;
+		else
+			$delay = set_default_value( $meta["gallery_transitiondelay"], 2500 );	
+				
+		$atts = array( 
+			'postid' => $postid,
+			'meta' => $meta,
+			'fx' => $fx,
+			'delay' => $delay,
+			'autoplay' => $autoplay
+			);
 			
-			$(window).resize(function() {
-					$("div#makeMeScrollable").smoothDivScroll({
-						scrollingHotSpotLeft:	"div.scrollingHotSpotLeft",		// The identifier for the hotspot that triggers scrolling left.
-						scrollingHotSpotRight:	"div.scrollingHotSpotRight",	// The identifier for the hotspot that triggers scrolling right.
-						scrollWrapper:	"div.scrollWrapper",					// The identifier of the wrapper element that surrounds the scrollable area.
-						scrollableArea:	"div.scrollableArea",					// The identifier of the actual element that is scrolled left or right.	
-						scrollingSpeed: 12, 
-						mouseDownSpeedBooster: 3, 
-						// autoScroll: "onstart", 
-						autoScrollDirection: "endlessloop", 
-						autoScrollSpeed: 2, 
-						visibleHotSpots: "always", 
-						hotSpotsVisibleTime: 9
-						}
-					);			
-			});	
+		if($meta["gallery_type"] == "jcyclegallery" ):
+			build_jcycle_jquery($atts);
+			$more_jquery_functions = true;
+		endif;	
 	
-	});
-	
-	
-	function jcyclecounter(curr,next,opts) {
-		var caption = (opts.currSlide + 1) + ' / ' + opts.slideCount;
-		$('.jcyclecounter').html(caption);
 	}
-		
-		
-	//	WORKS WITH JCYCLE, DETECTS CONTAINER ITEM HEIGHT AND ADJUST ENTIRE CONTAINER ACCORDINGLY
-	function adjustHeight(curr, next, opts, fwd) {
-		
-		// GET THE HEIGHT OF THE CURRENT SLIDE
-		var ht = $(this).height();
-		var wt = $(this).width();
-		
-		//	SET THE CONTAINER'S HEIGHT TO THAT OF THE CURRENT SLIDE		
-		$(this).parent().stop().animate({ height: ht }, 400);	
-	}
+	
+	
+if( $more_jquery_functions ) :	
+print <<<END
+
+function jcyclecounter(curr,next,opts) {
+	var caption = (opts.currSlide + 1) + ' / ' + opts.slideCount;
+	$('.jcyclecounter').html(caption);
+}
+	
+	
+//	WORKS WITH JCYCLE, DETECTS CONTAINER ITEM HEIGHT AND ADJUST ENTIRE CONTAINER ACCORDINGLY
+function adjustHeight(curr, next, opts, fwd) {
+	
+	// GET THE HEIGHT OF THE CURRENT SLIDE
+	var ht = $(this).height();
+	var wt = $(this).width();
+	
+	//	SET THE CONTAINER'S HEIGHT TO THAT OF THE CURRENT SLIDE		
+	$(this).parent().stop().animate({ height: ht }, 400);	
+}
+
 		
 END;
 endif;
 }
-add_action('fdt_print_dyanmic_galleries_js','jcycle_jquery');
-
-
-
-
-
-
-
-
-
+add_action('fdt_print_dynamic_js','jcycle_jquery');
 
 
 

@@ -136,101 +136,157 @@ function anythingslider_extractMedia( $atts = null ){
 }
 
 
+
+
+
+function build_anythingslider_jquery( $atts = null ){
+
+	if($atts == null)
+		return;
+
+	extract( $atts, EXTR_SKIP );	
+
+print <<<END
+
+/*****************************
+	ANYTHINGSLIDER FOR {$postid} 
+*****************************/
+
+$(function(){
+	
+	$('.post-{$postid} #slider').anythingSlider({
+			
+		// Appearance
+		width               	: {$width},      		// 	IF RESIZECONTENT IS FALSE, THIS IS THE DEFAULT WIDTH IF PANEL SIZE IS NOT DEFINED
+		height              	: {$height},     		// 	IF RESIZECONTENT IS FALSE, THIS IS THE DEFAULT HEIGHT IF PANEL SIZE IS NOT DEFINED
+		resizeContents   : false,      			// If true, solitary images/objects in the panel will expand to fit the viewport
+		tooltipClass		: 'tooltip', 				// Class added to navigation & start/stop button (text copied to title if it is hidden by a negative text indent)
+		theme               : 'default', 			// Theme name
+		themeDirectory	: 'css/theme-{themeName}.css', // Theme directory & filename {themeName} is replaced by the theme value above
+
+		// Navigation
+		startPanel          : 1,         // This sets the initial panel
+		hashTags			: true,      // Should links change the hashtag in the URL?
+		infiniteSlides      : true,      // if false, the slider will not wrap
+		enableKeyboard	: true,      					// if false, keyboard arrow keys will not work for the current panel.
+		buildArrows			: {$buildarrows},		// If true, builds the forwards and backwards buttons
+		toggleArrows			: false,     // If true, side navigation arrows will slide out on hovering & hide @ other times
+		buildNavigation		: true,      // If true, builds a list of anchor links to link to each panel
+		enableNavigation   : true,      // if false, navigation links will still be visible, but not clickable.
+		toggleControls		: false,     // if true, slide in controls (navigation + play/stop button) on hover and slide change, hide @ other times
+		appendControlsTo    	: null,      // A HTML element (jQuery Object, selector or HTMLNode) to which the controls will be appended if not null
+		navigationFormatter	: formatText, // Format navigation labels with text
+		forwardText         		: "&raquo;", // Link text used to move the slider forward (hidden by CSS, replaced with arrow image)
+		backText					: "&laquo;", // Link text used to move the slider back (hidden by CSS, replace with arrow image)
+
+		// Slideshow options
+		enablePlay			: {$autoplay},      // if false, the play/stop button will still be visible, but not clickable.
+		autoPlay				: {$autoplay},      // This turns off the entire slideshow FUNCTIONALY, not just if it starts running or not
+		autoPlayLocked      : false,     // If true, user changing slides will not stop the slideshow
+		startStopped        	: false,     // If autoPlay is on, this can force it to start stopped
+		pauseOnHover        	: true,      // If true & the slideshow is active, the slideshow will pause on hover
+		resumeOnVideoEnd	: true,      // If true & the slideshow is active & a youtube video is playing, it will pause the autoplay until the video is complete
+		stopAtEnd				: false,     // If true & the slideshow is active, the slideshow will stop on the last page. This also stops the rewind effect when infiniteSlides is false.
+		playRtl					: false,     // If true, the slideshow will move right-to-left
+		startText				: "Start",   // Start button text
+		stopText				: "Stop",    // Stop button text
+		delay					: {$delay},      // How long between slideshow transitions in AutoPlay mode (in milliseconds)
+		resumeDelay         : 15000,     // Resume slideshow after user interaction, only if autoplayLocked is true (in milliseconds).
+		animationTime       : 600,       // How long the slideshow transition takes (in milliseconds)
+		easing					: "swing",   // Anything other than "linear" or "swing" requires the easing plugin
+
+		// Callbacks - removed from options to reduce size - they still work
+
+		// Interactivity
+		clickArrows         : "click",         // Event used to activate arrow functionality (e.g. "click" or "mouseenter")
+		clickControls       : "click focusin", // Events used to activate navigation control functionality
+		clickSlideshow      : "click",         // Event used to activate slideshow play/stop button
+
+		// Misc options
+		addWmodeToObject		: "opaque", // If your slider has an embedded object, the script will automatically add a wmode parameter with this setting
+		maxOverallWidth			: 32766     // Max width (in pixels) of combined sliders (side-to-side); set to 32766 to prevent problems with Opera	
+	});	
+
+});
+
+END;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**************************************************************
  JQUERY FOR ANYTHINGSLIDER
 **************************************************************/
 function anythingslider_jquery() {
-	
-	// WE HAVE TO GET THE POST ID, BECAUSE THE REDIRECT DOESN'T PICKUP THE POST META DATA
-	$jqpostid = get_query_var('jqpostid');
-	$meta = get_post_meta($jqpostid, THEMECUSTOMMETAKEY, true);	
 
-	// ---------------------------		
-	if($meta["gallery_imagesize"] != "" ){	
-		$width = get_option($meta["gallery_imagesize"].'_size_w');
-		$height = get_option($meta["gallery_imagesize"].'_size_h');	
-	} else {
-		$width = 540;
-		$height = 360;
+	$pass_postid = explode( "-", get_query_var('jqids') );
+	
+	$more_jquery_functions = false;
+	foreach ($pass_postid as $key => $postid) {
+
+		// WE HAVE TO GET THE POST ID, BECAUSE THE REDIRECT DOESN'T PICKUP THE POST META DATA
+		$meta = get_post_meta($postid, THEMECUSTOMMETAKEY, true);	
+
+		// ---------------------------		
+		if($meta["gallery_imagesize"] != "" ){	
+			$width = get_option($meta["gallery_imagesize"].'_size_w');
+			$height = get_option($meta["gallery_imagesize"].'_size_h');	
+		} else {
+			$width = 540;
+			$height = 360;
+		}
+		
+		
+		$autoplay = checkbox_truefalse($meta["gallery_autoplay"]);		
+		$buildarrows = checkbox_truefalse($meta["gallery_enablenextprev"]);			
+		$delay = set_default_value( $meta["gallery_transitiondelay"], 2500 );	
+		
+		$atts = array(
+				'postid' => $postid,
+				'width' => $width,
+				'height' => $height,
+				'autoplay' => $autoplay,
+				'buildarrows' => $buildarrows,
+				'delay' => $delay	
+			);
+
+		if($meta["gallery_type"] == "anythingslider" ) :
+			build_anythingslider_jquery($atts);
+			$more_jquery_functions = true;
+		endif;
+	
 	}
 	
-	
-	$autoplay = checkbox_truefalse($meta["gallery_autoplay"]);		
-	$buildArrows = checkbox_truefalse($meta["gallery_enablenextprev"]);			
-	$delay = set_default_value( $meta["gallery_transitiondelay"], 2500 );	
-	
-	
-if($meta["gallery_type"] == "anythingslider" ) :
+
+
+if( $more_jquery_functions ) :
 print <<<END
-	$(function(){
-		
-		$('.post-{$jqpostid} #slider').anythingSlider({
 
-					
-				// Appearance
-				width               	: {$width},      		// 	IF RESIZECONTENT IS FALSE, THIS IS THE DEFAULT WIDTH IF PANEL SIZE IS NOT DEFINED
-				height              	: {$height},     		// 	IF RESIZECONTENT IS FALSE, THIS IS THE DEFAULT HEIGHT IF PANEL SIZE IS NOT DEFINED
-				resizeContents   : false,      			// If true, solitary images/objects in the panel will expand to fit the viewport
-				tooltipClass		: 'tooltip', 				// Class added to navigation & start/stop button (text copied to title if it is hidden by a negative text indent)
-				theme               : 'default', 			// Theme name
-				themeDirectory	: 'css/theme-{themeName}.css', // Theme directory & filename {themeName} is replaced by the theme value above
+function formatText(index, panel) {
+	  return index + "";
+}	
 
-				// Navigation
-				startPanel          : 1,         // This sets the initial panel
-				hashTags			: true,      // Should links change the hashtag in the URL?
-				infiniteSlides      : true,      // if false, the slider will not wrap
-				enableKeyboard	: true,      					// if false, keyboard arrow keys will not work for the current panel.
-				buildArrows			: {$buildArrows},		// If true, builds the forwards and backwards buttons
-				toggleArrows			: false,     // If true, side navigation arrows will slide out on hovering & hide @ other times
-				buildNavigation		: true,      // If true, builds a list of anchor links to link to each panel
-				enableNavigation   : true,      // if false, navigation links will still be visible, but not clickable.
-				toggleControls		: false,     // if true, slide in controls (navigation + play/stop button) on hover and slide change, hide @ other times
-				appendControlsTo    	: null,      // A HTML element (jQuery Object, selector or HTMLNode) to which the controls will be appended if not null
-				navigationFormatter	: formatText, // Format navigation labels with text
-				forwardText         		: "&raquo;", // Link text used to move the slider forward (hidden by CSS, replaced with arrow image)
-				backText					: "&laquo;", // Link text used to move the slider back (hidden by CSS, replace with arrow image)
-
-				// Slideshow options
-				enablePlay			: {$autoplay},      // if false, the play/stop button will still be visible, but not clickable.
-				autoPlay				: {$autoplay},      // This turns off the entire slideshow FUNCTIONALY, not just if it starts running or not
-				autoPlayLocked      : false,     // If true, user changing slides will not stop the slideshow
-				startStopped        	: false,     // If autoPlay is on, this can force it to start stopped
-				pauseOnHover        	: true,      // If true & the slideshow is active, the slideshow will pause on hover
-				resumeOnVideoEnd	: true,      // If true & the slideshow is active & a youtube video is playing, it will pause the autoplay until the video is complete
-				stopAtEnd				: false,     // If true & the slideshow is active, the slideshow will stop on the last page. This also stops the rewind effect when infiniteSlides is false.
-				playRtl					: false,     // If true, the slideshow will move right-to-left
-				startText				: "Start",   // Start button text
-				stopText				: "Stop",    // Stop button text
-				delay					: {$delay},      // How long between slideshow transitions in AutoPlay mode (in milliseconds)
-				resumeDelay         : 15000,     // Resume slideshow after user interaction, only if autoplayLocked is true (in milliseconds).
-				animationTime       : 600,       // How long the slideshow transition takes (in milliseconds)
-				easing					: "swing",   // Anything other than "linear" or "swing" requires the easing plugin
-
-				// Callbacks - removed from options to reduce size - they still work
-
-				// Interactivity
-				clickArrows         : "click",         // Event used to activate arrow functionality (e.g. "click" or "mouseenter")
-				clickControls       : "click focusin", // Events used to activate navigation control functionality
-				clickSlideshow      : "click",         // Event used to activate slideshow play/stop button
-
-				// Misc options
-				addWmodeToObject		: "opaque", // If your slider has an embedded object, the script will automatically add a wmode parameter with this setting
-				maxOverallWidth			: 32766     // Max width (in pixels) of combined sliders (side-to-side); set to 32766 to prevent problems with Opera	
-		});	
-		
-
-		
-		
-	});
-	
-	function formatText(index, panel) {
-		  return index + "";
-	}	
-	
 END;
 endif;
+
+
+
+
 }
-add_action('fdt_print_dyanmic_galleries_js','anythingslider_jquery');
+add_action('fdt_print_dynamic_js','anythingslider_jquery');
 
 
 

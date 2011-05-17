@@ -1,28 +1,45 @@
 <?php
 /**************************************************************
-  DEFINE UNIVERSAL CONSTANTS IF NOT DEFINED IN CHILD THEME
+ [-01] SETUP UNIVERSAL CONTANTS IF THEY HAVE NOTE BEEN
+  SET BY CHILD THEMES
 **************************************************************/
 define( 'TEXTDOMAIN', 'thefdt' );
 define( 'THEMECUSTOMMETAKEY', '_fsl_media_options' );
-
 if ( ! isset( $content_width ) ) $content_width = 540;		// SHOULD BE OVER WRITTEN IN CHILD THEMES
-
 
 /**************************************************************
  [00] SANDBOX FUNCTIONS :: SEE FILE COMMENTS
 **************************************************************/
 require_once(TEMPLATEPATH . '/functions/functions-sandbox.php');
 
-
-
 /**************************************************************
- [02] PARENT THEME APPEARANCE FEATURES
+ [01] PARENT THEME APPEARANCE FEATURES
 **************************************************************/
-require_once(TEMPLATEPATH . '/functions/functions-appearance-themeoptions.php');
+require_once(TEMPLATEPATH . '/functions/functions-appearance-themeoptions.php');			// WORKS WITH OPTIONS FRAMEWORK BY DEVINSAYS
 require_once(TEMPLATEPATH . '/functions/functions-appearance-sidebars.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-header.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-widgets.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-menu.php');
+
+
+/**************************************************************
+ [01] CUSTOM POST TYPES CUSTOM POST TYPES LOADED FROM PARENT THEME 
+ ENABLED IN ADMIN > APPEARANCE > THEME OPTIONS > CUSTOM POST TYPE
+**************************************************************/
+if( of_get_option( 'enable_custom_posttype_event', false ) == true )
+	require_once(TEMPLATEPATH . '/functions/functions-posttype-event.php');
+if( of_get_option( 'enable_custom_posttype_portfolio', false ) == true )
+	require_once(TEMPLATEPATH . '/functions/functions-posttype-portfolio.php');
+if( of_get_option( 'enable_custom_posttype_designer', false ) == true )
+	require_once(TEMPLATEPATH . '/functions/functions-posttype-designer.php');
+if( of_get_option( 'enable_custom_posttype_swatch', false ) == true )
+	require_once(TEMPLATEPATH . '/functions/functions-posttype-swatch.php');
+if( of_get_option( 'enable_custom_posttype_product', false ) == true)
+	require_once(TEMPLATEPATH . '/functions/functions-posttype-product.php');
+if( of_get_option( 'enable_custom_posttype_post', false ) == true)
+	require_once(TEMPLATEPATH . '/functions/functions-posttype-post.php');
+if( of_get_option( 'enable_custom_posttype_dictionary', false ) == true )
+	require_once(TEMPLATEPATH . '/functions/functions-posttype-dictionary.php');
 
 
 /**************************************************************

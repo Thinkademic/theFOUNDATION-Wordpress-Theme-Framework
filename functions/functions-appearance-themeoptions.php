@@ -1,9 +1,32 @@
 <?php
+/*
+*	OPTIONS FRAME WORK PLUGIN CHECK
+*
+* 	Helper function to return the theme option value. If no value has been saved, it returns $default.
+* 	Needed because options are saved as serialized strings.
+*
+* 	This code allows the theme to work without errors if the Options Framework plugin has been disabled.
+*/
 
-
-
-
-
+if ( !function_exists( 'of_get_option' ) ) {
+	function of_get_option($name, $default = false) {
+		
+		$optionsframework_settings = get_option('optionsframework');
+		
+		// Gets the unique option id
+		$option_name = $optionsframework_settings['id'];
+		
+		if ( get_option($option_name) ) {
+			$options = get_option($option_name);
+		}
+			
+		if ( !empty($options[$name]) ) {
+			return $options[$name];
+		} else {
+			return $default;
+		}
+	}
+}
 
 
 /*	****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ******
@@ -107,7 +130,7 @@ function enqueue_template_layout() {
 		// SETTINGS -> MEDIA -> EMBED -> MAX WIDTH
 		// AND ALTER THE CONTENT WIDTH
 		if($layout_file_name == 'layout-p.css' || $layout_file_name == 'layout-ts-p.css' || $layout_file_name == 'layout-p-bs.css' ) {
-			# $content_width = of_get_option(  '$set_content_primary_width', '200' ) + of_get_option(  'set_content_secondary_width', '200' );		
+			$content_width = of_get_option(  'set_content_full_width_primary', '880' );		
 		}
 
 		// REGISTER & ENQUEUE STYLE
@@ -138,7 +161,7 @@ function enable_cufon_rules() {
 		echo htmlspecialchars_decode($cufon_rules, ENT_QUOTES);
 	endif;
 }
-add_action('fdt_print_dynamic_themeoptions_js', 'enable_cufon_rules');	
+add_action('fdt_print_dynamic_js', 'enable_cufon_rules');	
 
 /*	
 *	FIND CUFON FONT-FAMILY NAMES
@@ -608,7 +631,8 @@ END;
 
 	}
 }
-add_action('fdt_print_dynamic_themeoptions_js', 'enable_suckerfish_dropdown');
+add_action('fdt_print_dynamic_js', 'enable_suckerfish_dropdown');
+
 
 
 /*
@@ -618,24 +642,24 @@ function thefdt_post_edit_links() {
 
 print <<<END
 
-	$(function(){
-		/*
-		* ADMIN EDIT LINKS
-		*/
-		$(".editlink").hide();
-		$(".itemhead").hoverIntent(
-				function() { 
-					$(".editlink",this).fadeIn();
-				},
-				function() { 
-					$(".editlink",this).hide(); 
-				}
-		);
-	});
+$(function(){
+	/*
+	* ADMIN EDIT LINKS
+	*/
+	$(".editlink").hide();
+	$(".itemhead").hoverIntent(
+			function() { 
+				$(".editlink",this).fadeIn();
+			},
+			function() { 
+				$(".editlink",this).hide(); 
+			}
+	);
+});
 	
 END;
 }
-add_action('fdt_print_dynamic_themeoptions_js', 'thefdt_post_edit_links');
+add_action('fdt_print_dynamic_js', 'thefdt_post_edit_links');
 
 
 
@@ -758,7 +782,7 @@ print <<<END
 END;
 endif;
 }
-add_action('fdt_print_dyanmic_css','body_font_css_output');
+add_action('fdt_print_dynamic_css','body_font_css_output');
 
 
 
@@ -787,7 +811,7 @@ print <<<END
 END;
 }
 if( of_get_option('enable_body_href', false ) )
-	add_action('fdt_print_dyanmic_css','body_href_link_css_output');
+	add_action('fdt_print_dynamic_css','body_href_link_css_output');
 
 
 	
@@ -812,7 +836,36 @@ ADDFONTS;
 
 
 
+// LOAD ALL FONT FACES
+/**************************************************************
+ http://www.alivethemes.com/how-to-easily-enqueue-scripts-in-wordpress-with-aframeworks-specially-made-function-called-loader/
+**************************************************************/		
+function load_font_face() 	{
 
+
+		foreach ( (array) $dirs as $dir )		{
+			$path = dirname( __FILE__ ) . ( defined( 'WP_ADMIN' ) ? '/admin' : '' ) . "/$dir";
+
+			if ( is_dir( $path ) && $handle = opendir( $path )) {
+				if ( $dir == 'js' ) {
+					while ( $file = readdir( $handle ) ) {
+						if( !in_array( $file, array('.', '..', 'addtoany-page.js' ))) {
+							wp_register_script( $file, get_bloginfo('template_directory') . ( defined( 'WP_ADMIN' ) ? '/admin' : '' ) . "/$dir/$file" );
+							wp_enqueue_script( $file );
+						}
+					}
+				}
+				else
+				{
+					while ( $file = readdir( $handle ))
+						if( !in_array( $file, array('.', '..' )))
+							require_once $path . "/$file";
+				}
+				closedir( $handle );
+			}
+		}
+}
+		
 
 
 

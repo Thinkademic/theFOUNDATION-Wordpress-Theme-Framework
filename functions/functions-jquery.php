@@ -61,7 +61,7 @@ if (!function_exists('register_jquery_plugins')) {
 		wp_register_script('supersubs', 	$src."/js/supersubs.js", false, '0.2b', false);
 		
 	#	wp_register_script('crossslide', 	$src."/js/jquery.cross-slide.js", false, '0.3.3', false);
-		wp_register_script('jcycle',		$src."/js/jquery.cycle.all.js", false, '2.99', false);
+		wp_register_script('jcyclegallery',		$src."/js/jquery.cycle.all.js", false, '2.99', false);
 
 		wp_register_script('filterable', 	$src."/js/filterable.js", false, '', false);
 		wp_register_script('scrollto', 		$src."/js/jquery.scrollTo.js", false, '1.4.2', false);
@@ -87,81 +87,6 @@ if (!function_exists('register_jquery_plugins')) {
 }
 
 
-
-/**************************************************************
- ENQUEUE SCRIPTS
-**************************************************************/
-if (!function_exists('enqueue_jquery_plugins')) {
-	function enqueue_jquery_plugins() {
-		global $wp_scripts, $post;
-		
-			$meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);		
-		
-		#	LOAD JQUERY 
-			wp_enqueue_script('jquery');
-			
-		#	INTERFACE BEHAVIORS - DEPENDANCIES
-			use_wp_enqueue( 'hoverintent', true );				
-			use_wp_enqueue( 'mousewheel', true );				
-			use_wp_enqueue( 'easing', true );					
-			
-		#	FONT LOAD
-				use_wp_enqueue( 'cufon', false );
-			
-		#	MENU
-			$load = false;	
-				use_wp_enqueue( 'superfish', $load );
-				use_wp_enqueue( 'supersubs', $load );	
-
-		#	IMAGE GALLERY PLUGINS
-			$load = false;	
-				use_wp_enqueue( 'crossslide', $load );				// - 	http://tobia.github.com/crossslide/
-
-			$load = false;	
-				use_wp_enqueue( 'jcycle', $load );							// - 	http://jquery.malsup.com/cycle/
-
-			if( is_page_template( 'page_portfoliomaker.php') || is_page_template( 'page_portfoliomakermodal.php') || (is_single() && ('portfolio' == get_post_type()))	)
-				use_wp_enqueue( 'portfoliomaker', true  );					
-							
-			$load = false;	
-				use_wp_enqueue( 'serialscroll', $load );
-				
-			$load = false;		
-				use_wp_enqueue( 'smoothdiv', $load );	
-
-			$load = false;		
-				use_wp_enqueue( 'anythingslider', $load  );	
-			
-			$load = false;		
-				use_wp_enqueue( 'fancytransitions', $load);
-				
-			$load = false;					
-				use_wp_enqueue( 'coinslider', $load);
-			
-			$load = false;		
-				use_wp_enqueue( 'orbit', $load);
-
-		#	UI ENHANCEMENT
-			$load = false;
-				use_wp_enqueue( 'fancybox', $load );
-			
-			$load = false;
-				use_wp_enqueue( 'qtip', $load );		
-			
-			$load = false;
-				use_wp_enqueue( 'lazyload', $load );		
-		
-		#	JSCROLLPANE
-			$load = false;
-				use_wp_enqueue( 'jscrollpane', $load );
-				
-		#	CUSTOM
-			$load = false;
-				use_wp_enqueue( 'customthemejquery', $load  );
-	}	
-}
-
-
 /**************************************************************
  FDT HELPER FUNCTION
  RUN wp_enqueue_script WHEN $check is TRUE
@@ -183,45 +108,7 @@ function usagecheck_wp_enqueue( $scriptname, $check = false) {
 		
 		
 		
-/**************************************************************
- http://www.alivethemes.com/how-to-easily-enqueue-scripts-in-wordpress-with-aframeworks-specially-made-function-called-loader/
-**************************************************************/		
-function loader()
-	{
-		// Load Scripts
-		$dirs = defined( 'WP_ADMIN' ) ? array( 'inc', 'js' ) : array( 'inc', 'js' );
 
-		if( defined( 'WP_ADMIN' ) && $_REQUEST['page'] != 'aPanel' )
-			return;
-
-		foreach ( (array) $dirs as $dir )
-		{
-			$path = dirname( __FILE__ ) . ( defined( 'WP_ADMIN' ) ? '/admin' : '' ) . "/$dir";
-
-			if ( is_dir( $path ) && $handle = opendir( $path ))
-			{
-				if ( $dir == 'js' )
-				{
-					while ( $file = readdir( $handle ) )
-					{
-						if( !in_array( $file, array('.', '..', 'addtoany-page.js' )))
-						{
-							wp_register_script( $file, get_bloginfo('template_directory') . ( defined( 'WP_ADMIN' ) ? '/admin' : '' ) . "/$dir/$file" );
-							wp_enqueue_script( $file );
-						}
-					}
-				}
-				else
-				{
-					while ( $file = readdir( $handle ))
-						if( !in_array( $file, array('.', '..' )))
-							require_once $path . "/$file";
-				}
-				closedir( $handle );
-			}
-		}
-	}
-		
 		
 		
 		
