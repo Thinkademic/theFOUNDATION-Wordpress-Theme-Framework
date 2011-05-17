@@ -53,6 +53,7 @@ function add_dynamic_js() {
 	$permalinkon = !is_null(get_option('permalink_structure')) ? true : false ;		// DETERMINE IF FRIENDLY PERMALINKS ARE BEING USED
 	
 	#$permalinkon = false;
+
 		
 	$postid_string = "";
 	foreach ($posts as $post) {	
@@ -60,12 +61,16 @@ function add_dynamic_js() {
 
         if ( $meta["gallery_type"] != "" ) :
 			wp_enqueue_script( $meta["gallery_type"]  );
-			$postid_string .= $post->ID . "-";
 		endif;			
+		
+		$postid_string .= $post->ID . "-";
 	}
 
 	// ENQUEUE JQUERY SCRIPTS FROM THEME OPTIONS SETTINGS
 	$postid_string = substr($postid_string, 0, -1);
+	
+	
+	
 	if($permalinkon) :
 		wp_enqueue_script( "custom", get_home_url().'/custom/themeoptions/js/'.$postid_string.'.js', false, false, true);	
 	else :
