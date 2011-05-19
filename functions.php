@@ -20,7 +20,7 @@ require_once(TEMPLATEPATH . '/functions/functions-appearance-sidebars.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-header.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-widgets.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-menu.php');
-
+require_once(TEMPLATEPATH . '/functions/functions-appearance-background.php');
 
 /**************************************************************
  [01] CUSTOM POST TYPES CUSTOM POST TYPES LOADED FROM PARENT THEME 
@@ -98,11 +98,6 @@ if ( function_exists('thefdt_install_options') ) { thefdt_install_options(); }
 thefdt_setup();
 function thefdt_setup() {
 		
-
-	#	ENABLE THEME FEATURES
-		if( of_get_option('enable_wordpress_background', false) )
-			add_custom_background();
-			
 		add_theme_support( 'post-thumbnails' );	
 																		
 	#	AUTOMATIC FEED LINKS

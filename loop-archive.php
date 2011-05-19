@@ -6,11 +6,7 @@
 
 				<?php get_template_part( 'itemhead', 'archive'); ?>	
 				<div class="itemtext">
-					<?php
-						show_mediagalleries();
-						the_content("Continue reading...");
-						wp_link_pages();
-					?>
+						<?php thefdt_loop_content(); ?>
 				</div>
 				<?php get_template_part( 'itemfoot', 'archive'); ?>					
 				

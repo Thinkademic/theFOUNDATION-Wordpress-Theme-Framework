@@ -29,12 +29,13 @@ if ( !function_exists( 'of_get_option' ) ) {
 }
 
 
-/*	****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ******
-*
-*	READ OPTIONS AND PREP FOR THEME USAGE
-*
-****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** */
 
+
+
+
+/*	****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ******
+*	READ OPTIONS AND PREP FOR THEME USAGE
+****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** */
 /*	
 *	ALTERNATIVE LAYOUT STYLESHEETS READER
 */
@@ -78,7 +79,7 @@ function find_layouts() {
 }
 
 /*
-*	DETERMINE CURRENT TEMPLATE AND USE SELECTED LAYOUT 
+*	FIND LAYOUT  FOR CURRENT TEMPLATE
 */
 function layout_for_current_template(){
 
@@ -90,10 +91,6 @@ function layout_for_current_template(){
 		
 		return $layout;
 }
-
-
-
-
 
 /*	
 *	ENQUEUE STYLES SHEETS
@@ -109,7 +106,6 @@ function enqueue_alternative_stylesheets() {
 
 }
 add_action('fdt_enqueue_dynamic_css', 'enqueue_alternative_stylesheets');
-
 
 /*	
 *	ENQUEUE OUR SELECTED LAYOUTS FOR OUR TEMPLATES
@@ -140,11 +136,6 @@ function enqueue_template_layout() {
 		wp_enqueue_style('layout');
 }
 add_action('fdt_enqueue_dynamic_css', 'enqueue_template_layout');
-
-
-
-
-
 
 
 
@@ -261,7 +252,6 @@ function admin_enqueue_cufon_fonts() {
 }
 add_action('admin_print_scripts', 'admin_enqueue_cufon_fonts');
 
-
 /*	
 *	ADMIN - FIND FONTS AND PRINT CUFON SCRIPT
 */
@@ -286,7 +276,6 @@ function write_cufon_for_admin() {
 		}
 		
 }
-
  
 /*	
 *	ADMIN - PRINT CUFON SCRIPT
@@ -297,7 +286,6 @@ print <<<END
 	Cufon.replace('{$selector}', { fontFamily: '{$font_family}', hover: true });	
 END;
 }
-
 
 /*
 *	ADMIN - FIND FONT-FAMILY NAME
@@ -323,12 +311,9 @@ function read_font_name($inputStr, $delimeterLeft, $delimeterRight, $debug = fal
 	return substr($inputStr, $posLeft, $posRight - $posLeft);
 } 
 
- 
- 
- 
- 
- 
- 
+
+
+
 
 
 /*
@@ -365,8 +350,6 @@ function thefdt_get_current_template( $echo = false ) {
         return  $GLOBALS['current_theme_template'];
 	}	
 }
-	
-	
 
 
 
@@ -374,7 +357,6 @@ function thefdt_get_current_template( $echo = false ) {
 
 
 
-	
 /*
 *	TT - POST HEADER ACTION HOOK
 */
@@ -399,15 +381,12 @@ function thefdt_get_loop_header() {
 }
 add_action('thefdt_loop_header', 'thefdt_get_loop_header');
 
-
-
 /*
 *	[TT] CONTENT LOOP ACTION HOOK
 */
 function thefdt_loop_content() {
 	do_action("thefdt_loop_content");
 }
-
 
 /*
 *	CONTENT LOOP FUNCTION
@@ -433,12 +412,13 @@ function thefdt_get_loop_content() {
 		show_mediagalleries();
 	
 	if( $content_display['the_post_thumbnail']) :	
-		$featured_image = get_the_post_thumbnail('medium', array('class' => 'alignleft'));
-	
-		if($featured_image)
+		$featured_image = get_the_post_thumbnail( $post->ID, 'medium', array('class' => 'alignleft'));
+		
+		if( $featured_image ) :
 			echo $featured_image;
-		else
+		else :
 			echo get_first_image($post->ID, 'medium');
+		endif;
 	
 	endif;
 	
@@ -454,12 +434,6 @@ function thefdt_get_loop_content() {
 	wp_link_pages();
 }
 add_action('thefdt_loop_content', 'thefdt_get_loop_content');
-
-
-
-
-
-
 
 /*
 *	POST FOOTER ACTION HOOK
@@ -491,13 +465,11 @@ add_action('thefdt_loop_footer', 'thefdt_get_loop_footer');
 
 
 
-
-
 /*
 *	RETRIEVE THE ITEM META
 *	THIS FUNCTION IS USED BY itemhead.php & itemfoot.php
 */
-function thefdt_get_item_meta( $location = "head"){
+function thefdt_get_item_meta( $location = "head") {
 
 	$current_template = thefdt_get_current_template();
 	$meta_display_key = $current_template.'_item'.$location.'_meta';
@@ -528,7 +500,6 @@ function thefdt_get_item_meta( $location = "head"){
 	echo $post_meta;
 }
 
-
 /*
 *	RETURNS THE DATE META INFORMATION
 */
@@ -539,7 +510,6 @@ function get_date_meta(){
 		$date_meta = apply_filters('date_meta', $date_meta);
 		return $date_meta;
 }
-
 
 /*
 *	RETURNS THE DATE META INFORMATION
@@ -552,7 +522,6 @@ function get_time_meta(){
 		return $time_meta;
 }
 
-
 /*
 *	RETURNS AUTHOR META
 */
@@ -564,8 +533,6 @@ function get_author_meta() {
 		$author_meta = apply_filters('thefdt_author_meta', $author_meta);
 		return $author_meta;
 }
-
-
 
 /*
 *	RETURNS COMMENTS META
@@ -589,7 +556,6 @@ function get_comments_meta() {
 	return $comment_meta;
 }
 
-
 /*
 *	RETURNS TAGS META
 */
@@ -603,7 +569,6 @@ function get_tag_meta(){
 		return $tags_meta;
 }
 
-
 /*
 *	RETURNS CATEGORY META
 */
@@ -615,10 +580,6 @@ function get_category_meta(){
 		$category_meta = apply_filters('thefdt_category_meta', $category_meta);
 		return $category_meta;
 }
-
-
-
-
 
 
 
@@ -642,8 +603,6 @@ END;
 	}
 }
 add_action('fdt_print_dynamic_js', 'enable_suckerfish_dropdown');
-
-
 
 /*
 *	JQUERY FOR POST EDIT LINKS
@@ -670,12 +629,6 @@ $(function(){
 END;
 }
 add_action('fdt_print_dynamic_js', 'thefdt_post_edit_links');
-
-
-
-
-
-
 
 /*
 *	OPTIONS FRAMEWORK JQUERY
@@ -792,9 +745,7 @@ print <<<END
 END;
 endif;
 }
-add_action('fdt_print_dynamic_css','body_font_css_output');
-
-
+	add_action('fdt_print_dynamic_css','body_font_css_output');
 
 /*
 *	OUTPUT CSS RULES FOR HREF
@@ -823,10 +774,13 @@ END;
 if( of_get_option('enable_body_href', false ) )
 	add_action('fdt_print_dynamic_css','body_href_link_css_output');
 
-
 	
 	
-// GOOGLE WEBFONT LOAD
+	
+	
+/*
+ *	LOAD GOOGLE WEBFONT
+ */
 function gfonts_api() {
 
 	$gf1 = 'Tangerine';
@@ -843,13 +797,11 @@ ADDFONTS;
 } 
 #add_action('wp_head','gfonts_api');
 
-
-
-
-// LOAD ALL FONT FACES
-/**************************************************************
- http://www.alivethemes.com/how-to-easily-enqueue-scripts-in-wordpress-with-aframeworks-specially-made-function-called-loader/
-**************************************************************/		
+/*
+ * LOAD FONT FACES
+ *
+ * @ref http://www.alivethemes.com/how-to-easily-enqueue-scripts-in-wordpress-with-aframeworks-specially-made-function-called-loader/
+ */		
 function load_font_face() 	{
 
 
@@ -878,6 +830,21 @@ function load_font_face() 	{
 		
 
 
+/*
+ * APPLY HEADER DIMENSIONS (W)
+ */
+function header_dimension_width(){
+	return of_get_option( 'header_width', '125');
 
+}
+add_filter( 'thefdt_header_image_width','header_dimension_width' );
+
+/*
+ * APPLY HEADER DIMENSIONS (H)
+ */
+function header_dimension_height(){
+	return of_get_option( 'header_height', '125');
+}
+add_filter( 'thefdt_header_image_height','header_dimension_height' );
 
 ?>
