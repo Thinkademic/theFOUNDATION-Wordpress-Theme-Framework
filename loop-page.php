@@ -13,9 +13,6 @@
 			</div>
 		<?php endwhile; ?>		
 
-		<!-- NAVIGATION -->
-		<?php get_template_part( 'navigate', 'page' ); ?>
-
 	<?php else : ?>
 			<div class="item">
 				<?php get_template_part( 'nothing' ); ?>

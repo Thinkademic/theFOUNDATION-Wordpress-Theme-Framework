@@ -19,10 +19,9 @@
 		<?php dynamicsidebar( 'Content Featured', '<div id="content-featured">', '</div>'); ?>
 		
 		<div id="primary">
-			<?php get_template_part( 'navigate', 'single'); ?>		
 
-			
 			<?php get_template_part( 'loop', 'single'); ?>
+			<?php get_template_part( 'navigate', 'single'); ?>
 			
 			<div id="comments_section">
 				<?php comments_template(); ?>

@@ -428,8 +428,6 @@ function thefdt_get_loop_content() {
 	if( $content_display['the_excerpt'])		
 		the_excerpt();
 		
-
-		
 		
 	wp_link_pages();
 }
@@ -638,72 +636,86 @@ function optionsframework_custom_scripts() { ?>
 <!-- functions-appearance-options.php -->
 <script type="text/javascript">
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function($) {
 
 
 	/* BODY FONT OPTIONS :: APPEARANCE > THEMEOPTIONS > TYPOGRAPHY */
-	jQuery('#section-body_font_css .heading').hide();
-
-	jQuery('#enable_body_font_css').click(function() {
-  		jQuery('#section-body_font_css').fadeToggle(400);
+	$('#section-body_font_css .heading').hide();
+	$('#enable_body_font_css').click(function() {
+  		$('#section-body_font_css').fadeToggle(400);
 	});
-
-	if (jQuery('#enable_body_font_css:checked').val() !== undefined) {
-		jQuery('#section-body_font_css').show();
+	if ($('#enable_body_font_css:checked').val() !== undefined) {
+		$('#section-body_font_css').show();
 	} else {
-		jQuery('#section-body_font_css').hide();	
+		$('#section-body_font_css').hide();	
 	}
+	
 
 	/* CUFON FONT OPTIONS  :: APPEARANCE > THEMEOPTIONS > TYPOGRAPHY */
-	jQuery('#section-cufon_font_files .heading').hide();
-	jQuery('#section-cufon_rules .heading').hide();		
+	$('#section-cufon_font_files .heading').hide();
+	$('#section-cufon_rules .heading').hide();		
 
-	jQuery('#enable_cufon_support').click(function() {
-  		jQuery('#section-cufon_font_files').fadeToggle(400);
-  		jQuery('#section-cufon_rules').fadeToggle(400);
+	$('#enable_cufon_support').click(function() {
+  		$('#section-cufon_font_files').fadeToggle(400);
+  		$('#section-cufon_rules').fadeToggle(400);
 	});
 
-	if (jQuery('#enable_cufon_support:checked').val() !== undefined) {
-		jQuery('#section-cufon_font_files').show();
-		jQuery('#section-cufon_rules').show();		
+	if ($('#enable_cufon_support:checked').val() !== undefined) {
+		$('#section-cufon_font_files').show();
+		$('#section-cufon_rules').show();		
 	} else {
-		jQuery('#section-cufon_font_files').hide();
-		jQuery('#section-cufon_rules').hide();		
+		$('#section-cufon_font_files').hide();
+		$('#section-cufon_rules').hide();		
 	}
 	
 	/* HYPERLINK COLORS :: APPEARANCE > THEMEOPTIONS > HYPERLINKS */
-	jQuery('#section-body_href_link_value .heading').hide();
-	jQuery('#section-body_href_visited_value .heading').hide();
-	jQuery('#section-body_href_hover_value .heading').hide();
-	jQuery('#section-body_href_active_value .heading').hide();	
+	$('#section-body_href_link_value .heading').hide();
+	$('#section-body_href_visited_value .heading').hide();
+	$('#section-body_href_hover_value .heading').hide();
+	$('#section-body_href_active_value .heading').hide();	
 		
-	jQuery('#enable_body_href').click(function() {
-		jQuery('#section-body_href_link_value').fadeToggle(400);
-		jQuery('#section-body_href_visited_value').fadeToggle(400);
-		jQuery('#section-body_href_hover_value').fadeToggle(400);
-		jQuery('#section-body_href_active_value').fadeToggle(400);
+	$('#enable_body_href').click(function() {
+		$('#section-body_href_link_value').fadeToggle(400);
+		$('#section-body_href_visited_value').fadeToggle(400);
+		$('#section-body_href_hover_value').fadeToggle(400);
+		$('#section-body_href_active_value').fadeToggle(400);
 	});
 
-	if (jQuery('#enable_body_href:checked').val() !== undefined) {
-		jQuery('#section-body_href_link_value').show();
-		jQuery('#section-body_href_visited_value').show();
-		jQuery('#section-body_href_hover_value').show();
-		jQuery('#section-body_href_active_value').show();		
+	if ($('#enable_body_href:checked').val() !== undefined) {
+		$('#section-body_href_link_value').show();
+		$('#section-body_href_visited_value').show();
+		$('#section-body_href_hover_value').show();
+		$('#section-body_href_active_value').show();		
 	} else {
-		jQuery('#section-body_href_link_value').hide();
-		jQuery('#section-body_href_visited_value').hide();
-		jQuery('#section-body_href_hover_value').hide();
-		jQuery('#section-body_href_active_value').hide();	
+		$('#section-body_href_link_value').hide();
+		$('#section-body_href_visited_value').hide();
+		$('#section-body_href_hover_value').hide();
+		$('#section-body_href_active_value').hide();	
 	}
 
 	
+	/* BODY FONT OPTIONS :: APPEARANCE > THEMEOPTIONS > TYPOGRAPHY */
+	$('#section-header_width').hide();
+	$('#section-header_height').hide();	
+	$('#enable_wordpress_header').click(function() {
+		$('#section-header_width').fadeToggle(400);
+		$('#section-header_height').fadeToggle(400);
+	});
+	if ($('#enable_wordpress_header:checked').val() !== undefined) {
+		$('#section-header_width').show();
+		$('#section-header_height').show();	
+	} else {
+		$('#section-header_width').hide();
+		$('#section-header_height').hide();	
+	}	
+	
 	/* TOGGLE INFO HEADING P */
-	jQuery('#of-nav a').click(function() {
-  			jQuery('#of_container #content .group .section-info P').show();
+	$('#of-nav a').click(function() {
+  			$('#of_container #content .group .section-info P').show();
 	});
 
-	jQuery('#of_container #content .group .section-info').click(function() {
-  			jQuery('p', this).slideToggle();
+	$('#of_container #content .group .section-info').click(function() {
+  			$('p', this).slideToggle();
 	});
 	
 });

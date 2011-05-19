@@ -28,7 +28,7 @@
 			<?php get_template_part( 'navigate'); ?>
 		</div>
    
-		<?php #get_template_part( 'secondary'); ?>	
+		<?php get_template_part( 'secondary'); ?>	
 
 	</div>
 

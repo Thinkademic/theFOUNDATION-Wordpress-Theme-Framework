@@ -5,7 +5,7 @@
 **************************************************************/
 define( 'TEXTDOMAIN', 'thefdt' );
 define( 'THEMECUSTOMMETAKEY', '_fsl_media_options' );
-if ( ! isset( $content_width ) ) $content_width = 540;		// SHOULD BE OVER WRITTEN IN CHILD THEMES
+if ( ! isset( $content_width ) ) $content_width = get_option('medium_size_w');		// SHOULD BE OVER WRITTEN IN CHILD THEMES
 
 /**************************************************************
  [00] SANDBOX FUNCTIONS :: SEE FILE COMMENTS

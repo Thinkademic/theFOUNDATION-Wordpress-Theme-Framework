@@ -1,13 +1,22 @@
-<?php
-/*
-*	THE MOST BASIC LOOP
-*	THE DEFAULT TEMPLATE IS INDEX.PHP, WHICH USES 'loop-index.php'
-*	THIS LOOP WILL MOST LIKELY NEVER BE USED UNLESS SPECIFICALLY CALLED
-*	BY A PAGE TEMPLATE. :: get_tempalte_part("loop");
-*/
-if (have_posts()) : 
-		while (have_posts()) : the_post(); 
-				the_content("Continue reading...");
-		endwhile; 
-endif; 					
-?>
+<?php thefdt_loop_header(); ?>
+				
+	<?php if (have_posts()) : ?>
+		<?php while (have_posts()) : the_post(); ?>
+			<div id="post-<?php the_ID(); ?>" <?php post_class('item'); ?>>
+
+				<?php get_template_part( 'itemhead', 'index'); ?>	
+				<div class="itemtext">
+						<?php thefdt_loop_content(); ?>
+				</div>
+				<?php get_template_part( 'itemfoot', 'index'); ?>					
+				
+			</div>
+		<?php endwhile; ?>		
+
+	<?php else : ?>
+			<div class="item">
+				<?php get_template_part( 'nothing' ); ?>
+			</div>
+	<?php endif; ?>
+	
+<?php thefdt_loop_footer(); ?>			
