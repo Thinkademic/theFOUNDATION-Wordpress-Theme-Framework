@@ -140,7 +140,31 @@ add_action('fdt_enqueue_dynamic_css', 'enqueue_template_layout');
 
 
 
+/*
+*	READ FONT NAME PARSER
+*	ONLY FIND FIRST INSTANCE
+*	TODO : RETURN ARRAY WITH ALL FONTS
+*/
+function read_font_name($inputStr, $delimeterLeft, $delimeterRight, $debug = false) {
+ 
+	$posLeft = strpos($inputStr, $delimeterLeft);
+	if ($posLeft === false) :
+		if ($debug)
+			echo "Warning: left delimiter '{$delimeterLeft}' not found";
+		return false;
+	endif;
+ 
+	$posLeft += strlen($delimeterLeft);
+	$posRight = strpos($inputStr, $delimeterRight, $posLeft);
+ 
+	if ($posRight === false) :
+		if ($debug) 
+				echo "Warning: right delimiter '{$delimeterRight}' not found";
+		return false;
+	endif;
 
+	return substr($inputStr, $posLeft, $posRight - $posLeft);
+} 
 
 /*
 * OUTPUT CUFON RULES TO OUR DYNAMICALLY GENERATED JS FILE
@@ -226,14 +250,13 @@ function enqueue_cufon_fonts() {
 			}
 		
 		}
-		
 }
 add_action('fdt_enqueue_dynamic_js', 'enqueue_cufon_fonts');
 
 /*	
 *	ADMIN - ENQUEUE CUFON FONTS
 */
-function admin_enqueue_cufon_fonts() {
+function enqueue_cufon_fonts_admin() {
 	
 	$cufon_font_path = get_stylesheet_directory_uri() . '/fonts/cufon/';
 	$cufon_font_files = find_cufon_fonts_filename(); 
@@ -250,7 +273,7 @@ function admin_enqueue_cufon_fonts() {
 		
 		
 }
-add_action('admin_print_scripts', 'admin_enqueue_cufon_fonts');
+add_action('admin_print_scripts', 'enqueue_cufon_fonts_admin');
 
 /*	
 *	ADMIN - FIND FONTS AND PRINT CUFON SCRIPT
@@ -269,7 +292,7 @@ function write_cufon_for_admin() {
 				if($value) {
 					$selector = "#".$themename."-".cufon_font_files."-".$key." + label";
 					$font_family = $font_array[$key];
-					write_cufon_script($selector, $font_family);	
+					write_cufon_rules($selector, $font_family);	
 				}	
 			}
 		
@@ -280,41 +303,193 @@ function write_cufon_for_admin() {
 /*	
 *	ADMIN - PRINT CUFON SCRIPT
 */
-function write_cufon_script( $selector, $font_family ){
+function write_cufon_rules( $selector, $font_family ){
 print <<<END
 
 	Cufon.replace('{$selector}', { fontFamily: '{$font_family}', hover: true });	
 END;
 }
 
+/*	
+ * UGLY IMPLEMENTATION
+ * NEEDS ELEGANT SOLUTION TO FIND
+ * FONT FACE STYLE SHEET AND AVAILIABLE FONT-FAMILY NAMES
+ */
+function find_font_face_fonts() {
+
+	$path = STYLESHEETPATH. '/fonts/fontface';
+	
+	$font_face = array();
+	
+	if ( is_dir($path) ) {
+		if ($directory = opendir($path) ) { 
+			while ( ($fontfolders = readdir($directory)) !== false ) {
+
+					if ($folder = opendir($path.'/'.$fontfolders) ) { 
+						while ( ($filename = readdir($folder)) !== false ) {
+									if(stristr($filename, ".css") !== false) {
+
+											$file_content = file_get_contents($path."/".$fontfolders."/".$filename); //open file and read
+											$delimeterLeft = 'font-family:';
+											$delimeterRight = ';';
+											$font_name = read_font_name($file_content, $delimeterLeft, $delimeterRight, $debug = false);
+
+											$font_name = str_replace("'", '', $font_name);
+											$font_name = str_replace('"', '', $font_name);
+											$font_name = trim($font_name);
+											$key = strtolower(str_replace(' ', '', $font_name));
+
+											$font_face[$fontfolders] = $font_name;
+									}
+						}
+					}
+			}    
+		}
+	}
+	
+	if( empty($font_face) )
+		$font_face = array( 'font' => 'font');
+
+	return $font_face;
+}
+
+/*	
+ * REGISTER/ENQUEUE ALL FONT FACES LOCATED IN CSS/FONTS/FONTFACE
+ */
+function enqueue_font_face_fonts_admin(){
+	$font_array = find_font_face_fonts();
+	
+	$font_face_path = get_stylesheet_directory_uri() . '/fonts/fontface/';
+	$fontface_font_files = of_get_option( 'fontface_font_files', false ); 
+
+		if($fontface_font_files) {
+			foreach ($fontface_font_files as $key => $value) {
+
+					$src = $font_face_path . $key . '/stylesheet.css';
+					wp_register_style($key, $src ,  array() , "3.1", "screen");
+					wp_enqueue_style($key);	
+
+			}
+		
+		}
+
+
+}
+add_action('admin_print_styles', 'enqueue_font_face_fonts_admin');
+
 /*
-*	ADMIN - FIND FONT-FAMILY NAME
+*	CREATE CSS RULES FOR ADMIN INCLUSIONS
 */
-function read_font_name($inputStr, $delimeterLeft, $delimeterRight, $debug = false) {
- 
-	$posLeft = strpos($inputStr, $delimeterLeft);
-	if ($posLeft === false) :
-		if ($debug)
-			echo "Warning: left delimiter '{$delimeterLeft}' not found";
-		return false;
-	endif;
- 
-	$posLeft += strlen($delimeterLeft);
-	$posRight = strpos($inputStr, $delimeterRight, $posLeft);
- 
-	if ($posRight === false) :
-		if ($debug) 
-				echo "Warning: right delimiter '{$delimeterRight}' not found";
-		return false;
-	endif;
- 
-	return substr($inputStr, $posLeft, $posRight - $posLeft);
+function write_font_face_fonts_admin(){
+	$themename = get_theme_data(STYLESHEETPATH . '/style.css');
+	$themename = $themename['Name'];
+	$themename = preg_replace("/\W/", "", strtolower($themename) );
+						
+	$font_face_files = find_font_face_fonts();
+
+echo '<style type="text/css">';
+
+		if($font_face_files) {
+			foreach ($font_face_files as $key => $value) {
+				if($value) {
+					$selector = "#".$themename."-".fontface_font_files."-".$key." + label";
+					$font_family = $value;
+					write_font_face_rules($selector, $font_family);	
+				}	
+			}
+		
+		}
+
+echo '</style>';	
+}
+add_action('admin_print_styles', 'write_font_face_fonts_admin');
+
+/*	
+*	ADMIN - PRINT CUFON SCRIPT
+*/
+function write_font_face_rules( $selector, $font_family ){
+print <<<END
+
+	{$selector} { font-family: '{$font_family}'; font-size: 22px;}
+END;
+}
+
+/*	
+*	ENQUEUE SELECTED FONTS FACE FONTS
+*/
+function enqueue_font_face_fonts() {
+
+	$font_array = find_font_face_fonts();
+	
+	$font_face_path = get_stylesheet_directory_uri() . '/fonts/fontface/';
+	$fontface_font_files = of_get_option( 'fontface_font_files', false ); 
+
+		if($fontface_font_files) {
+			foreach ($fontface_font_files as $key => $value) {
+				if($value) {
+					$src = $font_face_path . $key . '/stylesheet.css';
+					wp_register_style($key, $src ,  array() , "3.1", "screen");
+					wp_enqueue_style($key);	
+				}	
+			}
+		
+		}
+
+}
+add_action('fdt_enqueue_dynamic_css', 'enqueue_font_face_fonts');
+
+
+
+
+
+/*
+ *	LOAD GOOGLE WEBFONT
+ */
+function gfonts_api() {
+
+	$gf1 = 'Tangerine';
+	
+	$addfont = <<<ADDFONTS
+
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js'></script>
+<script type='text/javascript'>WebFont.load({ google: {families: [ '$gf1' ]}})</script>
+<style type='text/css'>.itemtext {font-family: '$gf1', serif;}</style>
+
+ADDFONTS;
+
+	echo $addfont;
 } 
+#add_action('wp_head','gfonts_api');
+
+function find_google_fonts(){
+}
+
+/*
+ *	ADAPT FOR SUAGE
+ *
+ * @ref http://www.alivethemes.com/how-to-easily-enqueue-scripts-in-wordpress-with-aframeworks-specially-made-function-called-loader/
+ */		
+function example_enqueue_script_loader() 	{
+		
+}
+		
+
+		
 
 
-
-
-
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 /*
 *	GET THE CURRENT TEMPLATE BEING USED
@@ -412,12 +587,12 @@ function thefdt_get_loop_content() {
 		show_mediagalleries();
 	
 	if( $content_display['the_post_thumbnail']) :	
-		$featured_image = get_the_post_thumbnail( $post->ID, 'medium', array('class' => 'alignleft'));
+		$featured_image = get_the_post_thumbnail( $post->ID, 'medium', array('class' => 'none'));
 		
 		if( $featured_image ) :
-			echo $featured_image;
+			echo '<div class="featured-image">'.$featured_image."</div>";
 		else :
-			echo get_first_image($post->ID, 'medium');
+			echo '<div class="first-image">'.get_first_image($post->ID, 'medium')."</div>";
 		endif;
 	
 	endif;
@@ -651,6 +826,23 @@ jQuery(document).ready(function($) {
 	}
 	
 
+	
+	
+	/* FONTFACE  OPTIONS  :: APPEARANCE > THEMEOPTIONS > TYPOGRAPHY */
+	$('#section-enable_fontface_support .heading').hide();	
+
+	$('#enable_fontface_support').click(function() {
+  		$('#section-fontface_font_files').fadeToggle(400);
+	});
+
+	if ($('#enable_fontface_support:checked').val() !== undefined) {
+		$('#section-fontface_font_files').show();
+	} else {
+		$('#section-fontface_font_files').hide();	
+	}
+
+	
+	
 	/* CUFON FONT OPTIONS  :: APPEARANCE > THEMEOPTIONS > TYPOGRAPHY */
 	$('#section-cufon_font_files .heading').hide();
 	$('#section-cufon_rules .heading').hide();		
@@ -694,7 +886,7 @@ jQuery(document).ready(function($) {
 	}
 
 	
-	/* BODY FONT OPTIONS :: APPEARANCE > THEMEOPTIONS > TYPOGRAPHY */
+	/* HEADER OPTIONS*/
 	$('#section-header_width').hide();
 	$('#section-header_height').hide();	
 	$('#enable_wordpress_header').click(function() {
@@ -789,58 +981,15 @@ if( of_get_option('enable_body_href', false ) )
 	
 	
 	
-	
-/*
- *	LOAD GOOGLE WEBFONT
- */
-function gfonts_api() {
 
-	$gf1 = 'Tangerine';
-	
-	$addfont = <<<ADDFONTS
-
-<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js'></script>
-<script type='text/javascript'>WebFont.load({ google: {families: [ '$gf1' ]}})</script>
-<style type='text/css'>.itemtext {font-family: '$gf1', serif;}</style>
-
-ADDFONTS;
-
-	echo $addfont;
-} 
-#add_action('wp_head','gfonts_api');
-
-/*
- * LOAD FONT FACES
- *
- * @ref http://www.alivethemes.com/how-to-easily-enqueue-scripts-in-wordpress-with-aframeworks-specially-made-function-called-loader/
- */		
-function load_font_face() 	{
-
-
-		foreach ( (array) $dirs as $dir )		{
-			$path = dirname( __FILE__ ) . ( defined( 'WP_ADMIN' ) ? '/admin' : '' ) . "/$dir";
-
-			if ( is_dir( $path ) && $handle = opendir( $path )) {
-				if ( $dir == 'js' ) {
-					while ( $file = readdir( $handle ) ) {
-						if( !in_array( $file, array('.', '..', 'addtoany-page.js' ))) {
-							wp_register_script( $file, get_bloginfo('template_directory') . ( defined( 'WP_ADMIN' ) ? '/admin' : '' ) . "/$dir/$file" );
-							wp_enqueue_script( $file );
-						}
-					}
-				}
-				else
-				{
-					while ( $file = readdir( $handle ))
-						if( !in_array( $file, array('.', '..' )))
-							require_once $path . "/$file";
-				}
-				closedir( $handle );
-			}
-		}
-}
 		
-
+		
+		
+		
+		
+		
+		
+		
 
 /*
  * APPLY HEADER DIMENSIONS (W)

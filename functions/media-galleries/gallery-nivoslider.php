@@ -181,8 +181,8 @@ function jquery_nivoslider() {
 			$width = get_option($meta["gallery_imagesize"].'_size_w');
 			$height = get_option($meta["gallery_imagesize"].'_size_h');	
 		else:
-			$width = 540;
-			$height = 360;
+			$width = get_option('medium_size_w');
+			$height = get_option('medium_size_h');
 		endif;
 
 		$autoplay = checkbox_truefalse($meta["gallery_autoplay"]);	
