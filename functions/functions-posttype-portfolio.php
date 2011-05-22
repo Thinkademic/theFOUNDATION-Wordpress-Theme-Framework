@@ -158,7 +158,7 @@ function get_portfolio_thumbs($atts = null) {
 		$slidereturn = xtag( 'div', $slidereturn, "id=portfolio_previewer");
 
 		if($enablefilter) :
-			$slidereturn = xhtmltag( "div", get_portfolio_filter( $filterterm ), "", "portfolio_preview_filter").$slidereturn;
+			$slidereturn = xtag( 'div', get_portfolio_filter( $filterterm ), "id=portfolio_preview_filter").$slidereturn;
 		endif;
 		
 		return $slidereturn;

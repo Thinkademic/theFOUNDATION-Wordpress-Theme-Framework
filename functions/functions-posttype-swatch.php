@@ -119,8 +119,7 @@ function get_swatch_thumbs($atts = null) {
 		$slidereturn = xtag( 'ul', $slidereturn, "id=portfolio_preview_list");	
 		$slidereturn = xtag( 'div', $slidereturn, "id=portfolio_previewer");
 
-		$slidereturn = xhtmltag( "div", get_swatch_filter( $filterterm ), "", "portfolio_preview_filter").$slidereturn;
-
+		$slidereturn = xtag( "div", get_swatch_filter( $filterterm ), "id=portfolio_preview_filter" ).$slidereturn;
 		
 		return $slidereturn;
 

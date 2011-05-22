@@ -7,14 +7,15 @@ define( 'TEXTDOMAIN', 'thefdt' );
 define( 'THEMECUSTOMMETAKEY', '_fsl_media_options' );
 if ( ! isset( $content_width ) ) $content_width = get_option('medium_size_w');		// SHOULD BE OVER WRITTEN IN CHILD THEMES
 
-/**************************************************************
- [00] SANDBOX FUNCTIONS :: SEE FILE COMMENTS
-**************************************************************/
+/*
+  * SANDBOX FUNCTIONS :: SEE FILE COMMENTS
+  */
 require_once(TEMPLATEPATH . '/functions/functions-sandbox.php');
+require_once(TEMPLATEPATH . '/functions/functions-social-media.php');
 
-/**************************************************************
- [01] PARENT THEME APPEARANCE FEATURES
-**************************************************************/
+/*
+ *	SETUP THEME OPTIONS AND ADDITIONAL APPREANCE OPTIONS
+ */
 require_once(TEMPLATEPATH . '/functions/functions-appearance-themeoptions.php');			// WORKS WITH OPTIONS FRAMEWORK BY DEVINSAYS
 require_once(TEMPLATEPATH . '/functions/functions-appearance-sidebars.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-header.php');
@@ -22,10 +23,11 @@ require_once(TEMPLATEPATH . '/functions/functions-appearance-widgets.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-menu.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-background.php');
 
-/**************************************************************
- [01] CUSTOM POST TYPES CUSTOM POST TYPES LOADED FROM PARENT THEME 
- ENABLED IN ADMIN > APPEARANCE > THEME OPTIONS > CUSTOM POST TYPE
-**************************************************************/
+/*
+ * CUSTOM POST TYPE ADDITION
+ *
+ * @NOTE CUSTOM POST TYPES CUSTOM POST TYPES ARED LOADED FROM THE PARENT THEME  & ENABLED IN ADMIN > APPEARANCE > THEME OPTIONS > CUSTOM POST TYPE
+ */
 if( of_get_option( 'enable_custom_posttype_event', false ) == true )
 	require_once(TEMPLATEPATH . '/functions/functions-posttype-event.php');
 if( of_get_option( 'enable_custom_posttype_portfolio', false ) == true )
@@ -310,64 +312,6 @@ function xhtmltag( $tag = "div", $content, $class = "", $id = "" ) {
 	return $divxhtml;
 }
 
-/**************************************************************
-	CONSTRUCT XHTML TAGS USING A FUNCTION, $ARS IS A QUERY STRING
-	THAT WILL BE EXTRACTED.
-**************************************************************/
-function xtag( $tag = "div", $content, $args = null, $precontent = "", $postcontent = "" ) {
-
-	if($tag) {
-	
-	//	GET XHTML ELEMENT ATTRIBUTES
-		$defaults = array(
-			'id' => "",
-			'class' => "",
-			'href' => "",
-			'title' => "",
-			'rel' => "",			
-		);
-		$args = wp_parse_args( $args, $defaults );
-		extract( $args, EXTR_SKIP );
-		
-		
-		if( $content == "" ) :
-			return false;
-		endif;
-
-		$divxhmtl = "";
-		if($id != "") :
-			$id = ' id="'.$id.'"';
-		endif;
-
-		if($class != "") :
-			$class = ' class="'.$class.'"';
-		endif;
-		
-		if($href != "") :
-			$href = ' href="'.$href.'"';
-		endif;
-		
-		if($title != "") :
-			$title = ' title="'.$title.'"';
-		endif;
-
-		if($rel != "") :
-			$rel = ' rel="'.$rel.'"';
-		endif;
-		
-
-		if($content != "") :
-			$divxhtml  = "\n".'<'.$tag.$id.$class.$href.$title.$rel.'>';
-			$divxhtml .= "\n\t".$precontent.$content.$postcontent;
-			$divxhtml .= "\n"."</$tag>";
-		endif;	
-		
-		
-		return $divxhtml;
-	} else {
-		return $content;
-	}
-}
 
 
 /**************************************************************

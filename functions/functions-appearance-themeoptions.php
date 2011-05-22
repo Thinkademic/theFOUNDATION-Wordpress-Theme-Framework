@@ -444,6 +444,8 @@ add_action('fdt_enqueue_dynamic_css', 'enqueue_font_face_fonts');
 
 /*
  *	LOAD GOOGLE WEBFONT
+ *
+ * @TODO MAKE THIS WORK 
  */
 function gfonts_api() {
 
@@ -784,7 +786,7 @@ function thefdt_post_edit_links() {
 
 print <<<END
 
-$(function(){
+jQuery(document).ready(function($) {
 	/*
 	* ADMIN EDIT LINKS
 	*/
@@ -805,6 +807,9 @@ add_action('fdt_print_dynamic_js', 'thefdt_post_edit_links');
 
 /*
 *	OPTIONS FRAMEWORK JQUERY
+*
+*	@TODO: [5/21/11] WRITE A JQUERY FUNCTION TO REDUCE REPETIVIVE JQUERY CODE
+*	
 */
 function optionsframework_custom_scripts() { ?>
 

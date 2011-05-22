@@ -2,6 +2,7 @@
 				
 	<?php if (have_posts()) : ?>
 		<?php while (have_posts()) : the_post(); ?>
+			<?php thefdt_social_media_box_count(); ?>
 			<div id="post-<?php the_ID(); ?>" <?php post_class('item'); ?>>
 
 				<?php get_template_part( 'itemhead', 'index'); ?>	
@@ -11,6 +12,7 @@
 				<?php get_template_part( 'itemfoot', 'index'); ?>					
 				
 			</div>
+			
 		<?php endwhile; ?>		
 
 	<?php else : ?>
