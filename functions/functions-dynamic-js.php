@@ -83,14 +83,12 @@ function add_dynamic_js() {
 }
 
 
-
 /*
  *	AUTO ENQUE JS FILES LOCATED IN FOLDER
  * 
  * @TODO 1)format code 2) Improve security and Error handling
- */		
+ */	
 function enqueue_js_from_folder() {
-
 	$js_folder = STYLESHEETPATH. '/js/load';
 
 	if ( is_dir($js_folder) ) {
@@ -104,8 +102,8 @@ function enqueue_js_from_folder() {
 		}
 	}
 
+
 }
-add_action('fdt_enqueue_dynamic_js', 'enqueue_js_from_folder');		
+add_action('fdt_enqueue_dynamic_js', 'enqueue_js_from_folder');
 
-
-?> 
+?>
