@@ -84,6 +84,28 @@ function add_dynamic_js() {
 
 
 
+/*
+ *	AUTO ENQUE JS FILES LOCATED IN FOLDER
+ * 
+ * @TODO 1)format code 2) Improve security and Error handling
+ */		
+function enqueue_js_from_folder() {
+
+	$js_folder = STYLESHEETPATH. '/js/load';
+
+	if ( is_dir($js_folder) ) {
+		if ($alt_stylesheet_dir = opendir($js_folder) ) { 
+			while ( ($jsfile = readdir($alt_stylesheet_dir)) !== false ) {
+				if(stristr($jsfile, ".js") !== false) {
+							wp_register_script( $jsfile, get_stylesheet_directory_uri() . '/js/load/' . $jsfile );
+							wp_enqueue_script( $jsfile );
+				}
+			}    
+		}
+	}
+
+}
+add_action('fdt_enqueue_dynamic_js', 'enqueue_js_from_folder');		
 
 
-?>
+?> 

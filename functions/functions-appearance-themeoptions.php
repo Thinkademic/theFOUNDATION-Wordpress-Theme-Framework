@@ -466,15 +466,6 @@ ADDFONTS;
 function find_google_fonts(){
 }
 
-/*
- *	ADAPT FOR SUAGE
- *
- * @ref http://www.alivethemes.com/how-to-easily-enqueue-scripts-in-wordpress-with-aframeworks-specially-made-function-called-loader/
- */		
-function example_enqueue_script_loader() 	{
-		
-}
-		
 
 		
 
@@ -769,9 +760,13 @@ function enable_suckerfish_dropdown() {
 	if( $enable_dropdown ){
 
 print <<<END
-	$(function(){
-		$(".masthead-menu").superfish(); 
-	});
+
+/*
+* ENABLE SUPERFISH
+*/
+jQuery(document).ready(function($) {
+	$(".masthead-menu").superfish(); 
+});
 	
 END;
 
@@ -786,10 +781,11 @@ function thefdt_post_edit_links() {
 
 print <<<END
 
+/*
+* ADMIN EDIT LINKS
+*/
 jQuery(document).ready(function($) {
-	/*
-	* ADMIN EDIT LINKS
-	*/
+
 	$(".editlink").hide();
 	$(".itemhead").hoverIntent(
 			function() { 
