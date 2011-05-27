@@ -657,7 +657,6 @@ function thefdt_get_item_meta( $location = "head") {
 						'tag' => false
 					)
 			);
-	$meta_display = apply_filters( 'build_option_meta_array', $meta_display );
 			
 	// LOOP THROUGH ARRAY AND CALL CORRESPONDING FUNCTION
 	// IF WE EDIT THE ARRAY ORDER, THEN WE CAN EDIT THE OUTPUT ORDER
@@ -666,7 +665,7 @@ function thefdt_get_item_meta( $location = "head") {
 	foreach ($meta_display as $key => $value) {
 		if($value){
 			$function_name = "get_".$key."_meta";
-			$meta .= $meta.$function_name();
+			$meta = $meta.$function_name();
 		}
 	}
 
