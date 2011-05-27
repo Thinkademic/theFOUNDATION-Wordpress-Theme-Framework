@@ -5,6 +5,5 @@
 	</h2>
 
 	<?php thefdt_get_item_meta("head"); ?>
-	<?php thefdt_social_media_box_count(); ?>	
 </div>
 

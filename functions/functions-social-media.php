@@ -5,7 +5,19 @@
  * A SET OF FUNCTION TO HANDLE SOCIAL MEDIA INTERGRATION
  */
 
+/*
+ * ADD TO OPTIONS FRAMEWORK
+ */
+function social_med_box_count_filter( $options ){
 
+	$add = array(
+		'social_media_box_count' => 'Social Media Box Count'
+	);
+	
+	return array_merge( $options, $add );
+
+}
+add_filter( 'build_option_meta_array', social_med_box_count_filter );
  
 /*
  *	ECHO SOCIAL MEDIA BOX COUNTS
@@ -15,9 +27,8 @@
  * TO PROMOTE A LINK ON A SOCIAL NETWORK SITE
  */
 function thefdt_social_media_box_count() {
-	echo get_thefdt_social_media_box_count();
+	echo get_social_media_box_count_meta();
 }
- 
  
 /*
  * RETREIVED ALL SOCIAL MEDIA BOX COUNTS
@@ -27,8 +38,7 @@ function thefdt_social_media_box_count() {
  *
  * TODO : MAKE IT SORTABLE BASED ON AN ARRAY
  */ 
- 
-function get_thefdt_social_media_box_count( $networks = null ) {
+function get_social_media_box_count_meta( $networks = null ) {
 	
 	$networks = array(
 		'facebook' => 'facebook',
@@ -50,8 +60,7 @@ function get_thefdt_social_media_box_count( $networks = null ) {
 	
 	return $box_count;
 }
- 
- 
+  
 /*
  * FACEBOOK BOX COUNT
  */
@@ -79,6 +88,7 @@ function get_twitter_box_count() {
 		
 	return '
 			<div class="twitter_box_count">
+			  <div class="twiter_box_shield"></div>
 			  <a href="http://twitter.com/share" class="twitter-share-button"
 				 data-via="'. $username .'"
 				 data-text="'. $text .'"
@@ -114,11 +124,6 @@ function twitter_box_count_js_enqueue(){
 	wp_enqueue_script( 'twitter' );
 }
 add_action('wp_head', 'twitter_box_count_js_enqueue', 10);
-
-
-
-
-
 
 /*
  * DIGG ENQUEUE SCRIPT

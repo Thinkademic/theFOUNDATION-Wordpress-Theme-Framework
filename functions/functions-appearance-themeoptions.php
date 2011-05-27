@@ -353,6 +353,15 @@ function find_font_face_fonts() {
 	return $font_face;
 }
 
+
+function load_supported_font_family( $defaults ){
+	
+	$font_faces = array_flip(find_font_face_fonts());
+	
+	return array_merge( $defaults, $font_faces );
+}
+add_filter( 'of_recognized_font_faces', 'load_supported_font_family' );
+
 /*	
  * REGISTER/ENQUEUE ALL FONT FACES LOCATED IN CSS/FONTS/FONTFACE
  */
@@ -645,10 +654,10 @@ function thefdt_get_item_meta( $location = "head") {
 						'time' => false,
 						'comments' => false,
 						'category' => false,
-						'tag' => false						
+						'tag' => false
 					)
 			);
-
+	$meta_display = apply_filters( 'build_option_meta_array', $meta_display );
 			
 	// LOOP THROUGH ARRAY AND CALL CORRESPONDING FUNCTION
 	// IF WE EDIT THE ARRAY ORDER, THEN WE CAN EDIT THE OUTPUT ORDER
@@ -657,7 +666,7 @@ function thefdt_get_item_meta( $location = "head") {
 	foreach ($meta_display as $key => $value) {
 		if($value){
 			$function_name = "get_".$key."_meta";
-			$meta = $meta.$function_name();
+			$meta .= $meta.$function_name();
 		}
 	}
 
@@ -746,9 +755,6 @@ function get_category_meta(){
 		$category_meta = apply_filters('thefdt_category_meta', $category_meta);
 		return $category_meta;
 }
-
-
-
 
 
 
