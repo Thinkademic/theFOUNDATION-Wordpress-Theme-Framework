@@ -14,8 +14,8 @@ if(true) {
 		'show_all' => true,
 		'type' => 'plain',
 		'prev_next' => true,
-		'prev_text' => __('&laquo; Older'),
-		'next_text' => __('Newer &raquo;'),
+		'prev_text' => __('&laquo; Newer'),
+		'next_text' => __('Older &raquo;'),
 		'end_size' => 2,
 		'mid_size' => 4,	
 		);

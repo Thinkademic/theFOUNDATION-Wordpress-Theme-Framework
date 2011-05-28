@@ -6,6 +6,100 @@ function post_meta_init() {
 	$post_meta = new create_post_meta(); 
 }
 
+function affiliate_info() {
+	echo get_affiliate_info_meta();
+}
+
+function affiliate_info_filter( $options ){
+
+	$add = array(
+		'affiliate_info' => 'Affiliate Info'
+	);
+	
+	return array_merge( $options, $add );
+
+}
+add_filter( 'build_option_meta_array', affiliate_info_filter );
+
+function get_affiliate_info_meta( $args = null ){
+
+	global $wp_query, $post, $paged;	
+	
+	# - FUNCTION DISPLAY OPTIONS
+	$args_default = array (
+							"show_price" => true,
+							"show_link_url" => true,
+							"show_content_source_title" => true,
+							"show_content_source_url" => true,
+							"show_imagesource_source_title" => true,
+							"show_imagesource_source_url" => true
+						);						
+	$args = wp_parse_args( $args, $args_default );	
+	extract($args);	
+	
+	# - EVENT DATA IS STORED IN POST_META TABLE
+	$post_info_array = get_post_meta($post->ID, "thefdt_metakey", true);	
+	
+	if(!is_array($post_info_array))
+		return;
+
+	# - SEE CLASS DEFINTION FOR VARIABLE NAMES
+	extract($post_info_array);
+
+	
+	/*
+	foreach( $post_info_array as $key => $value ) {
+		$var_name =  "show_".$key;
+		
+		if($var_name) :	
+			$$key = xtag("div", $$key, "class=".$key);
+		endif;
+	}
+	*/
+
+	if($show_price && $link_url) :	
+		if($price) :
+			$link_url = "<a href='".$link_url."' target='_blank' class='link_url' href='$link' title='BUY'>I'D BUY IT -  $price</a>";
+		else :
+			$link_url = "<a href='".$link_url."' target='_blank' class='link_url' href='$link' title='BUY'>I'D BUY IT</a>";
+		endif;		
+	else :	
+		$link_url = xtag("div", $price, 'class=price');
+	endif;		
+
+	if($show_content_source_title) :	
+		if($content_source_title)
+			$content_source_title = "Via: ".$content_source_title;
+		$content_source_title = xtag("div", $content_source_title, "class=content_source_title");
+	endif;	
+
+	if($show_content_source_url) :	
+		$content_source_url = xtag("div", $content_source_url, "class=content_source_url");
+	endif;	
+
+	if($show_imagesource_source_title) :	
+		$imagesource_source_title = xtag("div", $imagesource_source_title, "class=imagesource_source_title");
+	endif;	
+
+	if($show_imagesource_source_url) :	
+		$imagesource_source_url = xtag("div", $imagesource_source_url, "class=imagesource_source_url");
+	endif;			
+	
+	# - COMBINE ALL DETAILS
+	$post_info = "
+		$link_url
+		$content_source_title
+		$content_source_url
+		$imagesource_source_title
+		$imagesource_source_url
+	";
+	
+	# - ADD XHTML DIV WRAPPER CLASS
+	$post_info = xtag("div", $post_info, "class=post_info");
+	
+	return $post_info;
+
+}
 
 
 class create_post_meta {
@@ -13,7 +107,6 @@ class create_post_meta {
 	var $meta_key = "thefdt_metakey";	
 	var $meta_fields = array(
 		"price",
-		"link_title",
 		"link_url",
 		"content_source_title",
 		"content_source_url",
@@ -43,7 +136,6 @@ class create_post_meta {
 	function product_info()
 	{
 		echo form_textinput( $this->meta_key, 'price', 'Price' );
-		echo form_textinput( $this->meta_key, 'link_title', 'Affiliate Link Title' );
 		echo form_textinput( $this->meta_key, 'link_url', 'Affiliate Link Url' );		
 		echo form_textinput( $this->meta_key, 'content_source_title', 'Content Source Title' );
 		echo form_textinput( $this->meta_key, 'contenturl', 'Content Url' );

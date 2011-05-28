@@ -236,64 +236,6 @@ function time_since($older_date, $newer_date = false) {
 
 
 
-/**************************************************************
-	CONSTRUCT XHTML TAGS USING A FUNCTION, $ARS IS A QUERY STRING
-	THAT WILL BE EXTRACTED.
-**************************************************************/
-function xtag( $tag = "div", $content, $args = null, $precontent = "", $postcontent = "" ) {
-
-	if($tag) {
-	
-	//	GET XHTML ELEMENT ATTRIBUTES
-		$defaults = array(
-			'id' => "",
-			'class' => "",
-			'href' => "",
-			'title' => "",
-			'rel' => "",			
-		);
-		$args = wp_parse_args( $args, $defaults );
-		extract( $args, EXTR_SKIP );
-		
-		
-		if( $content == "" ) :
-			return false;
-		endif;
-
-		$divxhmtl = "";
-		if($id != "") :
-			$id = ' id="'.$id.'"';
-		endif;
-
-		if($class != "") :
-			$class = ' class="'.$class.'"';
-		endif;
-		
-		if($href != "") :
-			$href = ' href="'.$href.'"';
-		endif;
-		
-		if($title != "") :
-			$title = ' title="'.$title.'"';
-		endif;
-
-		if($rel != "") :
-			$rel = ' rel="'.$rel.'"';
-		endif;
-		
-
-		if($content != "") :
-			$divxhtml  = "\n".'<'.$tag.$id.$class.$href.$title.$rel.'>';
-			$divxhtml .= "\n\t".$precontent.$content.$postcontent;
-			$divxhtml .= "\n"."</$tag>";
-		endif;	
-		
-		
-		return $divxhtml;
-	} else {
-		return $content;
-	}
-}
 
 
 

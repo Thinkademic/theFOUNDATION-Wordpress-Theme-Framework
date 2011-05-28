@@ -747,7 +747,7 @@ function get_tag_meta(){
 *	RETURNS CATEGORY META
 */
 function get_category_meta(){
-		$category_meta_format = __('Category %s', TEXTDOMAIN );
+		$category_meta_format = __('Category %s :', TEXTDOMAIN );
 		$category_meta = sprintf( $category_meta_format, get_the_nice_category(', ', ' &amp; ' ) );
 		$category_meta = xtag('span', $category_meta, 'class=category-meta');
 		
