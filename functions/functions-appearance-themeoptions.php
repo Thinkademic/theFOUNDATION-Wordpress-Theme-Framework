@@ -33,9 +33,7 @@ if ( !function_exists( 'of_get_option' ) ) {
 
 
 
-/*	****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ******
-*	READ OPTIONS AND PREP FOR THEME USAGE
-****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** */
+
 /*	
 *	ALTERNATIVE LAYOUT STYLESHEETS READER
 */
@@ -62,24 +60,39 @@ function find_alternative_styles() {
 */
 function find_layouts() {
 
-	$alt_stylesheet_path = STYLESHEETPATH. '/css/styles';
-	$alt_stylesheets = array();
-	if ( is_dir($alt_stylesheet_path) ) {
-		if ($alt_stylesheet_dir = opendir($alt_stylesheet_path) ) { 
-			while ( ($alt_stylesheet_file = readdir($alt_stylesheet_dir)) !== false ) {
-				if(stristr($alt_stylesheet_file, ".css") !== false) {
-					$key = strtolower(str_replace('.', '', $alt_stylesheet_file));
-					$alt_stylesheets[$key] = $alt_stylesheet_file;
+	$imagepath =  get_bloginfo('stylesheet_directory') . '/css/layouts/icons/';
+	$layouts_path = STYLESHEETPATH. '/css/layouts';
+	$layouts = array();
+	if ( is_dir($layouts_path) ) {
+		if ($layout_dir = opendir($layouts_path) ) { 
+			while ( ($layout_file = readdir($layout_dir)) !== false ) {
+				if(stristr($layout_file, ".css") !== false) {
+					$filename = str_replace ( ".css", ".png", $layout_file);
+					$layouts[$layout_file] = $imagepath.$filename;
 				}
 			}    
 		}
 	}
 
-	return $alt_stylesheets;
+	return $layouts;
 }
 
 /*
-*	FIND LAYOUT  FOR CURRENT TEMPLATE
+* FIND  A DEFAULT LAYOUT TO USE
+*
+* @TODO | SEARCHES FOR DEFAULT.CSS IF NOT FOUND, SEARCH FOR FIRST CSS FILE
+*
+* @RETURN | SHOULD RETURN A FILE NAME AS A STRING
+*/
+function find_default_layout(){
+
+	$default = "default.css";
+
+	return $default;
+}
+
+/*
+*	FIND LAYOUT  FOR CURRENT TEMPLATE,
 */
 function layout_for_current_template(){
 
@@ -87,10 +100,11 @@ function layout_for_current_template(){
 		$current_template = thefdt_get_current_template();
 
 		// BASED ON CURRENT TEMPLATE FIND PROPER LAYOUT
-		$layout = of_get_option('template_'.$current_template, 'layout-p.css' ); 
+		$layout = of_get_option('template_'.$current_template, find_default_layout() ); 
 		
 		return $layout;
 }
+
 
 /*	
 *	ENQUEUE STYLES SHEETS
@@ -99,51 +113,49 @@ function enqueue_alternative_stylesheets() {
 	global $data;	
 
 	$alt_styles_path = get_stylesheet_directory_uri() . '/css/styles/';
-		$alt_style = of_get_option( 'alt_stylesheet', 'default.css' ); 
-		
-		wp_register_style('alt_style',  $alt_styles_path . $alt_style);
-		wp_enqueue_style('alt_style');
+	$alt_style = of_get_option( 'alt_stylesheet', 'default.css' ); 
+	
+	wp_register_style('alt_style',  $alt_styles_path . $alt_style);
+	wp_enqueue_style('alt_style');
 
 }
 add_action('fdt_enqueue_dynamic_css', 'enqueue_alternative_stylesheets');
 
 /*	
-*	ENQUEUE OUR SELECTED LAYOUTS FOR OUR TEMPLATES
+*	ENQUEUE OUR SELECTED LAYOUTS FOR VARIOUS TEMPLATES
 */
 function enqueue_template_layout() {
 	global $data, $content_width;	
 
 	// LAYOUTS PATH
 	$layout_path = get_stylesheet_directory_uri() . '/css/layouts/';
+	$layout_file_name = layout_for_current_template();
 	
-		$layout_file_name = layout_for_current_template();
-		
-		// SET UP A DEFAULT LAYOUT
-		if ($layout == '') 
-			$layout = 'default.css';
+	// USE DEFAULT LAYOUT
+	if ($layout_file_name == '') 
+		$layout_file_name = find_default_layout();
 
-		// CHANGE THE OEMBED SIZES, CURRENTLY WE DISABLE
-		// SETTINGS -> MEDIA -> EMBED -> MAX WIDTH
-		// AND ALTER THE CONTENT WIDTH
-		if($layout_file_name == 'layout-p.css' || $layout_file_name == 'layout-ts-p.css' || $layout_file_name == 'layout-p-bs.css' ) {
-			$content_width = of_get_option(  'set_content_full_width_primary', get_option('large_size_w') );		
-		} else {
-			$content_width = of_get_option(  'set_content_width_primary', get_option('medium_size_w') );		
-		}
+	// CHANGE THE OEMBED SIZES BASED ON OPTIONS SETTINGS, THIS OVERRIDES [SETTINGS -> MEDIA -> EMBED -> MAX WIDTH]
+	if($layout_file_name == 'layout-p.css' || $layout_file_name == 'layout-ts-p.css' || $layout_file_name == 'layout-p-bs.css' ) {
+		$content_width = of_get_option(  'set_content_full_width_primary', get_option('large_size_w') );		
+	} else {
+		$content_width = of_get_option(  'set_content_width_primary', get_option('medium_size_w') );		
+	}
 
-		// REGISTER & ENQUEUE STYLE
-		wp_register_style('layout', $layout_path . $layout_file_name );
-		wp_enqueue_style('layout');
+	// REGISTER & ENQUEUE STYLE
+	wp_register_style('layout', $layout_path . $layout_file_name );
+	wp_enqueue_style('layout');
 }
 add_action('fdt_enqueue_dynamic_css', 'enqueue_template_layout');
 
 
 
 
+
 /*
-*	READ FONT NAME PARSER
-*	ONLY FIND FIRST INSTANCE
-*	TODO : RETURN ARRAY WITH ALL FONTS
+*	READ FONT NAME PARSER, ONLY FINDS FIRST INSTANCE
+*
+*	TODO : RETURN ARRAY WITH ALL FONT FAMILY DEFINTIONS IN A FILE
 */
 function read_font_name($inputStr, $delimeterLeft, $delimeterRight, $debug = false) {
  
@@ -168,7 +180,6 @@ function read_font_name($inputStr, $delimeterLeft, $delimeterRight, $debug = fal
 
 /*
 * OUTPUT CUFON RULES TO OUR DYNAMICALLY GENERATED JS FILE
-* MAYBE APPLY FILTER ON RULES,
 */
 function enable_cufon_rules() {
 	$enable_cufon_support = of_get_option('enable_cufon_support', false );
@@ -712,7 +723,7 @@ function get_author_meta() {
 *	RETURNS COMMENTS META
 */
 function get_comments_meta() {
-	// CAPTURE ECHO OUTPUT
+	// CAPTURE  OUTPUT BUFFER - NOT IDEAL
 	ob_start();
 
 			comments_popup_link( 
@@ -747,7 +758,7 @@ function get_tag_meta(){
 *	RETURNS CATEGORY META
 */
 function get_category_meta(){
-		$category_meta_format = __('Category %s :', TEXTDOMAIN );
+		$category_meta_format = __('Category: %s', TEXTDOMAIN );
 		$category_meta = sprintf( $category_meta_format, get_the_nice_category(', ', ' &amp; ' ) );
 		$category_meta = xtag('span', $category_meta, 'class=category-meta');
 		
@@ -819,7 +830,6 @@ function optionsframework_custom_scripts() { ?>
 
 jQuery(document).ready(function($) {
 
-
 	/* BODY FONT OPTIONS :: APPEARANCE > THEMEOPTIONS > TYPOGRAPHY */
 	$('#section-body_font_css .heading').hide();
 	$('#enable_body_font_css').click(function() {
@@ -832,8 +842,6 @@ jQuery(document).ready(function($) {
 	}
 	
 
-	
-	
 	/* FONTFACE  OPTIONS  :: APPEARANCE > THEMEOPTIONS > TYPOGRAPHY */
 	$('#section-enable_fontface_support .heading').hide();	
 
@@ -847,8 +855,7 @@ jQuery(document).ready(function($) {
 		$('#section-fontface_font_files').hide();	
 	}
 
-	
-	
+
 	/* CUFON FONT OPTIONS  :: APPEARANCE > THEMEOPTIONS > TYPOGRAPHY */
 	$('#section-cufon_font_files .heading').hide();
 	$('#section-cufon_rules .heading').hide();		
