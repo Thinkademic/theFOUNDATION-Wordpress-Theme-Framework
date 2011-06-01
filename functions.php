@@ -1,31 +1,55 @@
 <?php
-/*
- * SETUP UNIVERSAL CONTANTS IF THEY HAVE NOTE BEEN  *SET BY CHILD THEMES
+/****
+ * functions/functions.php
+ *
+ * STORES FRAMEWORK FUNCTIONS
+ */
+
+
+
+
+
+/**
+ * SETUP UNIVERSAL CONSTANTS IF THEY HAVE NOT BEEN SET BY CHILD THEMES
  */
 define( 'TEXTDOMAIN', 'thefdt' );
 define( 'THEMECUSTOMMETAKEY', '_fsl_media_options' );
-if ( ! isset( $content_width ) ) $content_width = get_option('medium_size_w');		// SHOULD BE OVER WRITTEN IN CHILD THEMES
+if ( ! isset( $content_width ) ) $content_width = get_option('medium_size_w'); // SHOULD BE OVER WRITTEN IN CHILD THEMES
 
-/*
-  * SANDBOX FUNCTIONS :: SEE FILE COMMENTS
-  */
+
+
+/**
+ * SANDBOX FUNCTIONS
+ */
 require_once(TEMPLATEPATH . '/functions/functions-sandbox.php');
 require_once(TEMPLATEPATH . '/functions/functions-social-media.php');
 
-/*
- *	SETUP THEME OPTIONS AND ADDITIONAL APPREANCE OPTIONS
+
+
+/**
+ * DEPRECATED FUNCTIONS
  */
-require_once(TEMPLATEPATH . '/functions/functions-appearance-themeoptions.php');			// WORKS WITH OPTIONS FRAMEWORK BY DEVINSAYS
+require_once(TEMPLATEPATH . '/functions/functions-deprecated.php');
+
+
+
+/**
+ *	SETUP THEME OPTIONS AND ADDITIONAL APPEARANCE OPTIONS
+ */
+require_once(TEMPLATEPATH . '/functions/functions-appearance-themeoptions.php'); // WORKS WITH OPTIONS FRAMEWORK BY DEVINSAYS
 require_once(TEMPLATEPATH . '/functions/functions-appearance-sidebars.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-header.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-widgets.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-menu.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-background.php');
 
-/*
+
+
+
+/**
  * CUSTOM POST TYPE ADDITION
  *
- * @NOTE CUSTOM POST TYPES CUSTOM POST TYPES ARED LOADED FROM THE PARENT THEME  & ENABLED IN ADMIN > APPEARANCE > THEME OPTIONS > CUSTOM POST TYPE
+ * @NOTE: CUSTOM POST TYPES CUSTOM POST TYPES ARE LOADED FROM THE PARENT THEME & ENABLED IN ADMIN > APPEARANCE > THEME OPTIONS > CUSTOM POST TYPE
  */
 if( of_get_option( 'enable_custom_posttype_event', false ) == true )
 	require_once(TEMPLATEPATH . '/functions/functions-posttype-event.php');
@@ -43,69 +67,54 @@ if( of_get_option( 'enable_custom_posttype_dictionary', false ) == true )
 	require_once(TEMPLATEPATH . '/functions/functions-posttype-dictionary.php');
 
 
-/**************************************************************
- [03] ENQUEUE JQUERY + JQUERY LIBRARIES
-**************************************************************/
+
+/**
+ * ENQUEUE JQUERY + JQUERY LIBRARIES
+ */
 require_once(TEMPLATEPATH . '/functions/functions-jquery.php');
 
 
-/**************************************************************
- [04] ENABLE DYANMIC GENERATRED JS + CSS
-**************************************************************/
+
+/**
+ * ENABLE DYNAMIC GENERATED JS + CSS
+ */
 require_once(TEMPLATEPATH . '/functions/functions-dynamic-js.php');
 require_once(TEMPLATEPATH . '/functions/functions-dynamic-css.php');
 
 
-/**************************************************************
- [05] MEDIA FUNCTIONS
-**************************************************************/
+
+/**
+ * MEDIA FUNCTIONS
+ */
 require_once(TEMPLATEPATH . '/functions/functions-media-galleries.php');
-require_once(TEMPLATEPATH . '/functions/functions-media-formats.php');
 
 
-/**************************************************************
- [07] DEPRECATED FRAME WORK FUNCTIONS
-**************************************************************/
-require_once(TEMPLATEPATH . '/functions/functions-deprecated.php');
 
-
-/**************************************************************
- [08] REMOVE WORDPRESS DEFAULT FEATURES
-**************************************************************/
+/**
+ * REMOVE WORDPRESS DEFAULT FEATURES
+ */
 require_once(TEMPLATEPATH . '/functions/functions-remove-features.php');
 
 
-/**************************************************************
- [09] ADMIN DASHBOARD SETTINGS
-**************************************************************/
+
+/**
+ * ADMIN DASHBOARD SETTINGS
+ */
 require_once(TEMPLATEPATH . '/functions/functions-dashboard.php');
 
 
-/**************************************************************
- [10] ADMIN BAR
-**************************************************************/
+
+/**
+ * ADMIN BAR
+ */
 require_once(TEMPLATEPATH . '/functions/functions-adminbar.php');
 
 
-/**************************************************************
- FOUNDATION THEME SUPPORT
- 01.06.2011
- 
- PLUGGABLE FUNCTION
-**************************************************************/
-if ( function_exists('thefdt_install_options') ) { thefdt_install_options(); }
-thefdt_setup();
-function thefdt_setup() {
-		
-		add_theme_support( 'post-thumbnails' );	
-																		
-	#	AUTOMATIC FEED LINKS
-		add_theme_support('automatic-feed-links');	
 
-	#	THEME IMAGE FORMATS
-		setup_theme_image_formats();
-}
-
+/**
+ * ADD_THEME_SUPPORT
+ */
+require_once(TEMPLATEPATH . '/functions/functions-theme-support.php');
 
 
 
@@ -119,10 +128,14 @@ add_action( 'manage_posts_custom_column', 'add_image_value', 10, 2 );
 add_filter( 'manage_pages_columns', 'add_image_preview_column' );
 add_action( 'manage_pages_custom_column', 'add_image_value', 10, 2 );
 
+
+
 function add_image_preview_column($cols) {
 	$cols['thumbnail'] = __('Images');
 	return $cols;
 } 
+
+
 
 function add_image_value($column_name, $post_id) {
 
