@@ -10,16 +10,16 @@
 
 if ( !function_exists( 'of_get_option' ) ) {
 	function of_get_option($name, $default = false) {
-		
+
 		$optionsframework_settings = get_option('optionsframework');
-		
+
 		// Gets the unique option id
 		$option_name = $optionsframework_settings['id'];
-		
+
 		if ( get_option($option_name) ) {
 			$options = get_option($option_name);
 		}
-			
+
 		if ( !empty($options[$name]) ) {
 			return $options[$name];
 		} else {
@@ -34,7 +34,7 @@ if ( !function_exists( 'of_get_option' ) ) {
 
 
 
-/*	
+/*
 *	ALTERNATIVE LAYOUT STYLESHEETS READER
 */
 function find_alternative_styles() {
@@ -42,12 +42,12 @@ function find_alternative_styles() {
 	$alt_stylesheet_path = STYLESHEETPATH. '/css/styles';
 	$alt_stylesheets = array();
 	if ( is_dir($alt_stylesheet_path) ) {
-		if ($alt_stylesheet_dir = opendir($alt_stylesheet_path) ) { 
+		if ($alt_stylesheet_dir = opendir($alt_stylesheet_path) ) {
 			while ( ($alt_stylesheet_file = readdir($alt_stylesheet_dir)) !== false ) {
 				if(stristr($alt_stylesheet_file, ".css") !== false) {
 					$alt_stylesheets[$alt_stylesheet_file] = $alt_stylesheet_file;
 				}
-			}    
+			}
 		}
 	}
 
@@ -80,14 +80,11 @@ function find_layouts() {
 /*
 * FIND  A DEFAULT LAYOUT TO USE
 *
-* @TODO | SEARCHES FOR DEFAULT.CSS IF NOT FOUND, SEARCH FOR FIRST CSS FILE
-*
+* @TODO| SEARCHES FOR DEFAULT.CSS IF NOT FOUND, SEARCH FOR FIRST CSS FILE
 * @RETURN | SHOULD RETURN A FILE NAME AS A STRING
 */
 function find_default_layout(){
-
 	$default = "default.css";
-
 	return $default;
 }
 
@@ -104,22 +101,6 @@ function layout_for_current_template(){
 		
 		return $layout;
 }
-
-
-/*	
-*	ENQUEUE STYLES SHEETS
-*/
-function enqueue_alternative_stylesheets() {
-	global $data;	
-
-	$alt_styles_path = get_stylesheet_directory_uri() . '/css/styles/';
-	$alt_style = of_get_option( 'alt_stylesheet', 'default.css' ); 
-	
-	wp_register_style('alt_style',  $alt_styles_path . $alt_style);
-	wp_enqueue_style('alt_style');
-
-}
-add_action('fdt_enqueue_dynamic_css', 'enqueue_alternative_stylesheets');
 
 /*	
 *	ENQUEUE OUR SELECTED LAYOUTS FOR VARIOUS TEMPLATES
@@ -148,6 +129,43 @@ function enqueue_template_layout() {
 }
 add_action('fdt_enqueue_dynamic_css', 'enqueue_template_layout');
 
+/*	
+*	ENQUEUE STYLES SHEETS
+*/
+function enqueue_alternative_stylesheets() {
+	global $data;	
+
+	$alt_styles_path = get_stylesheet_directory_uri() . '/css/styles/';
+	$alt_style = of_get_option( 'alt_stylesheet', 'default.css' ); 
+	
+	wp_register_style('alt_style',  $alt_styles_path . $alt_style);
+	wp_enqueue_style('alt_style');
+
+}
+add_action('fdt_enqueue_dynamic_css', 'enqueue_alternative_stylesheets');
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+* REPLACE THE EXCERPT MORE LINE
+*/
+function replace_excerpt_more($more) {
+     global $post;
+
+	$excerpt_text = of_get_option( "set_excerpt_more", _("Read More...") );
+	 
+    return ' <a class="excerpt-more" href="'. get_permalink($post->ID) .'">' . $excerpt_text .'</a>';
+}
+add_filter('excerpt_more', 'replace_excerpt_more', 20);
 
 
 
@@ -400,27 +418,28 @@ add_action('admin_print_styles', 'enqueue_font_face_fonts_admin');
 /*
 *	CREATE CSS RULES FOR ADMIN INCLUSIONS
 */
-function write_font_face_fonts_admin(){
-	$themename = get_theme_data(STYLESHEETPATH . '/style.css');
-	$themename = $themename['Name'];
-	$themename = preg_replace("/\W/", "", strtolower($themename) );
-						
-	$font_face_files = find_font_face_fonts();
+function write_font_face_fonts_admin()
+{
+    $themename = get_theme_data(STYLESHEETPATH . '/style.css');
+    $themename = $themename['Name'];
+    $themename = preg_replace("/\W/", "", strtolower($themename));
 
-echo '<style type="text/css">';
+    $font_face_files = find_font_face_fonts();
 
-		if($font_face_files) {
-			foreach ($font_face_files as $key => $value) {
-				if($value) {
-					$selector = "#".$themename."-".fontface_font_files."-".$key." + label";
-					$font_family = $value;
-					write_font_face_rules($selector, $font_family);	
-				}	
-			}
-		
-		}
+    echo '<style type="text/css">';
 
-echo '</style>';	
+    if ($font_face_files) {
+        foreach ($font_face_files as $key => $value) {
+            if ($value) {
+                $selector = "#" . $themename . "-" . fontface_font_files . "-" . $key . " + label";
+                $font_family = $value;
+                write_font_face_rules($selector, $font_family);
+            }
+        }
+
+    }
+
+    echo '</style>';
 }
 add_action('admin_print_styles', 'write_font_face_fonts_admin');
 

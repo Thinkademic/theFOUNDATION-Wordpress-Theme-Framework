@@ -92,16 +92,15 @@ function enqueue_js_from_folder() {
 	$js_folder = STYLESHEETPATH. '/js/load';
 
 	if ( is_dir($js_folder) ) {
-		if ($alt_stylesheet_dir = opendir($js_folder) ) { 
-			while ( ($jsfile = readdir($alt_stylesheet_dir)) !== false ) {
-				if(stristr($jsfile, ".js") !== false) {
-							wp_register_script( $jsfile, get_stylesheet_directory_uri() . '/js/load/' . $jsfile );
-							wp_enqueue_script( $jsfile );
+		if ($directory = opendir($js_folder) ) { 
+			while ( ($file = readdir($directory)) !== false ) {
+				if(stristr($file, ".js") !== false) {
+							wp_register_script( $file, get_stylesheet_directory_uri() . '/js/load/' . $file );
+							wp_enqueue_script( $file );
 				}
 			}    
 		}
 	}
-
 
 }
 add_action('fdt_enqueue_dynamic_js', 'enqueue_js_from_folder');

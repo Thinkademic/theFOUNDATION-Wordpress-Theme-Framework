@@ -75,5 +75,26 @@ function add_dynamic_css() {
 
 
 
+/*
+ *	AUTO ENQUE CSS FILES LOCATED IN FOLDER
+ * 
+ * @TODO 1)format code 2) Improve security and Error handling
+ */	
+function enqueue_css_from_folder() {
+	$js_folder = STYLESHEETPATH. '/css/load';
+
+	if ( is_dir($js_folder) ) {
+		if ($directory = opendir($js_folder) ) { 
+			while ( ($file = readdir($directory)) !== false ) {
+				if(stristr($file, ".css") !== false) {
+							wp_register_style( $file, get_stylesheet_directory_uri() . '/css/load/' . $file );
+							wp_enqueue_style( $file );
+				}
+			}    
+		}
+	}
+
+}
+add_action('fdt_enqueue_dynamic_css', 'enqueue_css_from_folder');
 
 ?>

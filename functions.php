@@ -1,8 +1,7 @@
 <?php
-/**************************************************************
- [-01] SETUP UNIVERSAL CONTANTS IF THEY HAVE NOTE BEEN
-  SET BY CHILD THEMES
-**************************************************************/
+/*
+ * SETUP UNIVERSAL CONTANTS IF THEY HAVE NOTE BEEN  *SET BY CHILD THEMES
+ */
 define( 'TEXTDOMAIN', 'thefdt' );
 define( 'THEMECUSTOMMETAKEY', '_fsl_media_options' );
 if ( ! isset( $content_width ) ) $content_width = get_option('medium_size_w');		// SHOULD BE OVER WRITTEN IN CHILD THEMES
@@ -81,20 +80,18 @@ require_once(TEMPLATEPATH . '/functions/functions-remove-features.php');
 **************************************************************/
 require_once(TEMPLATEPATH . '/functions/functions-dashboard.php');
 
-/**************************************************************
- [10] FONTS
-**************************************************************/
-require_once(TEMPLATEPATH . '/functions/functions-fonts.php');
 
 /**************************************************************
- [11] ADMIN BAR
+ [10] ADMIN BAR
 **************************************************************/
 require_once(TEMPLATEPATH . '/functions/functions-adminbar.php');
 
 
 /**************************************************************
- FOUNDATION THEME SETUP
+ FOUNDATION THEME SUPPORT
  01.06.2011
+ 
+ PLUGGABLE FUNCTION
 **************************************************************/
 if ( function_exists('thefdt_install_options') ) { thefdt_install_options(); }
 thefdt_setup();
@@ -107,17 +104,6 @@ function thefdt_setup() {
 
 	#	THEME IMAGE FORMATS
 		setup_theme_image_formats();
-	
-	#	COPIED FROM THE WEB SOMEWHERE, HAS TO DO WITH GETTING OTHER POST TYPES TO SHOW UP IN THE QUERY ON THE HOME PAGE
-		#add_filter( "pre_get_posts", "my_get_posts" );
-		function my_get_posts( $query ) {
-			if ( is_home() || is_feed() )
-			#  ADDING ADDITIONAL POST TYPES WILL MAKE IT SHOW UP
-			$query->set( "post_type", array( 'post' ) );
-
-			return $query;
-		}
-	
 }
 
 

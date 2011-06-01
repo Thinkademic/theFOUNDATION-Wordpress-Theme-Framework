@@ -1,7 +1,9 @@
 <?php
-/**************************************************************
- DEFAULT IMAGE FORMAT SETUP
-**************************************************************/
+/**
+ * ESTABLISHES IMAGE SIZES
+ *
+ * PLUGGABLE FUNCTION THAT CAN BE OVERRIDDEN IN CHILD THEME
+ */
 if(!function_exists('setup_theme_image_formats')) {
 	function setup_theme_image_formats() {
 
