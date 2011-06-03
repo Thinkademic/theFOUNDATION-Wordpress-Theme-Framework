@@ -1,13 +1,15 @@
 <?php
+/****
+ * functions/functions-deprecated.php
+ *
+ * PLACE FUNCTIONS THAT ARE TRACKED TO BE REMOVED IN THIS FILE
+ */
 
 
-
-/**************************************************************
- CHANGE ALL PARENT THEMES FOLDER NAME TO CHILD THEME'S 
- CURRENT DIRECTORY NAME
- 
- [01-19-2011] CONSIDER DEPRECATING
-**************************************************************/
+/**
+ *  CHANGE ALL PARENT THEMES FOLDER NAME TO CHILD THEME'S
+ *
+ */
 #add_action('template_directory_uri', 'tboc_template_directory_uri');
 function tboc_template_directory_uri($template) {
       $container_directory = "/".basename(dirname(__FILE__));

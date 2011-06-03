@@ -1,4 +1,12 @@
 <?php
+/****
+ * functions/functions-posttype-product.php
+ *
+ * CUSTOM POST TYPE FOR PRODUCTS
+ */
+
+
+
 /**************************************************************
 
  Append Event Post type with custom fields from in post_meta 

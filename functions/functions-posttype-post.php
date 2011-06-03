@@ -1,4 +1,10 @@
 <?php
+/****
+ * functions/functions-posttype-post.php
+ *
+ * ADD/REMOVE ADDITIONAL FEATURES FOR POST TYPE 'POST'
+ */
+
 
 add_action("init", "post_meta_init");
 function post_meta_init() { 

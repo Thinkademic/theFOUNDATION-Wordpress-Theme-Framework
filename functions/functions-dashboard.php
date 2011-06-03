@@ -1,8 +1,13 @@
 <?php
+/****
+ * functions/functions-appearance-dashboard.php
+ *
+ * PLACE FUNCTIONS THAT RELATE TO WORDPRESS ADMIN'S DASHBOARD IN THIS FILE
+ */
 
-/**************************************************************
- DASHBOARD SETTINGS
-**************************************************************/
+/**
+ * DASHBOARD SETTINGS
+ */
 add_action('wp_dashboard_setup', 'my_custom_dashboard_widgets');
 function my_custom_dashboard_widgets() {
 	global $wp_meta_boxes;

@@ -2,13 +2,11 @@
 /****
  * functions/functions-social-media.php
  *
- * A SET OF FUNCTION TO HANDLE SOCIAL MEDIA INTERGRATION
+ * A SET OF FUNCTION TO HANDLE SOCIAL MEDIA INTEGRATION
  */
 
 /**
  * ADD TO OPTIONS FRAMEWORK
- *
- * @return array
  */
 function social_med_box_count_filter($options)
 {

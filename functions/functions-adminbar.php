@@ -1,7 +1,15 @@
 <?php
-/**************************************************************
- [11] ADMIN BAR LINKS
-**************************************************************/
+/****
+ * functions/functions-admin-bar.php
+ *
+ * @ref http://codex.wordpress.org/Function_Reference/show_admin_bar
+ *
+ * PLACE CODE RELATED TO THE WORDPRESS ADMIN BAR IN THIS FILE
+ */
+
+/**
+ * theFOUNDATION ADMIN BAR LINKS
+ */
 if (!function_exists('fdt_admin_bar_menu')) {
 	function fdt_admin_bar_menu() {
 		global $wp_admin_bar;
@@ -118,6 +126,4 @@ if (!function_exists('fdt_admin_bar_menu')) {
 	}
 }
 #add_action('admin_bar_menu', 'fdt_admin_bar_menu', 999);
-
-
 ?>
