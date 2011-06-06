@@ -108,7 +108,7 @@ function layout_for_current_template()
     return $layout;
 }
 
-/*	
+/**
 *	ENQUEUE OUR SELECTED LAYOUTS FOR VARIOUS TEMPLATES
 */
 function enqueue_template_layout()
@@ -137,7 +137,7 @@ function enqueue_template_layout()
 
 add_action('fdt_enqueue_dynamic_css', 'enqueue_template_layout');
 
-/*	
+/**
 *	ENQUEUE STYLES SHEETS
 */
 function enqueue_alternative_stylesheets()
@@ -155,7 +155,7 @@ function enqueue_alternative_stylesheets()
 add_action('fdt_enqueue_dynamic_css', 'enqueue_alternative_stylesheets');
 
 
-/*
+/**
 * REPLACE THE EXCERPT MORE LINE
 */
 function replace_excerpt_more($more)
@@ -208,7 +208,6 @@ function cufon_register_script(){
 
     if($load)
         wp_enqueue('cufon');
-
 }
 add_action('template_redirect', 'cufon_register_script');
 
@@ -224,7 +223,6 @@ function enable_cufon_rules()
         echo htmlspecialchars_decode($cufon_rules, ENT_QUOTES);
     endif;
 }
-
 add_action('fdt_print_dynamic_js', 'enable_cufon_rules');
 
 /**
@@ -257,7 +255,7 @@ function find_cufon_fonts()
     return $cuffon_fonts;
 }
 
-/*	
+/**
 *	FIND CUFON FONTS FILENAME
 */
 function find_cufon_fonts_filename()
@@ -280,7 +278,7 @@ function find_cufon_fonts_filename()
     return $cuffon_fonts;
 }
 
-/*	
+/**
 *	ENQUEUE CUFON FONTS
 */
 function enqueue_cufon_fonts()
@@ -305,7 +303,7 @@ function enqueue_cufon_fonts()
 
 add_action('fdt_enqueue_dynamic_js', 'enqueue_cufon_fonts');
 
-/*	
+/**
 *	ADMIN - ENQUEUE CUFON FONTS
 */
 function enqueue_cufon_fonts_admin()
@@ -329,7 +327,7 @@ function enqueue_cufon_fonts_admin()
 
 add_action('admin_print_scripts', 'enqueue_cufon_fonts_admin');
 
-/*	
+/**
 *	ADMIN - FIND FONTS AND PRINT CUFON SCRIPT
 */
 function write_cufon_for_admin()
@@ -355,7 +353,7 @@ function write_cufon_for_admin()
 
 }
 
-/*	
+/**
 *	ADMIN - PRINT CUFON SCRIPT
 */
 function write_cufon_rules($selector, $font_family)
@@ -366,7 +364,7 @@ function write_cufon_rules($selector, $font_family)
 END;
 }
 
-/*	
+/**
  * UGLY IMPLEMENTATION
  * NEEDS ELEGANT SOLUTION TO FIND
  * FONT FACE STYLE SHEET AND AVAILIABLE FONT-FAMILY NAMES
@@ -410,18 +408,19 @@ function find_font_face_fonts()
     return $font_face;
 }
 
-
+/**
+ * ADD ACTION TO AUGMENT FONTS IN FRAMEWORK
+ *
+ * @TODO: IMPROVE
+ */
 function load_supported_font_family($defaults)
 {
-
     $font_faces = array_flip(find_font_face_fonts());
-
     return array_merge($defaults, $font_faces);
 }
-
 add_filter('of_recognized_font_faces', 'load_supported_font_family');
 
-/*	
+/**
  * REGISTER/ENQUEUE ALL FONT FACES LOCATED IN CSS/FONTS/FONTFACE
  */
 function enqueue_font_face_fonts_admin()
@@ -444,10 +443,9 @@ function enqueue_font_face_fonts_admin()
 
 
 }
-
 add_action('admin_print_styles', 'enqueue_font_face_fonts_admin');
 
-/*
+/**
 *	CREATE CSS RULES FOR ADMIN INCLUSIONS
 */
 function write_font_face_fonts_admin()
@@ -476,7 +474,7 @@ function write_font_face_fonts_admin()
 
 add_action('admin_print_styles', 'write_font_face_fonts_admin');
 
-/*	
+/**
 *	ADMIN - PRINT CUFON SCRIPT
 */
 function write_font_face_rules($selector, $font_family)
@@ -487,7 +485,7 @@ function write_font_face_rules($selector, $font_family)
 END;
 }
 
-/*	
+/**
 *	ENQUEUE SELECTED FONTS FACE FONTS
 */
 function enqueue_font_face_fonts()
@@ -514,7 +512,7 @@ function enqueue_font_face_fonts()
 add_action('fdt_enqueue_dynamic_css', 'enqueue_font_face_fonts');
 
 
-/*
+/**
 *	LOAD GOOGLE WEBFONT
 *
 * @TODO MAKE THIS WORK
@@ -534,19 +532,21 @@ ADDFONTS;
 
     echo $addfont;
 }
-
 #add_action('wp_head','gfonts_api');
 
+/**
+ * FIND GOOGLE FONT
+ */
 function find_google_fonts()
 {
 }
 
 
-/*
+/**
 *	GET THE CURRENT TEMPLATE BEING USED
 *	AND LOAD IT INTO A GLOBAL VARIALBLE
 *	
-*	CODEX: http://wordpress.stackexchange.com/questions/10537/get-name-of-the-current-template-file
+*	@CODEX: http://wordpress.stackexchange.com/questions/10537/get-name-of-the-current-template-file
 */
 function var_template_include($current)
 {
@@ -563,7 +563,7 @@ function var_template_include($current)
 
 add_filter('template_include', 'var_template_include', 1000);
 
-/*
+/**
 *	FUNCTION TO GET THE THE CURRENT THEME TEMPLATE
 *	ONLY AVAILIABE AFTER THE TEMPLATE IS SET.
 *	WILL NOT BE ACCESSIBLE TO ANY FILTERS OR HOOKS THAT
@@ -582,7 +582,7 @@ function thefdt_get_current_template($echo = false)
 }
 
 
-/*
+/**
 *	TT - POST HEADER ACTION HOOK
 */
 function thefdt_loop_header()
@@ -590,7 +590,7 @@ function thefdt_loop_header()
     do_action("thefdt_loop_header");
 }
 
-/*
+/**
 *	RETRIEVE THE POST HEADER
 *	LABEL/TEXT THAT GOES BEFORE THE LOOP
 *	WHILE DISPLAYING THE INDEX/HOME/FRONT-PAGE TEMPLATES
@@ -609,7 +609,7 @@ function thefdt_get_loop_header()
 
 add_action('thefdt_loop_header', 'thefdt_get_loop_header');
 
-/*
+/**
 *	[TT] CONTENT LOOP ACTION HOOK
 */
 function thefdt_loop_content()
@@ -617,7 +617,7 @@ function thefdt_loop_content()
     do_action("thefdt_loop_content");
 }
 
-/*
+/**
 *	CONTENT LOOP FUNCTION
 */
 function thefdt_get_loop_content()
@@ -664,7 +664,7 @@ function thefdt_get_loop_content()
 
 add_action('thefdt_loop_content', 'thefdt_get_loop_content');
 
-/*
+/**
 *	POST FOOTER ACTION HOOK
 */
 function thefdt_loop_footer()
@@ -672,7 +672,7 @@ function thefdt_loop_footer()
     do_action("thefdt_loop_footer");
 }
 
-/*
+/**
 *	RETRIEVE THE POSTS FOOTER
 *	LABEL/TEXT THAT GOES BEFORE THE LOOP
 *	WHILE DISPLAYING THE INDEX/HOME/FRONT-PAGE TEMPLATES
@@ -692,7 +692,7 @@ function thefdt_get_loop_footer()
 add_action('thefdt_loop_footer', 'thefdt_get_loop_footer');
 
 
-/*
+/**
 *	RETRIEVE THE ITEM META
 *	THIS FUNCTION IS USED BY itemhead.php & itemfoot.php
 */
@@ -727,7 +727,7 @@ function thefdt_get_item_meta($location = "head")
     echo $post_meta;
 }
 
-/*
+/**
 *	RETURNS THE DATE META INFORMATION
 */
 function get_date_meta()
@@ -739,7 +739,7 @@ function get_date_meta()
     return $date_meta;
 }
 
-/*
+/**
 *	RETURNS THE DATE META INFORMATION
 */
 function get_time_meta()
@@ -751,7 +751,7 @@ function get_time_meta()
     return $time_meta;
 }
 
-/*
+/**
 *	RETURNS AUTHOR META
 */
 function get_author_meta()
@@ -764,7 +764,7 @@ function get_author_meta()
     return $author_meta;
 }
 
-/*
+/**
 *	RETURNS COMMENTS META
 */
 function get_comments_meta()
@@ -787,7 +787,7 @@ function get_comments_meta()
     return $comment_meta;
 }
 
-/*
+/**
 *	RETURNS TAGS META
 */
 function get_tag_meta()
@@ -801,7 +801,7 @@ function get_tag_meta()
     return $tags_meta;
 }
 
-/*
+/**
 *	RETURNS CATEGORY META
 */
 function get_category_meta()
@@ -815,7 +815,7 @@ function get_category_meta()
 }
 
 
-/*
+/**
 * OUTPUT JQUERY FOR SUCKERFISH DROP DOWNS
 */
 function enable_suckerfish_dropdown()
@@ -844,20 +844,19 @@ add_action('fdt_print_dynamic_js', 'enable_suckerfish_dropdown');
 function register_suckerfish_dropdown(){
     $src = get_stylesheet_directory_uri();
 
-    wp_register_script('superfish', $src . "/js/superfish.js", false, '1.4.8', false);
-    wp_register_script('supersubs', $src . "/js/supersubs.js", false, '0.2b', false);
+    wp_register_script('superfish', $src . "/js/superfish.js", array('jquery'), '1.4.8', false);
+    wp_register_script('supersubs', $src . "/js/supersubs.js", array('superfish'), '0.2b', false);
 
     $enable_dropdown = of_get_option('enable_suckerfish_dropdown', false);
 
     if($enable_dropdown){
-       # wp_enqueue_script('supersubs');
-        #wp_enqueue_script('superfish');
+       wp_enqueue_script('supersubs');
     }
 }
 add_action('template_redirect', 'register_suckerfish_dropdown');
 
 
-/*
+/**
 *	JQUERY FOR POST EDIT LINKS
 */
 function thefdt_post_edit_links()
@@ -886,7 +885,7 @@ END;
 
 add_action('fdt_print_dynamic_js', 'thefdt_post_edit_links');
 
-/*
+/**
 *	OPTIONS FRAMEWORK JQUERY
 *
 *	@TODO: [5/21/11] WRITE A JQUERY FUNCTION TO REDUCE REPETIVIVE JQUERY CODE
@@ -1010,7 +1009,7 @@ if (function_exists('of_get_option')) {
 }
 
 
-/*
+/**
 *	OUTPUT CSS RULES FOR BODY FONT
 */
 function body_font_css_output()
@@ -1034,10 +1033,9 @@ print <<<END
 END;
 endif;
 }
-
 add_action('fdt_print_dynamic_css', 'body_font_css_output');
 
-/*
+/**
 *	OUTPUT CSS RULES FOR HREF
 */
 function body_href_link_css_output()
@@ -1062,12 +1060,11 @@ function body_href_link_css_output()
 	}
 END;
 }
-
 if (of_get_option('enable_body_href', false))
     add_action('fdt_print_dynamic_css', 'body_href_link_css_output');
 
 
-/*
+/**
 * APPLY HEADER DIMENSIONS (W)
 */
 function header_dimension_width()
@@ -1075,17 +1072,15 @@ function header_dimension_width()
     return of_get_option('header_width', '125');
 
 }
-
 add_filter('thefdt_header_image_width', 'header_dimension_width');
 
-/*
+/**
  * APPLY HEADER DIMENSIONS (H)
  */
 function header_dimension_height()
 {
     return of_get_option('header_height', '125');
 }
-
 add_filter('thefdt_header_image_height', 'header_dimension_height');
 
 ?>

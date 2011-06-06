@@ -377,7 +377,7 @@ END;
 }
 
 
-/*
+/**
  * JQUERY JCYCLE ACTION FUNCTION
  */
 function jcycle_jquery()
@@ -436,12 +436,16 @@ function adjustHeight(curr, next, opts, fwd) {
 END;
 endif;
 }
+
 add_action('fdt_print_dynamic_js', 'jcycle_jquery');
 
 
 /**
-* BUILD CSS FOR JCYCLE
-*/
+ * BUILD DYNAMIC CSS FOR JCYCLE
+ *
+ * @param null $atts
+ * @return
+ */
 function build_css_jcycle($atts = null)
 {
 
@@ -990,7 +994,6 @@ function css_jcycle()
 add_action('fdt_print_dynamic_css', 'css_jcycle');
 
 
-
 /**
  *  REGISTER SCRIPTS FOR JCYCLE
  */
@@ -998,9 +1001,10 @@ function jcycle_register_script()
 {
     $src = get_stylesheet_directory_uri();
 
-    wp_register_script('smoothdiv', $src . "/js/jquery.smoothdivscroll.js", false, '0.8', false);
-    wp_register_script('jcyclegallery', $src . "/js/jquery.cycle.all.js", array('smoothdiv'), '2.99', false);
+    wp_register_script('smoothdiv', $src . '/js/jquery.smoothdivscroll.js', false, '0.8', false);
+    wp_register_script('jcyclegallery', $src . '/js/jquery.cycle.all.js', array('smoothdiv'), '2.99', false);
 }
+
 add_action('template_redirect', 'jcycle_register_script');
 
 
@@ -1009,10 +1013,9 @@ add_action('template_redirect', 'jcycle_register_script');
  */
 function jcycle_register_style()
 {
-    $src = get_stylesheet_directory_uri();
-
+    wp_register_style('jcycle', get_stylesheet_directory_uri() . '/css/media-galleries/' . 'jcycle.css');
+    wp_enqueue_style('jcycle');
 }
+
 add_action('template_redirect', 'jcycle_register_style');
-
-
 ?>

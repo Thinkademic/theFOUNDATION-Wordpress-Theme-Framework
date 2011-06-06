@@ -64,18 +64,6 @@ if (!function_exists('register_jquery_plugins')) {
         wp_register_script('mousewheel', $src . "/js/jquery.mousewheel.js", false, '3.0.4', false);
         wp_register_script('easing', $src . "/js/jquery.easing.1.2.js", false, '1.1.2', false);
 
-        // CUFON
-        wp_register_script('cufon', $src . "/js/cufon-yui.js", false, '1.09', false);
-
-        // HOVER OVER MENU
-        wp_register_script('superfish', $src . "/js/superfish.js", false, '1.4.8', false);
-        wp_register_script('supersubs', $src . "/js/supersubs.js", false, '0.2b', false);
-
-
-        // ANYTHING SLIDER
-        wp_register_script('anythingslider', $src . "/js/jquery.anythingslider.js", false, '1.4', false);
-        wp_register_script('anythingsliderfx', $src . "/js/jquery.anythingslider.fx.js", false, '1.4', false);
-
     }
 }
 

@@ -29,7 +29,6 @@ function anythingslider_shortcodehandler($atts, $content = null) {
 	return $gallery.$content;
 }
 
-
 /**
  * ANYTHING SLIDER - ECHO FUNCTION
  *
@@ -38,7 +37,6 @@ function anythingslider_shortcodehandler($atts, $content = null) {
 function anythingslider( $atts = null ){
 	echo get_anythingslider( $atts );
 }
-
 
 /**
  * ANYTHING SLIDER - HTML WRAPPER FUNCTION
@@ -142,10 +140,258 @@ function anythingslider_extractMedia( $atts = null ){
 
 }
 
+/**
+ * BUILD CSS FOR ANYTHINGSLIDER
+ *
+ * @param null $atts
+ * @return
+ *
+ */
+function build_css_anythingslider($atts = null)
+{
+    $STYLESHEETURI = get_stylesheet_directory_uri();
+
+    if ($atts == null)
+        return;
+
+    extract($atts, EXTR_SKIP);
+
+    print <<<END
+    
+/*ANYTHING SLIDER*/
+DIV.anythingSlider
+{
+	position: relative;
+	margin: 0 auto;
+	padding: 0;
+	margin-bottom: 35px;
+	background: #101010;
+	border: 1px solid #717171;
+}
+DIV.as-box
+{
+	background: #101010;
+	padding: 10px 3px;
+}
+DIV.as-title
+{
+	padding: 0;
+	margin: 0;
+	/*+placement:shift;*/
+	position: relative;
+	left: 0;
+	top: 0;
+}
+DIV.as-title H3
+{
+	color: #FFF;
+	font-size: 19px;
+	line-height: 1;
+	margin: 0;
+	text-indent: 5px;
+}
+DIV.as-content
+{
+	font-size: 12px;
+	padding: 0 5px;
+	color: #968D8D;
+}
+DIV.anythingSlider .anythingWindow
+{
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+UL.anythingBase
+{
+	background: #101010;
+	list-style: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+}
+UL.anythingBase LI.panel
+{
+	background: transparent;
+	display: block;
+	float: left;
+	padding: 0;
+	margin: 0;
+}
+DIV.anythingSlider LI
+{
+	clear: none !important;
+}
+DIV.anythingSlider .arrow
+{
+	top: 50%;
+	position: absolute;
+	display: block;
+	z-index: 10000000;
+}
+DIV.anythingSlider .arrow A
+{
+	display: block;
+	height: 120px;
+	margin: -60px 0 0;
+	width: 45px;
+	text-align: center;
+	outline: 0;
+	background: url({$STYLESHEETURI}/images/anythingslider/arrows-default.png) no-repeat;
+	text-indent: -9999px;
+}
+DIV.anythingSlider .forward
+{
+	right: 0;
+	/*[empty]background:;*/
+}
+DIV.anythingSlider .back
+{
+	left: 0;
+}
+DIV.anythingSlider .forward A
+{
+	background-position: -1px -39px;
+}
+DIV.anythingSlider .back A
+{
+	background-position: -88px -40px;
+}
+DIV.anythingSlider .forward A:hover, DIV.anythingSlider .forward A.hover
+{
+	background-position: 11px -245px;
+}
+DIV.anythingSlider .back A:hover, DIV.anythingSlider .back A.hover
+{
+	background-position: -101px -244px;
+}
+DIV.anythingSlider .anythingControls
+{
+	outline: 0;
+	background: url({$STYLESHEETURI}/images/gradient/black70.png);
+	margin: 0;
+	padding: 5px 0px;
+	width: 100%;
+	/*+placement:anchor-bottom-left 0px -28px;*/
+	position: absolute;
+	left: 0px;
+	bottom: -28px;
+}
+DIV.anythingSlider.activeSlider .thumbNav A
+{
+}
+DIV.anythingSlider.activeSlider .thumbNav A.cur
+{
+	color: #1A1A1A;
+}
+DIV.anythingSlider .thumbNav
+{
+	width: 90%;
+	margin: 0 auto 0 5px;
+}
+DIV.anythingSlider .thumbNav LI
+{
+	display: inline;
+	height: 18px;
+}
+DIV.anythingSlider .thumbNav A
+{
+	display: inline-block;
+	text-decoration: none;
+	padding: 3px 3px 3px 9px;
+	height: 18px;
+	text-align: center;
+	color: #FFFFFF;
+	outline: none;
+	width: 4px;
+	height: 12px;
+	text-indent: -9999em;
+	background: url({$STYLESHEETURI}/images/anythingslider/button.png) no-repeat center;
+}
+DIV.anythingSlider .thumbNav A:hover
+{
+	background: url({$STYLESHEETURI}/images/anythingslider/buttonon.png) no-repeat center;
+}
+DIV.anythingSlider.activeSlider .thumbNav A.cur
+{
+	background: url({$STYLESHEETURI}/images/anythingslider/buttonon.png) no-repeat center;
+}
+DIV.anythingSlider.rtl .thumbNav A
+{
+	float: right;
+}
+DIV.anythingSlider.rtl .thumbNav
+{
+	float: right;
+}
+DIV.anythingSlider .start-stop
+{
+	padding: 5px;
+	background: #69BD1B;
+	color: #444;
+	font-size: 10px;
+	margin: 2%;
+	line-height: 6px;
+	font-style: italic;
+	height: 8px;
+	text-align: center;
+	text-decoration: none;
+	z-index: 100;
+	width: 5%;
+	outline: 0;
+	/*+border-radius:3px;*/
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px 3px 3px 3px;
+	/*+placement:anchor-top-right -5px 5px;*/
+	position: absolute;
+	right: -5px;
+	top: 5px;
+}
+DIV.anythingSlider .start-stop.playing
+{
+	background: #B28;
+	color: #FFFFFF;
+}
+DIV.anythingSlider .start-stop:hover, DIV.anythingSlider .start-stop.hover
+{
+	color: #333;
+}
+DIV.anythingSlider .start-stop:hover, DIV.anythingSlider .start-stop.hover
+{
+	background-image: none;
+}
 
 
+END;
 
+}
 
+/**
+ * CSS ANYTHINGSLIDER ACTION FUNCTION
+ *
+ * @NOTE NOT GOING TO USED DYNAMICALLY GENERATED CSS FOR ANYTHINGSLIDER
+ */
+function css_anythingslider()
+{
+    $atts = array(
+        'width' => 100
+    );
+
+    #build_css_anythingslider($atts);
+}
+add_action('fdt_print_dynamic_css', 'css_anythingslider');
+
+/**
+ * BUILD_ANYTHINGSLIDER_JQUERY
+ * 
+ * @param null $atts
+ * @return
+ */
 function build_anythingslider_jquery( $atts = null ){
 
 	if($atts == null)
@@ -219,24 +465,9 @@ jQuery(document).ready(function($) {
 END;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**************************************************************
- JQUERY FOR ANYTHINGSLIDER
-**************************************************************/
+/**
+ * JQUERY FOR ANYTHINGSLIDER
+ */
 function anythingslider_jquery() {
 
 	$pass_postid = explode( "-", get_query_var('jqids') );
@@ -295,34 +526,24 @@ endif;
 }
 add_action('fdt_print_dynamic_js','anythingslider_jquery');
 
-
-
-
-
-/*
+/**
  *  REGISTER SCRIPTS FOR ANYTHING SLIDER
  */
 function anythingslider_register_script()
 {
     $src = get_stylesheet_directory_uri();
-    wp_register_script('anythingslider', $src . "/js/jquery.anythingslider.js", array('anythingsliderfx'), '1.4', false);
+    wp_register_script('anythingslider', $src . "/js/jquery.anythingslider.js", array('jquery', 'anythingsliderfx'), '1.4', false);
     wp_register_script('anythingsliderfx', $src . "/js/jquery.anythingslider.fx.js", false, '1.4', false);
 }
 add_action('template_redirect', 'anythingslider_register_script');
 
-
-/*
+/**
  *  REGISTER STYLE FOR ANYTHING SLIDER
  */
 function anythingslider_register_style()
 {
-    wp_register_style('anythingslider', get_stylesheet_directory_uri() . '/css/' . 'anythingslider.css');
+    wp_register_style('anythingslider', get_stylesheet_directory_uri() . '/css/media-galleries/' . 'anythingslider.css');
+    wp_enqueue_style('anythingslider');
 }
 add_action('template_redirect', 'anythingslider_register_style');
-
-
-
-
-
-
 ?>

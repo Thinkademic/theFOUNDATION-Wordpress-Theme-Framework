@@ -1,122 +1,111 @@
 <?php
 
 /**************************************************************
- NIVOSLIDER - TEMPLATE TAG
-**************************************************************/
-function show_nivoslider() {
-	global $post;
-	
-	$meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
+NIVOSLIDER - TEMPLATE TAG
+ **************************************************************/
+function show_nivoslider()
+{
+    global $post;
 
-	if( $meta["gallery_type"] == "nivoslider" ):	
-		$atts = postmeta_gallery_array();			
-		echo nivoslider( $atts );		
-	endif;
+    $meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
+
+    if ($meta["gallery_type"] == "nivoslider"):
+        $atts = postmeta_gallery_array();
+        echo nivoslider($atts);
+    endif;
 }
 
 /**************************************************************
- NIVOSLIDER - SHORT CODE
-**************************************************************/
+NIVOSLIDER - SHORT CODE
+ **************************************************************/
 add_shortcode('nivoslider', 'nivoslider_shortcodehandler');
 
-function nivoslider_shortcodehandler($atts, $content = null) {
+function nivoslider_shortcodehandler($atts, $content = null)
+{
 
-	$atts = shortcode_atts(array(
-		"imagesize" => 'thumbnail',
-		"orderby" => 'menu_order'
-	), $atts);
+    $atts = shortcode_atts(array(
+                                "imagesize" => 'thumbnail',
+                                "orderby" => 'menu_order'
+                           ), $atts);
 
-	$gallery = get_nivoslider( $atts );
-	return $gallery.$content;
-}
-
-
-
-/**************************************************************
- NIVOSLIDER - ECHO FUNCTION
-**************************************************************/
-function nivoslider( $atts = null ) {
-	echo get_nivoslider( $atts );
+    $gallery = get_nivoslider($atts);
+    return $gallery . $content;
 }
 
 
 /**************************************************************
- NIVOSLIDER - XHMTL WRAPPER FUNCTION
-**************************************************************/
-function get_nivoslider( $atts = null ) {
-		global $wp_query, $post, $paged;
+NIVOSLIDER - ECHO FUNCTION
+ **************************************************************/
+function nivoslider($atts = null)
+{
+    echo get_nivoslider($atts);
+}
 
-		$return = "\n".'<div class="nivoslider">';
-			$return .= nivoslider_extractMedia( $atts );
-		$return .= "</div>";
 
-		return $return;
+/**************************************************************
+NIVOSLIDER - XHMTL WRAPPER FUNCTION
+ **************************************************************/
+function get_nivoslider($atts = null)
+{
+    global $wp_query, $post, $paged;
+
+    $return = "\n" . '<div class="nivoslider">';
+    $return .= nivoslider_extractMedia($atts);
+    $return .= "</div>";
+
+    return $return;
 }
 
 /**************************************************************
- NIVOSLIDER
-**************************************************************/
-function nivoslider_extractMedia( $atts = null ) {
-		global $wp_query, $post, $paged, $post_count;
+NIVOSLIDER
+ **************************************************************/
+function nivoslider_extractMedia($atts = null)
+{
+    global $wp_query, $post, $paged, $post_count;
 
-		$defaults = array (
-			'targetid' => $post->ID,
-			'querytype' => 'attachment',
-			'imagesize' => 'medium',
-			'orderby' => 'menu_order'
-		);
-		$atts = wp_parse_args( $atts, $defaults );					
-		extract( $atts, EXTR_SKIP );
-		$query_args = build_query_array($atts);		
-		
-		$temp = $wp_query;
-		$wp_query= null;	
+    $defaults = array(
+        'targetid' => $post->ID,
+        'querytype' => 'attachment',
+        'imagesize' => 'medium',
+        'orderby' => 'menu_order'
+    );
+    $atts = wp_parse_args($atts, $defaults);
+    extract($atts, EXTR_SKIP);
+    $query_args = build_query_array($atts);
 
-		$wp_query = new WP_Query();
-		$wp_query->query($query_args);
+    $temp = $wp_query;
+    $wp_query = null;
 
-		while ($wp_query->have_posts()) : $wp_query->the_post();	
-			$slidereturn .= 
-			'
-				'.retrieve_media( $querytype, $imagesize ).'			
+    $wp_query = new WP_Query();
+    $wp_query->query($query_args);
+
+    while ($wp_query->have_posts()) : $wp_query->the_post();
+                                      $slidereturn .=
+                                              '
+				' . retrieve_media($querytype, $imagesize) . '
 			';
-		endwhile;
+    endwhile;
 
-		$wp_query = null; $wp_query = $temp;
-		wp_reset_query();
-		return $slidereturn;
+    $wp_query = null;
+    $wp_query = $temp;
+    wp_reset_query();
+    return $slidereturn;
 
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
+/**
  *	BUILD THE JQUERY
  */
-function build_jquery_nivoslider( $atts = null ) {
+function build_jquery_nivoslider($atts = null)
+{
 
-	if($atts == null)
-	return;
+    if ($atts == null)
+        return;
 
-	extract( $atts, EXTR_SKIP );
+    extract($atts, EXTR_SKIP);
 
-	print <<<END
+    print <<<END
 
 /*
  *	NIVOSLIDER
@@ -160,55 +149,54 @@ END;
 }
 
 
-
-
-/*
+/**
  *	JQUERY FOR NIVOSLIDER
  */
-function jquery_nivoslider() {
+function jquery_nivoslider()
+{
 
-	$pass_postid = explode( "-", get_query_var('jqids') );
-	$more_jquery_functions = false;
-	
-	foreach ($pass_postid as $key => $postid) {
+    $pass_postid = explode("-", get_query_var('jqids'));
+    $more_jquery_functions = false;
 
-		$meta = get_post_meta($postid, THEMECUSTOMMETAKEY, true);
-		
-		$buildarrows = checkbox_truefalse($meta["gallery_enablenextprev"]);	
-		$delay = set_default_value( $meta["nivoslider_delay"], 2500 );	
-		$effect = set_default_value( $meta["nivoslider_effect"], "fade" );	
-		if( $meta["gallery_imagesize"] != "" ) :
-			$width = get_option($meta["gallery_imagesize"].'_size_w');
-			$height = get_option($meta["gallery_imagesize"].'_size_h');	
-		else:
-			$width = get_option('medium_size_w');
-			$height = get_option('medium_size_h');
-		endif;
+    foreach ($pass_postid as $key => $postid) {
 
-		$autoplay = checkbox_truefalse($meta["gallery_autoplay"]);	
-		if ($autoplay == 'false')
-			$autoplay = '$(".post-'.$postid.' .nivoslider").data("nivoslider").stop(); //Stop the Slider';
-		else
-			$autoplay = "";
-			
-		$atts = array( 
-			'postid' => $postid,
-			'meta' => $meta,
-			'fx' => $fx,
-			'delay' => $delay,
-			'autoplay' => $autoplay,
-			'effect' => $effect,
-			'buildarrows' => $buildarrows
-			);
-			
-		if($meta["gallery_type"] == "nivoslider" ):
-			build_jquery_nivoslider($atts);
-			$more_jquery_functions = true;
-		endif;	
-	
-	}	
-		
-if( $more_jquery_functions ) :		
+        $meta = get_post_meta($postid, THEMECUSTOMMETAKEY, true);
+
+        $buildarrows = checkbox_truefalse($meta["gallery_enablenextprev"]);
+        $delay = set_default_value($meta["nivoslider_delay"], 2500);
+        $effect = set_default_value($meta["nivoslider_effect"], "fade");
+        if ($meta["gallery_imagesize"] != "") :
+            $width = get_option($meta["gallery_imagesize"] . '_size_w');
+            $height = get_option($meta["gallery_imagesize"] . '_size_h');
+        else:
+            $width = get_option('medium_size_w');
+            $height = get_option('medium_size_h');
+        endif;
+
+        $autoplay = checkbox_truefalse($meta["gallery_autoplay"]);
+        if ($autoplay == 'false')
+            $autoplay = '$(".post-' . $postid . ' .nivoslider").data("nivoslider").stop(); //Stop the Slider';
+        else
+            $autoplay = "";
+
+        $atts = array(
+            'postid' => $postid,
+            'meta' => $meta,
+            'fx' => $fx,
+            'delay' => $delay,
+            'autoplay' => $autoplay,
+            'effect' => $effect,
+            'buildarrows' => $buildarrows
+        );
+
+        if ($meta["gallery_type"] == "nivoslider"):
+            build_jquery_nivoslider($atts);
+            $more_jquery_functions = true;
+        endif;
+
+    }
+
+    if ($more_jquery_functions) :
 print <<<END
 
 END;
@@ -216,19 +204,26 @@ endif;
 
 
 }
-add_action('fdt_print_dynamic_js','jquery_nivoslider');
+add_action('fdt_print_dynamic_js', 'jquery_nivoslider');
 
+/**
+ * BUILD CSS FOR DYNAMIC CSS FILE
+ * 
+ * @param null $atts
+ * @return
+ *
+ */
+function build_css_nivoslider($atts = null)
+{
 
+    $STYLESHEETURI = get_stylesheet_directory_uri();
 
+    if ($atts == null)
+        return;
 
-function build_css_nivoslider( $atts = null ) {
+    extract($atts, EXTR_SKIP);
 
-if($atts == null)
-return;
-
-extract( $atts, EXTR_SKIP );	
-
-print <<<END
+    print <<<END
 
 /* The Nivo Slider styles */
 .nivoslider {
@@ -295,7 +290,7 @@ print <<<END
 	top:45%;
 	z-index:9;
 	cursor:pointer;
-	background: url({$STYLESHEETPATH}/images/gradient/black50.png) repeat top left;
+	background: url({$STYLESHEETURI}/images/gradient/black50.png) repeat top left;
 	display: block;
 	padding: 5px 10px;
 	color: #fff;
@@ -327,7 +322,7 @@ print <<<END
 	display: inline-block;
 	width: 22px;
 	height: 22px;
-	background: url({$STYLESHEETPATH}/images/bullets/black.png) no-repeat center center;
+	background: url({$STYLESHEETURI}/images/bullets/black.png) no-repeat center center;
 	text-indent: -9999px;
 	border: 0;
 	margin-right: 3px;
@@ -336,7 +331,7 @@ print <<<END
 }
 .nivoslider .nivo-controlNav A.active, 	.nivoslider .nivo-controlNav A:hover
 {
-	background: url({$STYLESHEETPATH}/images/bullets/green.png) no-repeat center center;
+	background: url({$STYLESHEETURI}/images/bullets/green.png) no-repeat center center;
 }
 
 END;
@@ -344,42 +339,38 @@ END;
 }
 
 
-
-
-
 /**************************************************************
- CSS FOR NIVOSLIDER
-**************************************************************/
-function css_nivoslider() {
-	
-	$pass_postid = explode( "-", get_query_var('cssids') );
-	
-	foreach ($pass_postid as $key => $postid) {	
-		$meta = get_post_meta($postid, THEMECUSTOMMETAKEY, true);	
-		$STYLESHEETPATH = get_stylesheet_directory_uri();;
-		
-		if($meta["gallery_imagesize"] != "" ){	
-			$width = get_option($meta["gallery_imagesize"].'_size_w');
-			$height = get_option($meta["gallery_imagesize"].'_size_h');	
-		} else {
-			$width = get_option('medium_size_w');
-			$height = get_option('medium_size_h');
-		}	
-				
-		$atts = array( 
-				'width' => $width,
-				'height' => $height,
-				'STYLESHEETPATH' => $STYLESHEETPATH
-			);
-				
-		if($meta["gallery_type"] == "nivoslider" ):
-				build_css_nivoslider($atts);
-				$more_jquery_functions = true;
-		endif;	
-	
-	}		
+CSS FOR NIVOSLIDER
+ **************************************************************/
+function css_nivoslider()
+{
+
+    $pass_postid = explode("-", get_query_var('cssids'));
+
+    foreach ($pass_postid as $key => $postid) {
+        $meta = get_post_meta($postid, THEMECUSTOMMETAKEY, true);
+
+        if ($meta["gallery_imagesize"] != "") {
+            $width = get_option($meta["gallery_imagesize"] . '_size_w');
+            $height = get_option($meta["gallery_imagesize"] . '_size_h');
+        } else {
+            $width = get_option('medium_size_w');
+            $height = get_option('medium_size_h');
+        }
+
+        $atts = array(
+            'width' => $width,
+            'height' => $height
+        );
+
+        if ($meta["gallery_type"] == "nivoslider"):
+            build_css_nivoslider($atts);
+            $more_jquery_functions = true;
+        endif;
+
+    }
 }
-add_action('fdt_print_dynamic_css','css_nivoslider');
+add_action('fdt_print_dynamic_css', 'css_nivoslider');
 
 
 /**
@@ -393,7 +384,7 @@ function nivoslider_register_script()
 add_action('template_redirect', 'nivoslider_register_script');
 
 
-/*
+/**
  *  REGISTER STYLE FOR NIVOSLIDER
  *
  * @TODO: PAIR UP EQUIVALENT CSS FILE FOR NIVOSLIDER
