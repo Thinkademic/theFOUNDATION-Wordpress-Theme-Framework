@@ -383,7 +383,7 @@ add_action('fdt_print_dynamic_css','css_nivoslider');
 
 
 /**
- *  REGISTER SCRIPTS FOR JCYCLE
+ *  REGISTER SCRIPTS FOR NIVOSLIDER
  */
 function nivoslider_register_script()
 {
@@ -393,8 +393,10 @@ function nivoslider_register_script()
 add_action('template_redirect', 'nivoslider_register_script');
 
 
-/**
- *  REGISTER STYLE FOR JYCLE
+/*
+ *  REGISTER STYLE FOR NIVOSLIDER
+ *
+ * @TODO: PAIR UP EQUIVALENT CSS FILE FOR NIVOSLIDER
  */
 function nivoslider_register_style()
 {
