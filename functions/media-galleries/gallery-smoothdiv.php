@@ -160,8 +160,14 @@ endif;
 add_action('fdt_print_dyanmic_galleries_js','anythingslider_jquery');
 
 
+/**
+ * Register Smooth Div Scroll Script
+ */
+function register_smoothdiv_script(){
 
+    $src = get_stylesheet_directory_uri();
+    wp_register_script('smoothdiv', $src . "/js/jquery.smoothdivscroll.js", false, '0.8', false);
 
-
-
+}
+add_action('template_redirect', 'register_smoothdiv_script');
 ?>

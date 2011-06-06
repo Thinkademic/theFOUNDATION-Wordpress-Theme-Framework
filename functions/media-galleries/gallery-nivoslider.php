@@ -382,7 +382,26 @@ function css_nivoslider() {
 add_action('fdt_print_dynamic_css','css_nivoslider');
 
 
+/**
+ *  REGISTER SCRIPTS FOR JCYCLE
+ */
+function nivoslider_register_script()
+{
+    $src = get_stylesheet_directory_uri();
+    wp_register_script('nivoslider', $src . "/js/jquery.nivo.slider.js", false, '2.5.1', false);
+}
+add_action('template_redirect', 'nivoslider_register_script');
 
+
+/**
+ *  REGISTER STYLE FOR JYCLE
+ */
+function nivoslider_register_style()
+{
+    $src = get_stylesheet_directory_uri();
+
+}
+add_action('template_redirect', 'nivoslider_register_style');
 
 
 ?>

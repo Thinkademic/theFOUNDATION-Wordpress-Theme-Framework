@@ -6,17 +6,17 @@
  */
 
 
-/**
+/*
  *	LOAD MEDIA GALLERIES
  */
+require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-smoothdiv.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-thefoundation.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-jcycle.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-nivoslider.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-anythingslider.php');
-require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-smoothdiv.php');
+require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-portfoliomaker.php');
 
-
-/**
+/*
  * DISPLAY SELECTED GALLERY ASSOCIATED WITH POST/PAGE/CUSTOM POST TYPE
  *
  * THE GALLERY IS SELECTED USING A METABOX
@@ -40,7 +40,7 @@ function show_mediagalleries($targetid = null)
 }
 
 
-/**
+/*
  * ADDS OUR GALLERY OPTION META BOX TO
  *
  * ADMIN EDIT POST/PAGES/CUSTOM POSTTYPES
@@ -55,7 +55,7 @@ if (!function_exists('create_layout_options')) {
 }
 
 
-/**
+/*
  * UNIVERSAL OPTIONS ARRAY, WILL BE USED BY ALL GALLERIES
  *
  * @param null $targetid
@@ -160,10 +160,10 @@ function postmeta_gallery_array($targetid = null)
 
 
 /*
-*	CREATE A DROPDOWN LISTING OF POSSIBLE IMAGE SIZES
-*
-*	TODO: INCORPORATE CUSTOM SIZES
-*/
+ *	CREATE A DROPDOWN LISTING OF POSSIBLE IMAGE SIZES
+ *
+ *	@TODO: INCORPORATE CUSTOM SIZES
+ */
 function gallery_dropdown($meta_key = "", $customfieldname, $labeldecription)
 {
 
@@ -216,10 +216,10 @@ function gallery_dropdown($meta_key = "", $customfieldname, $labeldecription)
 
 
 /*
-*	MEDIA GALLERY LAYOUT OPTIONS CLASS
-*	
-*	@TODO WRITE A MORE EXTENSIBLE CLASS AND PACKAGE AS A PLUGIN
-*/
+ *	MEDIA GALLERY LAYOUT OPTIONS CLASS
+ *
+ *	@TODO WRITE A MORE EXTENSIBLE CLASS AND PACKAGE AS A PLUGIN
+ */
 class create_layout_options
 {
 

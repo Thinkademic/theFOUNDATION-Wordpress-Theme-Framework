@@ -1,9 +1,7 @@
 <?php
-
-
-/**************************************************************
- ANYTHING SLIDER - TEMPLATE TAG
-**************************************************************/
+/**
+ * ANYTHING SLIDER - TEMPLATE TAG
+ */
 function show_anythingslider() {
 	global $post;
 	
@@ -16,9 +14,9 @@ function show_anythingslider() {
 	
 }
 
-/**************************************************************
- ANYTHING SLIDER - SHORTCODE FUNCTION
-**************************************************************/
+/**
+ * ANYTHING SLIDER - SHORT CODE FUNCTION
+ */
 add_shortcode('anythingslidergallery', 'anythingslider_shortcodehandler');
 function anythingslider_shortcodehandler($atts, $content = null) {
 
@@ -32,17 +30,22 @@ function anythingslider_shortcodehandler($atts, $content = null) {
 }
 
 
-/**************************************************************
- ANYTHING SLIDER - ECHO FUNCTION
-**************************************************************/
+/**
+ * ANYTHING SLIDER - ECHO FUNCTION
+ *
+ * @param null $atts
+ */
 function anythingslider( $atts = null ){
 	echo get_anythingslider( $atts );
 }
 
 
-/**************************************************************
- ANYTHING SLIDER - XHTML WRAPPER FUNCTION
-**************************************************************/
+/**
+ * ANYTHING SLIDER - HTML WRAPPER FUNCTION
+ *
+ * @param null $atts
+ * @return string
+ */
 function get_anythingslider( $atts = null ) {
 	global $wp_query, $post, $paged, $post_count;
 
@@ -63,9 +66,13 @@ function get_anythingslider( $atts = null ) {
 	return $content;
 }
 
-/**************************************************************
- ANYTHING SLIDER
-**************************************************************/
+/**
+ * ANYTHING SLIDER
+ *
+ * @TODO : CHANGE CAMELCASE ON FUNCTION NAME TO LOWERCASE
+ * @param null $atts
+ * @return string
+ */
 function anythingslider_extractMedia( $atts = null ){
 		global $wp_query, $post, $paged, $post_count;
 
@@ -152,7 +159,7 @@ print <<<END
 	ANYTHINGSLIDER FOR {$postid} 
 *****************************/
 
-$(function(){
+jQuery(document).ready(function($) {
 	
 	$('.post-{$postid} #slider').anythingSlider({
 			
@@ -292,6 +299,26 @@ add_action('fdt_print_dynamic_js','anythingslider_jquery');
 
 
 
+/*
+ *  REGISTER SCRIPTS FOR ANYTHING SLIDER
+ */
+function anythingslider_register_script()
+{
+    $src = get_stylesheet_directory_uri();
+    wp_register_script('anythingslider', $src . "/js/jquery.anythingslider.js", array('anythingsliderfx'), '1.4', false);
+    wp_register_script('anythingsliderfx', $src . "/js/jquery.anythingslider.fx.js", false, '1.4', false);
+}
+add_action('template_redirect', 'anythingslider_register_script');
+
+
+/*
+ *  REGISTER STYLE FOR ANYTHING SLIDER
+ */
+function anythingslider_register_style()
+{
+    wp_register_style('anythingslider', get_stylesheet_directory_uri() . '/css/' . 'anythingslider.css');
+}
+add_action('template_redirect', 'anythingslider_register_style');
 
 
 

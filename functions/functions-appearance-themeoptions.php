@@ -36,7 +36,7 @@ if (!function_exists('of_get_option')) {
 }
 
 
-/*
+/**
 *	ALTERNATIVE LAYOUT STYLESHEETS READER
 */
 function find_alternative_styles()
@@ -57,7 +57,7 @@ function find_alternative_styles()
     return $alt_stylesheets;
 }
 
-/*	
+/**
 *	FIND LAYOUTS 
 *	NEEDS TO WORK
 */
@@ -81,10 +81,10 @@ function find_layouts()
     return $layouts;
 }
 
-/*
+/**
 * FIND  A DEFAULT LAYOUT TO USE
 *
-* @TODO| SEARCHES FOR DEFAULT.CSS IF NOT FOUND, SEARCH FOR FIRST CSS FILE
+* @TODO SEARCHES FOR DEFAULT.CSS IF NOT FOUND, SEARCH FOR FIRST CSS FILE
 * @RETURN | SHOULD RETURN A FILE NAME AS A STRING
 */
 function find_default_layout()
@@ -93,7 +93,7 @@ function find_default_layout()
     return $default;
 }
 
-/*
+/**
 *	FIND LAYOUT  FOR CURRENT TEMPLATE,
 */
 function layout_for_current_template()
@@ -170,10 +170,10 @@ function replace_excerpt_more($more)
 add_filter('excerpt_more', 'replace_excerpt_more', 20);
 
 
-/*
+/**
 *	READ FONT NAME PARSER, ONLY FINDS FIRST INSTANCE
 *
-*	TODO : RETURN ARRAY WITH ALL FONT FAMILY DEFINTIONS IN A FILE
+*	@TODO RETURN ARRAY WITH ALL FONT FAMILY DEFINTIONS IN A FILE
 */
 function read_font_name($inputStr, $delimeterLeft, $delimeterRight, $debug = false)
 {
@@ -197,9 +197,24 @@ function read_font_name($inputStr, $delimeterLeft, $delimeterRight, $debug = fal
     return substr($inputStr, $posLeft, $posRight - $posLeft);
 }
 
-/*
-* OUTPUT CUFON RULES TO OUR DYNAMICALLY GENERATED JS FILE
-*/
+/**
+ *  REGISTER CUFON
+ */
+function cufon_register_script(){
+    $load = of_get_option('enable_cufon_support', false);
+
+    $src = get_stylesheet_directory_uri();
+    wp_register_script('cufon', $src . "/js/cufon-yui.js", false, '1.09', false);
+
+    if($load)
+        wp_enqueue('cufon');
+
+}
+add_action('template_redirect', 'cufon_register_script');
+
+/**
+ * OUTPUT CUFON RULES TO OUR DYNAMICALLY GENERATED JS FILE
+ */
 function enable_cufon_rules()
 {
     $enable_cufon_support = of_get_option('enable_cufon_support', false);
@@ -212,9 +227,10 @@ function enable_cufon_rules()
 
 add_action('fdt_print_dynamic_js', 'enable_cufon_rules');
 
-/*	
-*	FIND CUFON FONT-FAMILY NAMES
-*/
+/**
+ * FIND CUFON FONT-FAMILY NAMES
+ * @return array
+ */
 function find_cufon_fonts()
 {
 
@@ -820,8 +836,26 @@ END;
 
     }
 }
-
 add_action('fdt_print_dynamic_js', 'enable_suckerfish_dropdown');
+
+/**
+ * REGISTER SUCKERFISH MENU
+ */
+function register_suckerfish_dropdown(){
+    $src = get_stylesheet_directory_uri();
+
+    wp_register_script('superfish', $src . "/js/superfish.js", false, '1.4.8', false);
+    wp_register_script('supersubs', $src . "/js/supersubs.js", false, '0.2b', false);
+
+    $enable_dropdown = of_get_option('enable_suckerfish_dropdown', false);
+
+    if($enable_dropdown){
+       # wp_enqueue_script('supersubs');
+        #wp_enqueue_script('superfish');
+    }
+}
+add_action('template_redirect', 'register_suckerfish_dropdown');
+
 
 /*
 *	JQUERY FOR POST EDIT LINKS

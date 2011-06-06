@@ -64,33 +64,17 @@ if (!function_exists('register_jquery_plugins')) {
         wp_register_script('mousewheel', $src . "/js/jquery.mousewheel.js", false, '3.0.4', false);
         wp_register_script('easing', $src . "/js/jquery.easing.1.2.js", false, '1.1.2', false);
 
+        // CUFON
         wp_register_script('cufon', $src . "/js/cufon-yui.js", false, '1.09', false);
 
+        // HOVER OVER MENU
         wp_register_script('superfish', $src . "/js/superfish.js", false, '1.4.8', false);
         wp_register_script('supersubs', $src . "/js/supersubs.js", false, '0.2b', false);
 
-        #	wp_register_script('crossslide', 	$src."/js/jquery.cross-slide.js", false, '0.3.3', false);
-        wp_register_script('jcyclegallery', $src . "/js/jquery.cycle.all.js", false, '2.99', false);
 
-        wp_register_script('filterable', $src . "/js/filterable.js", false, '', false);
-        wp_register_script('scrollto', $src . "/js/jquery.scrollTo.js", false, '1.4.2', false);
-        wp_register_script('localscroll', $src . "/js/jquery.localscroll.js", false, '1', false);
-        wp_register_script('serialscroll', $src . "/js/jquery.serialScroll.js", false, '1.4.2', false);
-        wp_register_script('smoothdiv', $src . "/js/jquery.smoothdivscroll.js", false, '0.8', false);
-
+        // ANYTHING SLIDER
         wp_register_script('anythingslider', $src . "/js/jquery.anythingslider.js", false, '1.4', false);
         wp_register_script('anythingsliderfx', $src . "/js/jquery.anythingslider.fx.js", false, '1.4', false);
-        wp_register_script('jscrollpane', $src . "/js/jquery.jscrollpane.min.js", false, '2.0', false);
-
-        wp_register_script('fancytransitions', $src . "/js/jquery.fancytransitions.1.8.js", false, '1.8', false);
-        wp_register_script('coinslider', $src . "/js/jquery.coinslider.min.js", false, '1.0', false);
-
-        wp_register_script('orbit', $src . "/js/jquery.orbit.js", false, '1.1', false);
-
-        wp_register_script('fancybox', $src . "/js/jquery.fancybox-1.3.1.js", false, '1.31', false);
-        wp_register_script('qtip', $src . "/js/jquery.qtip.js", false, '1.0.0r3', false);
-
-        wp_register_script('jqueryscripts', $src . "/js/jqueryscripts.js", false, '1', false);
 
     }
 }

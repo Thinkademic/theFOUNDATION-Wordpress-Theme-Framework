@@ -87,7 +87,7 @@ function add_dynamic_css()
 
 
 /*
-* AUTO ENQUE CSS FILES LOCATED IN FOLDER
+* AUTO ENQUEUE CSS FILES LOCATED IN FOLDER
 *
 * @TODO Format code
 * @TODO Improve security and Error handling

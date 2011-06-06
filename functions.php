@@ -1,6 +1,6 @@
 <?php
 /****
- * functions/functions.php
+ * functions.php
  *
  * STORES FRAMEWORK FUNCTIONS
  */
