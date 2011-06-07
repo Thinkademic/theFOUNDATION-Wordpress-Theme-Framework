@@ -1013,8 +1013,17 @@ add_action('template_redirect', 'jcycle_register_script');
  */
 function jcycle_register_style()
 {
+    global $posts;
+
     wp_register_style('jcycle', get_stylesheet_directory_uri() . '/css/media-galleries/' . 'jcycle.css');
-    wp_enqueue_style('jcycle');
+
+    foreach ($posts as $post) {
+        $meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
+
+        if ($meta["gallery_type"] == "jcyclegallery"):
+            wp_enqueue_style('jcycle');
+        endif;
+    }
 }
 
 add_action('template_redirect', 'jcycle_register_style');

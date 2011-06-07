@@ -542,8 +542,18 @@ add_action('template_redirect', 'anythingslider_register_script');
  */
 function anythingslider_register_style()
 {
+    global $posts;
+
     wp_register_style('anythingslider', get_stylesheet_directory_uri() . '/css/media-galleries/' . 'anythingslider.css');
-    wp_enqueue_style('anythingslider');
+
+    foreach ($posts as $post) {
+        $meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
+
+        if ($meta["gallery_type"] == "anythingslider"):
+            wp_enqueue_style('anythingslider');
+        endif;
+    }
+
 }
 add_action('template_redirect', 'anythingslider_register_style');
 ?>
