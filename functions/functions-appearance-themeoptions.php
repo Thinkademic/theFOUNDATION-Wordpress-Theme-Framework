@@ -670,10 +670,10 @@ function thefdt_get_loop_content()
 
     // GRAB THE RIGHT OPTION VALUE
     $content_display = of_get_option($current_template . "_content", array(
-                                                                          'show_mediagalleries' => true,
-                                                                          'the_post_thumbnail' => true,
+                                                                          'show_mediagalleries' => false,
+                                                                          'the_post_thumbnail' => false,
                                                                           'the_content' => true,
-                                                                          'the_excerpt' => true
+                                                                          'the_excerpt' => false
                                                                      )
     );
 

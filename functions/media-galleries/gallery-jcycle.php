@@ -1010,12 +1010,17 @@ add_action('template_redirect', 'jcycle_register_script');
 
 /**
  *  REGISTER STYLE FOR JYCLE
+ *
+ * @TODO ADD CONDITIONAL FOR WHETHER SHOW MEDIA GALLERIES IS BEING USED
  */
 function jcycle_register_style()
 {
     global $posts;
 
     wp_register_style('jcycle', get_stylesheet_directory_uri() . '/css/media-galleries/' . 'jcycle.css');
+
+    // FIND THE CURRENT TEMPLATE
+    $current_template = thefdt_get_current_template();
 
     foreach ($posts as $post) {
         $meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
