@@ -248,7 +248,7 @@ function cufon_register_script(){
     wp_register_script('cufon', $src . "/js/cufon-yui.js", false, '1.09', false);
 
     if($load)
-        wp_enqueue('cufon');
+        wp_enqueue_script('cufon');
 }
 add_action('template_redirect', 'cufon_register_script');
 
