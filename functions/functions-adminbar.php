@@ -9,6 +9,8 @@
 
 /**
  * theFOUNDATION ADMIN BAR LINKS
+ *
+ * @PLUGGABLE
  */
 if (!function_exists('fdt_admin_bar_menu')) {
 	function fdt_admin_bar_menu() {
@@ -17,11 +19,11 @@ if (!function_exists('fdt_admin_bar_menu')) {
 			return;
 
 		$menu_id = 'fdt_custom_admin_menu';	
-		$htmlstyle = 	'<span style="display: block; padding: 0px 10px 5px 15px; font-size: 10px; color: black;">';
+		$htmlstyle = 	'<span style="display: block; line-height: 1em; padding: 0px 10px 5px 15px; font-size: 12px; color: black;">';
 			
 		$wp_admin_bar->add_menu( array(
 			'id' => $menu_id,
-			'title' => __( ':-)'),
+			'title' => __( 'theFOUNDATION :-)'),
 			'href' => FALSE ) 
 		);
 		
@@ -125,5 +127,5 @@ if (!function_exists('fdt_admin_bar_menu')) {
 		
 	}
 }
-#add_action('admin_bar_menu', 'fdt_admin_bar_menu', 999);
+add_action('admin_bar_menu', 'fdt_admin_bar_menu', 999);
 ?>

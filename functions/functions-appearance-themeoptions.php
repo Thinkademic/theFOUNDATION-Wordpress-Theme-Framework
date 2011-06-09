@@ -58,6 +58,33 @@ function find_alternative_styles()
 }
 
 /**
+* FIND A DEFAULT STYLE TO USE
+*
+* SEARCH FOR FIRST CSS FILE AVAILIABLE
+* @RETURN | SHOULD RETURN A FILE NAME AS A STRING
+*/
+function find_default_style()
+{
+    $default = "default.css";
+    $layouts_path = STYLESHEETPATH . '/css/styles';
+
+    if (is_dir($layouts_path)) {
+        if ($layout_dir = opendir($layouts_path)) {
+            while (($layout_file = readdir($layout_dir)) !== false) {
+                if (stristr($layout_file, ".css") !== false) {
+                    $default = $layout_file;
+                }
+            }
+        }
+    }
+
+    return $default;
+}
+
+
+
+
+/**
 *	FIND LAYOUTS 
 *	NEEDS TO WORK
 */
@@ -90,8 +117,22 @@ function find_layouts()
 function find_default_layout()
 {
     $default = "default.css";
+    $layouts_path = STYLESHEETPATH . '/css/layouts';
+
+    if (is_dir($layouts_path)) {
+        if ($layout_dir = opendir($layouts_path)) {
+            while (($layout_file = readdir($layout_dir)) !== false) {
+                if (stristr($layout_file, ".css") !== false) {
+                    $default = $layout_file;
+                    break;
+                }
+            }
+        }
+    }
+
     return $default;
 }
+
 
 /**
 *	FIND LAYOUT  FOR CURRENT TEMPLATE,
@@ -636,8 +677,6 @@ function thefdt_get_loop_content()
                                                                      )
     );
 
-    print_r($current_display);
-
     if ($content_display['show_mediagalleries'])
         show_mediagalleries();
 
@@ -691,7 +730,6 @@ function thefdt_get_loop_footer()
 
 add_action('thefdt_loop_footer', 'thefdt_get_loop_footer');
 
-
 /**
 *	RETRIEVE THE ITEM META
 *	THIS FUNCTION IS USED BY itemhead.php & itemfoot.php
@@ -726,6 +764,7 @@ function thefdt_get_item_meta($location = "head")
     $post_meta = apply_filters('thefdt_get_posts_meta_' . $location, $post_meta);
     echo $post_meta;
 }
+
 
 /**
 *	RETURNS THE DATE META INFORMATION
