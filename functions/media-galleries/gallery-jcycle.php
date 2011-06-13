@@ -1009,7 +1009,7 @@ add_action('template_redirect', 'jcycle_register_script');
 
 
 /**
- *  REGISTER STYLE FOR JYCLE
+ * REGISTER STYLE FOR JYCLE
  *
  * @TODO ADD CONDITIONAL FOR WHETHER SHOW MEDIA GALLERIES IS BEING USED
  */

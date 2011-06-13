@@ -19,13 +19,79 @@ function affiliate_info() {
 function affiliate_info_filter( $options ){
 
 	$add = array(
-		'affiliate_info' => 'Affiliate Info'
+        'content_source_info' => 'Source Attribution',
+		'affiliate_info' => 'Affiliate Info',
 	);
 	
 	return array_merge( $options, $add );
 
 }
 add_filter( 'build_option_meta_array', affiliate_info_filter );
+
+
+
+
+function get_content_source_info_meta( $args = null ){
+  	global $wp_query, $post, $paged;
+
+	$args_default = array (
+							"show_price" => true,
+							"show_link_url" => true,
+							"show_content_source_title" => true,
+							"show_content_source_url" => true,
+							"show_imagesource_source_title" => true,
+							"show_imagesource_source_url" => true
+						);
+
+	$args = wp_parse_args( $args, $args_default );
+	extract($args);
+
+	# - EVENT DATA IS STORED IN POST_META TABLE
+	$post_info_array = get_post_meta($post->ID, "thefdt_metakey", true);
+
+	if(!is_array($post_info_array))
+		return;
+
+	# - SEE CLASS DEFINITION FOR VARIABLE NAMES
+	extract($post_info_array);
+
+    $content_source = "";
+	if($show_content_source_title && $show_content_source_url) :
+		if($show_content_source_url) :
+            $content_source = '<a href="'.$content_source_url.'" target="_blank" class="content_source" title="Content Source">'. $content_source_title . "</a>";
+		else :
+
+		endif;
+	else :
+
+	endif;
+
+    $image_source = "";
+	if($show_imagesource_source_title && $show_imagesource_source_url) :
+		if($show_content_source_url) :
+            $image_source = '<a href="'.$imagesource_source_url.'" target="_blank" class="image_source" title="Image Source">'. $imagesource_source_title . "</a>";
+		else :
+
+		endif;
+	else :
+
+	endif;
+
+
+	# - COMBINE ALL DETAILS
+	$post_info = "
+		$content_source
+		$image_source
+	";
+
+	# - ADD HTML DIV WRAPPER CLASS
+	$post_info = xtag("div", $post_info, "class=post_info_content_source");
+
+	return $post_info;
+
+}
+
+
 
 function get_affiliate_info_meta( $args = null ){
 
@@ -39,7 +105,8 @@ function get_affiliate_info_meta( $args = null ){
 							"show_content_source_url" => true,
 							"show_imagesource_source_title" => true,
 							"show_imagesource_source_url" => true
-						);						
+						);
+
 	$args = wp_parse_args( $args, $args_default );	
 	extract($args);	
 	
@@ -49,55 +116,24 @@ function get_affiliate_info_meta( $args = null ){
 	if(!is_array($post_info_array))
 		return;
 
-	# - SEE CLASS DEFINTION FOR VARIABLE NAMES
+	# - SEE CLASS DEFINITION FOR VARIABLE NAMES
 	extract($post_info_array);
 
-	
-	/*
-	foreach( $post_info_array as $key => $value ) {
-		$var_name =  "show_".$key;
-		
-		if($var_name) :	
-			$$key = xtag("div", $$key, "class=".$key);
-		endif;
-	}
-	*/
 
 	if($show_price && $link_url) :	
 		if($price) :
-			$link_url = "<a href='".$link_url."' target='_blank' class='link_url' href='$link' title='BUY'>I'D BUY IT -  $price</a>";
+			$link_url = "<a href='".$link_url."' target='_blank' class='link_url' title='BUY'>I'D BUY IT -  $price</a>";
 		else :
-			$link_url = "<a href='".$link_url."' target='_blank' class='link_url' href='$link' title='BUY'>I'D BUY IT</a>";
+			$link_url = "<a href='".$link_url."' target='_blank' class='link_url' title='BUY'>I'D BUY IT</a>";
 		endif;		
 	else :	
 		$link_url = xtag("div", $price, 'class=price');
 	endif;		
 
-	if($show_content_source_title) :	
-		if($content_source_title)
-			$content_source_title = "Via: ".$content_source_title;
-		$content_source_title = xtag("div", $content_source_title, "class=content_source_title");
-	endif;	
-
-	if($show_content_source_url) :	
-		$content_source_url = xtag("div", $content_source_url, "class=content_source_url");
-	endif;	
-
-	if($show_imagesource_source_title) :	
-		$imagesource_source_title = xtag("div", $imagesource_source_title, "class=imagesource_source_title");
-	endif;	
-
-	if($show_imagesource_source_url) :	
-		$imagesource_source_url = xtag("div", $imagesource_source_url, "class=imagesource_source_url");
-	endif;			
 	
 	# - COMBINE ALL DETAILS
 	$post_info = "
 		$link_url
-		$content_source_title
-		$content_source_url
-		$imagesource_source_title
-		$imagesource_source_url
 	";
 	
 	# - ADD XHTML DIV WRAPPER CLASS
@@ -142,11 +178,11 @@ class create_post_meta {
 	function product_info()
 	{
 		echo form_textinput( $this->meta_key, 'price', 'Price' );
-		echo form_textinput( $this->meta_key, 'link_url', 'Affiliate Link Url' );		
+		echo form_textinput( $this->meta_key, 'link_url', 'Affiliate Link Url' );
 		echo form_textinput( $this->meta_key, 'content_source_title', 'Content Source Title' );
-		echo form_textinput( $this->meta_key, 'contenturl', 'Content Url' );
-		echo form_textinput( $this->meta_key, 'imagesource_source_title', 'Image Source Title' );			
-		echo form_textinput( $this->meta_key, 'imagesource_source_url', 'Image Url' );	
+		echo form_textinput( $this->meta_key, 'content_source_url', 'Content Url' );
+		echo form_textinput( $this->meta_key, 'imagesource_source_title', 'Image Source Title' );
+		echo form_textinput( $this->meta_key, 'imagesource_source_url', 'Image Url' );
 	}
 
 

@@ -492,7 +492,7 @@ function form_textinput($meta_key = "", $customfieldname, $labeldecription, $opt
 
     $xhtml .= '
 		  <p>
-			<label>' . $labeldecription . '</label>
+			<label>' . $labeldecription . '</label><br />
 			<input name="' . $customfieldname . '" value="' . $inputvalue . '" />
 		  </p>';
 
