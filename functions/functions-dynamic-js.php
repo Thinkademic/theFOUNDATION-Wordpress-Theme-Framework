@@ -64,9 +64,6 @@ function add_dynamic_js()
     $permalinkon = !is_null(get_option('permalink_structure')) ? true
             : false; // DETERMINE IF FRIENDLY PERMALINKS ARE BEING USED
 
-    #$permalinkon = false;
-
-
     $postid_string = "";
     foreach ($posts as $post) {
         $meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);

@@ -64,8 +64,6 @@ function add_dynamic_css()
     $permalinkon = !is_null(get_option('permalink_structure')) ? true : false; // DETERMINE IF PERMALINKS IS SET
     // WRITE CODE TO ACCOUNT FOR THE FOLLOWING CASES ::    1) using_index_permalinks()   2) using_mod_rewrite_permalinks   3) using_permalinks()
 
-    #$permalinkon = false;
-
     $postid_string = "";
     foreach ($posts as $post) {
         $meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
