@@ -57,8 +57,8 @@ function get_content_source_info_meta( $args = null ){
 
     $content_source = "";
 	if($show_content_source_title && $show_content_source_url) :
-		if($show_content_source_url) :
-            $content_source = '<a href="'.$content_source_url.'" target="_blank" class="content_source" title="Content Source">'. $content_source_title . "</a>";
+		if($content_source_url) :
+            $content_source = '<a href="'.$content_source_url.'" target="_blank" class="content_source" title="Content Source">Content Via : '. $content_source_title . "</a>";
 		else :
 
 		endif;
@@ -68,8 +68,8 @@ function get_content_source_info_meta( $args = null ){
 
     $image_source = "";
 	if($show_imagesource_source_title && $show_imagesource_source_url) :
-		if($show_content_source_url) :
-            $image_source = '<a href="'.$imagesource_source_url.'" target="_blank" class="image_source" title="Image Source">'. $imagesource_source_title . "</a>";
+		if($imagesource_source_url) :
+            $image_source = '<a href="'.$imagesource_source_url.'" target="_blank" class="image_source" title="Image Source">Images Via : '. $imagesource_source_title . "</a>";
 		else :
 
 		endif;

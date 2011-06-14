@@ -50,7 +50,8 @@ function get_social_media_box_count_meta($networks = null)
     $networks = array(
         'facebook' => 'facebook',
         'twitter' => 'twitter',
-        'digg' => 'digg'
+        'google_plus_one' => 'google_plus_one'
+        // 'digg' => 'digg'
     );
 
     $box_count = "";
@@ -115,7 +116,7 @@ function get_digg_box_count()
 {
     global $post;
 
-    $permalink = urlencode(get_permalink($post->ID));
+    $permalink = get_permalink($post->ID);
     $post_title = get_the_title($post->ID);
     $short_link = wp_get_shortlink($post->ID);
     $username = of_get_option('social_media_twitter_profile', '');
@@ -124,6 +125,26 @@ function get_digg_box_count()
     return '<a class="DiggThisButton DiggMedium" href="' . $permalink . '"></a>';
 
 }
+
+
+/*
+ * GOOGLE PLUS ONE BOX COUNT
+ */
+function get_google_plus_one_box_count()
+{
+    global $post;
+
+    $permalink = get_permalink($post->ID);
+    $post_title = get_the_title($post->ID);
+    $short_link = wp_get_shortlink($post->ID);
+    $username = of_get_option('social_media_twitter_profile', '');
+    $text = "I'd sport it...would you?" . $shortlink;
+
+    // return '<a class="DiggThisButton DiggMedium" href="' . $permalink . '"></a>';
+    return '<g:plusone size="tall" href="'.$permalink.'"></g:plusone>';
+}
+
+
 
 /*
  * TWITTER ENQUEUE SCRIPT
@@ -135,6 +156,17 @@ function twitter_box_count_js_enqueue()
 }
 
 add_action('wp_head', 'twitter_box_count_js_enqueue', 10);
+
+/*
+ * GOOGLE PLUS ONE ENQUEUE SCRIPT
+ */
+function google_plus_one_js_enqueue()
+{
+    wp_register_script('googleplusone', 'https://apis.google.com/js/plusone.js', false, '1');
+    wp_enqueue_script('googleplusone');
+}
+
+add_action('wp_head', 'google_plus_one_js_enqueue', 10);
 
 /*
  * DIGG ENQUEUE SCRIPT
