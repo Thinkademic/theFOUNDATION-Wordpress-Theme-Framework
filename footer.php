@@ -5,7 +5,7 @@
 			array( 
 				'theme_location' => 'footertop-nav',				# DISPLAYS A CUSTOM SELECTED MENU FOR THE SPECIFICED LOCATION, SHOW EMPTY IF NOT IS SELECTED
 				'container' => 'div',							# CONTAINER TAG, NOT APPLIED WHEN 'fallback_cb' FUNCTION IS USED
-				'container_id' => 'footernav',					# CONTAINTER ID, NOT APPLIED WHEN 'fallback_cb' FUNCTION IS USED
+				'container_id' => 'footertop',					# CONTAINTER ID, NOT APPLIED WHEN 'fallback_cb' FUNCTION IS USED
 				'container_class' => '',						# CONTAINTER CLASS, NOT APPLIED WHEN 'fallback_cb' FUNCTION IS USED				
 				'menu_id' => 'footertop-nav',						# UL ID			
 				'menu_class' => 'footer-menu',					# UL CLASS
@@ -49,7 +49,7 @@
 			array( 
 				'theme_location' => 'footerbottom-nav',				# DISPLAYS A CUSTOM SELECTED MENU FOR THE SPECIFICED LOCATION, SHOW EMPTY IF NOT IS SELECTED
 				'container' => 'div',							# CONTAINER TAG, NOT APPLIED WHEN 'fallback_cb' FUNCTION IS USED
-				'container_id' => 'footernav',					# CONTAINTER ID, NOT APPLIED WHEN 'fallback_cb' FUNCTION IS USED
+				'container_id' => 'footerbottom',					# CONTAINTER ID, NOT APPLIED WHEN 'fallback_cb' FUNCTION IS USED
 				'container_class' => '',						# CONTAINTER CLASS, NOT APPLIED WHEN 'fallback_cb' FUNCTION IS USED				
 				'menu_id' => 'footerbottom-nav',						# UL ID			
 				'menu_class' => 'footer-menu',					# UL CLASS
