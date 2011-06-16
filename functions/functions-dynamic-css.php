@@ -58,6 +58,8 @@ function add_dynamic_css()
 {
     global $posts, $wp_scripts;
 
+	$rewrite_rules = $GLOBALS['wp_rewrite']->wp_rewrite_rules();
+
     $vers = '1.0'; // SET SCRIPT VERSION NUMBER
     do_action('fdt_enqueue_dynamic_css'); // DEFINE HOOK
 
@@ -73,7 +75,7 @@ function add_dynamic_css()
 
     // ENQUEUE CSS FROM THEME OPTIONS
     $postid_string = substr($postid_string, 0, -1);
-    if ($permalinkon) :
+    if ($rewrite_rules) :
         wp_enqueue_style("custom", get_home_url() . '/custom/themeoptions/css/' . $postid_string . '.css', false, $vers, 'screen');
     else :
         wp_enqueue_style("custom", get_home_url() . '/?cssids=' . $postid_string, false, $vers, 'screen');

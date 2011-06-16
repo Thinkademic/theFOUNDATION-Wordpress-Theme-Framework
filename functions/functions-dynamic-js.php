@@ -58,11 +58,12 @@ function add_dynamic_js()
 {
     global $posts, $wp_scripts;
 
+	$rewrite_rules = $GLOBALS['wp_rewrite']->wp_rewrite_rules();
+
     $vers = '1.0'; // SET SCRIPT VERSION NUMBER
     do_action('fdt_enqueue_dynamic_js'); // DEFINE HOOK
 
-    $permalinkon = !is_null(get_option('permalink_structure')) ? true
-            : false; // DETERMINE IF FRIENDLY PERMALINKS ARE BEING USED
+    $permalinkon = !is_null(get_option('permalink_structure')) ? true : false; // DETERMINE IF FRIENDLY PERMALINKS ARE BEING USED
 
     $postid_string = "";
     foreach ($posts as $post) {
@@ -79,7 +80,7 @@ function add_dynamic_js()
     $postid_string = substr($postid_string, 0, -1);
 
 
-    if ($permalinkon) :
+    if ($rewrite_rules) :
         wp_enqueue_script("custom", get_home_url() . '/custom/themeoptions/js/' . $postid_string . '.js', false, false, true);
     else :
         wp_enqueue_script("custom", get_home_url() . '/?jqids=' . $postid_string, false, $vers, true);
