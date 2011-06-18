@@ -1011,7 +1011,6 @@ add_action('template_redirect', 'jcycle_register_script');
 /**
  * REGISTER STYLE FOR JYCLE
  *
- * @TODO ADD CONDITIONAL FOR WHETHER SHOW MEDIA GALLERIES IS BEING USED
  */
 function jcycle_register_style()
 {
@@ -1019,13 +1018,17 @@ function jcycle_register_style()
 
     wp_register_style('jcycle', get_stylesheet_directory_uri() . '/css/media-galleries/' . 'jcycle.css');
 
-    // FIND THE CURRENT TEMPLATE
+    // FIND THE CURRENT TEMPLATE AND CHECK IF MEDIA GALLERIES ARE ENABLED
     $current_template = thefdt_get_current_template();
+    $content_display = of_get_option($current_template . "_content", array(
+                                                                          'show_mediagalleries' => false
+                                                                     )
+    );
 
     foreach ($posts as $post) {
         $meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
 
-        if ($meta["gallery_type"] == "jcyclegallery"):
+        if ($meta["gallery_type"] == "jcyclegallery" && $content_display['show_mediagalleries']):
             wp_enqueue_style('jcycle');
         endif;
     }

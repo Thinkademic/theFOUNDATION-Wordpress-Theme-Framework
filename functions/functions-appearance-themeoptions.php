@@ -733,18 +733,14 @@ add_action('thefdt_loop_footer', 'thefdt_get_loop_footer');
 
 /**
  * RETRIEVE THE ITEM/ENTRY TITLE
- *
- *
  */
 function thefdt_get_item_title()
 {
-    $href = the_permalink();
-    $rel = 'bookmark';
     $title = sprintf(__('Permanent Link to "%s"',TEXTDOMAIN), strip_tags(get_the_title()));
 
     echo '
         <h2>
-            <a href=".$href." rel="bookmark" title="'.$title.'">'.the_title().'
+            <a href="'.get_permalink().'" rel="bookmark" title="'.$title.'">'.get_the_title().'</a>
         </h2>
     ';
 }
