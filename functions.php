@@ -15,13 +15,6 @@ if (!isset($content_width)) $content_width = get_option('medium_size_w'); // SHO
 
 
 /**
- * SANDBOX FUNCTIONS
- */
-require_once(TEMPLATEPATH . '/functions/functions-sandbox.php');
-require_once(TEMPLATEPATH . '/functions/functions-social-media.php');
-
-
-/**
  * DEPRECATED FUNCTIONS
  */
 require_once(TEMPLATEPATH . '/functions/functions-deprecated.php');
@@ -37,6 +30,12 @@ require_once(TEMPLATEPATH . '/functions/functions-appearance-widgets.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-menu.php');
 require_once(TEMPLATEPATH . '/functions/functions-appearance-background.php');
 
+
+/**
+ * SANDBOX FUNCTIONS
+ */
+require_once(TEMPLATEPATH . '/functions/functions-sandbox.php');
+require_once(TEMPLATEPATH . '/functions/functions-social-media.php');
 
 /**
  * CUSTOM POST TYPE ADDITION
@@ -57,6 +56,8 @@ if (of_get_option('enable_custom_posttype_post', false) == true)
     require_once(TEMPLATEPATH . '/functions/functions-posttype-post.php');
 if (of_get_option('enable_custom_posttype_dictionary', false) == true)
     require_once(TEMPLATEPATH . '/functions/functions-posttype-dictionary.php');
+if (of_get_option('enable_custom_posttype_lesson', false) == true)
+    require_once(TEMPLATEPATH . '/functions/functions-posttype-lesson.php');
 
 
 /**
@@ -124,7 +125,6 @@ function add_image_preview_column($cols)
     return $cols;
 }
 
-
 function add_image_value($column_name, $post_id)
 {
 
@@ -152,6 +152,31 @@ function add_image_value($column_name, $post_id)
 
     endif;
 }
+
+
+/**
+ * ADD IMAGE SOURCE URL COLUMN FOR MEDIA
+ *
+ * @param $cols
+ * @return
+ * 
+ * @todo ADD INPUT BOXES FOR OTHER SIZES
+ */
+function muc_column($cols)
+{
+    $cols["media_url"] = "URL";
+    return $cols;
+}
+
+function muc_value($column_name, $id)
+{
+    if ($column_name == "media_url") echo '<input type="text" onclick="$(this).select();" value="' . wp_get_attachment_url($id) . '" />';
+}
+
+add_filter('manage_media_columns', 'muc_column');
+add_action('manage_media_custom_column', 'muc_value', 10, 2);
+
+
 
 
 /**************************************************************
