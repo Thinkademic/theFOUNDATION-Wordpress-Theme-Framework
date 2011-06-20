@@ -13,10 +13,150 @@
  */
 
 
+/**
+ * SubScript and SupScript Buttons
+ *
+ * @REF ttp://wpsnipp.com/index.php/functions-php/add-subscript-and-supscript-buttons-to-editor/
+ */
+function enable_more_buttons($buttons) {
+  $buttons[] = 'sub';
+  $buttons[] = 'sup';
+  return $buttons;
+}
+add_filter("mce_buttons_3", "enable_more_buttons");
 
-/**************************************************************
-http://www.wprecipes.com/how-to-show-the-home-link-on-wp_nav_menu-default-fallback-
- **************************************************************/
+/**
+ * ADD DROPDOWN BOX FOR SHORTCODES
+ *
+ * @REF http://wpsnipp.com/index.php/functions-php/add-custom-media_buttons-for-shortcode-selection/
+ */
+add_action('media_buttons', 'add_sc_select', 11);
+function add_sc_select()
+{
+    global $shortcode_tags;
+    /* ------------------------------------- */
+    /* enter names of shortcode to exclude bellow */
+    /* ------------------------------------- */
+    $exclude = array("wp_caption", "embed");
+    echo '&nbsp;<select id="sc_select"><option>Shortcode</option>';
+    foreach ($shortcode_tags as $key => $val) {
+        if (!in_array($key, $exclude)) {
+            $shortcodes_list .= '<option value="[' . $key . '][/' . $key . ']">' . $key . '</option>';
+        }
+    }
+    echo $shortcodes_list;
+    echo '</select>';
+}
+
+add_action('admin_head', 'button_js');
+function button_js()
+{
+    echo '<script type="text/javascript">
+	jQuery(document).ready(function(){
+	   jQuery("#sc_select").change(function() {
+			  send_to_editor(jQuery("#sc_select :selected").val());
+        		  return false;
+		});
+	});
+	</script>';
+}
+
+
+/**
+ * GOOGLE DOC SHORT CODE VIEWER
+ *
+ * @REF http://wpsnipp.com/index.php/functions-php/new-google-docs-shortcode-for-psd-ai-svg-and-more/
+ *
+ * @param $atts
+ * @param null $content
+ * @return string
+ */
+function wps_viewer($atts, $content = null) {
+	extract(shortcode_atts(array(
+		"href" => 'http://',
+		"class" => ''
+	), $atts));
+	return '<a href="http://docs.google.com/viewer?url='.$href.'" class="'.$class.' icon">'.$content.'</a>';
+}
+add_shortcode("doc", "wps_viewer");
+
+
+
+
+/**
+ * Move Author Meta Box into Publish Meta Box
+ *
+ * @ref http://wpsnipp.com/index.php/functions-php/move-author-metabox-options-to-publish-post-metabox/
+ */
+add_action('admin_menu', 'remove_author_metabox');
+add_action('post_submitbox_misc_actions', 'move_author_to_publish_metabox');
+function remove_author_metabox()
+{
+    remove_meta_box('authordiv', 'post', 'normal');
+}
+
+function move_author_to_publish_metabox()
+{
+    global $post_ID;
+    $post = get_post($post_ID);
+    echo '<div id="author" class="misc-pub-section" style="border-top-style:solid; border-top-width:1px; border-top-color:#EEEEEE; border-bottom-width:0px;">Author: ';
+    post_author_meta_box($post);
+    echo '</div>';
+}
+
+
+/**
+ * Redirect Category Template to Single Post Template if only one entry
+ *
+ * @Ref http://wpsnipp.com/index.php/cat/redirect-to-a-single-post-if-one-post-in-category-or-tag/
+ * @return void
+ */
+function redirect_to_post()
+{
+    global $wp_query;
+    if (is_archive() && $wp_query->post_count == 1) {
+        the_post();
+        $post_url = get_permalink();
+        wp_redirect($post_url);
+    }
+}
+
+add_action('template_redirect', 'redirect_to_post');
+
+
+/**
+ * ADD NO FOLLOW TO THE CONTENT AND EXCERPT
+ *
+ * @LINK http://wpsnipp.com/index.php/functions-php/nofollow-external-links-only-the_content-and-the_excerpt/
+ */
+function my_nofollow($content)
+{
+    return preg_replace_callback('/<a[^>]+/', 'my_nofollow_callback', $content);
+}
+
+function my_nofollow_callback($matches)
+{
+    $link = $matches[0];
+    $site_link = get_bloginfo('url');
+    if (strpos($link, 'rel') === false) {
+        $link = preg_replace("%(href=\S(?!$site_link))%i", 'rel="nofollow" $1', $link);
+    } elseif (preg_match("%href=\S(?!$site_link)%i", $link)) {
+        $link = preg_replace('/rel=\S(?!nofollow)\S*/i', 'rel="nofollow"', $link);
+    }
+    return $link;
+}
+
+add_filter('the_content', 'my_nofollow');
+add_filter('the_excerpt', 'my_nofollow');
+
+/**
+ * HOME MENU FALL BACK
+ *
+ * @LINK http://www.wprecipes.com/how-to-show-the-home-link-on-wp_nav_menu-default-fallback
+ *
+ * @param $args
+ * @return
+ */
 function homelink_for_menufallback($args)
 {
     $args['show_home'] = true;
@@ -26,11 +166,15 @@ function homelink_for_menufallback($args)
 add_filter('wp_page_menu_args', 'homelink_for_menufallback');
 
 
-/**************************************************************
-DATE 1/12/2011
-REF http://www.wprecipes.com/how-to-automatically-add-a-search-field-to-your-navigation-menu
- **************************************************************/
-#add_filter('wp_nav_menu_items','add_search_box', 10, 2);
+/**
+ * ADD SEARCH BOX TO ADMIN BAR
+ *
+ * @REF http://www.wprecipes.com/how-to-automatically-add-a-search-field-to-your-navigation-menu
+ *
+ * @param $items
+ * @param $args
+ * @return string
+ */
 function add_search_box($items, $args)
 {
     $searchform = get_search_form(false);
@@ -38,13 +182,16 @@ function add_search_box($items, $args)
 
     return $items;
 }
+#add_filter('wp_nav_menu_items','add_search_box', 10, 2);
 
 
-/**************************************************************
-ADD BROWSER DETECTION TO BODY CLASS FUNCTION
-REF:  http://www.nathanrice.net/blog/browser-detection-and-the-body_class-function/
- **************************************************************/
-//	add_filter('body_class','browser_body_class');
+
+
+/**
+ * ADD BROWSER DETECTION TO BODY CLASS FUNCTION
+ *
+ * @REF http://www.nathanrice.net/blog/browser-detection-and-the-body_class-function/
+ */
 function browser_body_class($classes)
 {
     global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
@@ -61,23 +208,18 @@ function browser_body_class($classes)
     if ($is_iphone) $classes[] = 'iphone';
     return $classes;
 }
+//	add_filter('body_class','browser_body_class');
 
 
-/**************************************************************
-FOUNDATION DEFAULT SIDEBAR SETUP
-DECPRECATED - CHECK IF EXIST
- **************************************************************/
-function foundation_sidebar()
-{
-    $output = retrieve_taxonomy_list();
-    echo $output;
-}
-
-/**************************************************************
-CUSTOM TEMPLATE TAG FOR SIDEBARS
-CONSIDER APPLYING
-http://codex.wordpress.org/Function_Reference/get_template_part
- **************************************************************/
+/**
+ * CUSTOM TEMPLATE TAG FOR SIDEBARS
+ *
+ * @LINK http://codex.wordpress.org/Function_Reference/get_template_part
+ * 
+ * @param $sidebar_name
+ * @param string $before
+ * @param string $after
+ */
 function dynamicsidebar($sidebar_name, $before = '', $after = '')
 {
     if (function_exists('dynamic_sidebar')) {

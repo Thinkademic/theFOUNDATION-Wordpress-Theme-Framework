@@ -127,5 +127,5 @@ if (!function_exists('fdt_admin_bar_menu')) {
 		
 	}
 }
-add_action('admin_bar_menu', 'fdt_admin_bar_menu', 999);
+#add_action('admin_bar_menu', 'fdt_admin_bar_menu', 999);
 ?>
