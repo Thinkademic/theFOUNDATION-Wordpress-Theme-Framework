@@ -7,6 +7,8 @@
 
 /**
  * ADD TO OPTIONS FRAMEWORK
+ *
+ * @param $options
  */
 function social_med_box_count_filter($options)
 {
@@ -19,8 +21,8 @@ function social_med_box_count_filter($options)
     return $merged;
 
 }
-
-add_filter('build_option_meta_array', social_med_box_count_filter);
+if( of_get_option('enable_social_media_box_count', false) != false )
+    add_filter('build_option_meta_array', social_med_box_count_filter);
 
 
 /*
@@ -37,16 +39,15 @@ function thefdt_social_media_box_count()
 
 
 /*
-* RETREIVED ALL SOCIAL MEDIA BOX COUNTS
+* RETRIEVED ALL SOCIAL MEDIA BOX COUNTS
 *
 * SUPPORTED NETWORKS
-* FACEBOOK | TWITTER | DIGG
+* FACEBOOK | TWITTER | DIGG | GOOGLE PLUS ONE
 *
 * @TODO: MAKE IT SORTABLE BASED ON AN ARRAY
 */
 function get_social_media_box_count_meta($networks = null)
 {
-
     $networks = array(
         'facebook' => 'facebook',
         'twitter' => 'twitter',
@@ -59,7 +60,6 @@ function get_social_media_box_count_meta($networks = null)
         $function_name = "get_" . $name . "_box_count";
         $box_count .= $function_name();
     }
-
 
     // DOUBLE WRAP WITH DIVS AND CLASSES FOR STYLING
     $box_count = xtag("div", $box_count, "class=social_media_box_count");

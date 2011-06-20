@@ -1060,7 +1060,7 @@ function optionsframework_custom_scripts()
 
 }
 
-if (function_exists('of_get_option')) {
+if (function_exists('of_get_option') && of_get_option('enable_cufon_support', false) ) {
     add_action('optionsframework_custom_scripts', 'optionsframework_custom_scripts');
 }
 
