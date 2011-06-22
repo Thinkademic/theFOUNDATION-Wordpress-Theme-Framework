@@ -152,7 +152,9 @@ function get_google_plus_one_box_count()
 function twitter_box_count_js_enqueue()
 {
     wp_register_script('twitter', 'http://platform.twitter.com/widgets.js', false, '1');
-    wp_enqueue_script('twitter');
+    if( of_get_option( 'enable_social_media_box_count', false)) :
+        wp_enqueue_script('twitter');
+    endif;
 }
 
 add_action('wp_head', 'twitter_box_count_js_enqueue', 10);
@@ -163,7 +165,9 @@ add_action('wp_head', 'twitter_box_count_js_enqueue', 10);
 function google_plus_one_js_enqueue()
 {
     wp_register_script('googleplusone', 'https://apis.google.com/js/plusone.js', false, '1');
-    wp_enqueue_script('googleplusone');
+    if( of_get_option( 'enable_social_media_box_count', false)) :
+        wp_enqueue_script('googleplusone');
+    endif;
 }
 
 add_action('wp_head', 'google_plus_one_js_enqueue', 10);
@@ -173,6 +177,8 @@ add_action('wp_head', 'google_plus_one_js_enqueue', 10);
  */
 function digg_box_count_js_enqueue()
 {
+
+if( of_get_option( 'enable_social_media_box_count', false)) :
     print <<<END
 
 /* DIGG BOX COUNT */
@@ -186,9 +192,13 @@ function digg_box_count_js_enqueue()
 
 END;
 
-}
+endif;
 
+
+}
 add_action('fdt_print_dynamic_js', 'digg_box_count_js_enqueue');
+
+
 
 
 ?>
