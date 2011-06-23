@@ -368,7 +368,7 @@ function enqueue_cufon_fonts_admin()
 
 add_action('admin_print_scripts', 'enqueue_cufon_fonts_admin');
 
-/**
+/*
 *	ADMIN - FIND FONTS AND PRINT CUFON SCRIPT
 */
 function write_cufon_for_admin()

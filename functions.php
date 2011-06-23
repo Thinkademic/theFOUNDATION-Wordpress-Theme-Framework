@@ -1134,22 +1134,29 @@ function retrieve_media($querytype = "default", $imagesize = "thumbnail", $hyper
         $hyperlink_imagesize = $imagesize;
     endif;
 
-    switch ($hyperlink_target) {
-        case "linktoself" :
-            $imagesrc = wp_get_attachment_image_src($post->ID, $hyperlink_imagesize, false);
-            $href = $imagesrc[0];
-            if ($href == "")
-                $href = get_permalink($post->ID);
-            break;
-        case "linktoparent" :
-            if ($post->post_parent != '') :
-                $href = get_permalink($post->post_parent);
-            else :
-                $href = get_permalink($post->ID);
-            endif;
-            break;
-        default:
-            // DO NOTHING
+	switch($hyperlink_target) {
+		case "link_to_file" :
+			$imagesrc = wp_get_attachment_image_src( $post->ID, $hyperlink_imagesize, false );
+			$href = $imagesrc[0];
+			if($href == "")
+				$href = get_permalink($post->ID);
+			break;
+		case "link_to_attachment_page" :
+			if($post->post_type != 'attachment') :
+				$href = get_first_image_attachment_link( $post->ID);
+			else:
+				$href = get_attachment_link( $post->ID );
+			endif;
+			break;
+		case "link_to_parent" :
+			if($post->post_parent != '') :
+				$href = get_permalink($post->post_parent);
+			else :
+				$href = get_permalink($post->ID);
+			endif;
+			break;
+		default:
+			// DO NOTHING
     }
 
     if ($hyperlink_enable) {

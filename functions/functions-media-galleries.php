@@ -119,12 +119,20 @@ function postmeta_gallery_array($targetid = null)
         $post_type = $sourceinfo;
     }
 
-    if ($source == "attachments_bytagslug") {
+    if ($source == "attachments_by_post_tag_slug") {
         $querytype = "tag";
         $post_type = "post";
         $tag_slug = $sourceinfo;
 
     }
+
+    if ($source == "attachments_by_page_tag_slug") {
+        $querytype = "tag";
+        $post_type = "page";
+        $tag_slug = $sourceinfo;
+
+    }
+
 
     if ($source == "attachments_bycategoryname") {
         $querytype = "category";
@@ -348,9 +356,10 @@ class create_layout_options
         $selectoptions = array(
             'from this Post/Page' => 'attachment',
             'from Pages by Title Name' => 'attachments_bypagename',
+            'from Pages by Tag Slug' => 'attachments_by_page_tag_slug',            
             'from Post by Title Name' => 'attachments_bypostname',
             'from Post by Category Name' => 'attachments_bycategoryname',
-            'from Post by Tag Slug' => 'attachments_bytagslug',
+            'from Post by Tag Slug' => 'attachments_by_post_tag_slug',
             'from Custom Post Type' => 'attachments_byposttype'
         );
         $output .= form_selectbox($this->meta_key, 'gallery_source', '', $selectoptions);
