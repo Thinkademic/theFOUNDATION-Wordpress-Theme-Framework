@@ -161,8 +161,7 @@ class create_lesson
 
         $new_columns = array(
             'grade' => __('Grade'),
-            'client' => __('Client'),
-            'credits' => __('Credit'),
+            'subject' => __('Subject')
         );
 
         $cols = array_merge($cols, $new_columns);
@@ -180,11 +179,8 @@ class create_lesson
             case "grade":
                 echo get_the_term_list($post->ID, 'grade', '', ', ', '');
                 break;
-            case "client":
-                echo get_the_term_list($post->ID, 'client', '', ', ', '');
-                break;
-            case "credits":
-                echo get_the_term_list($post->ID, 'credits', '', ', ', '');
+            case "subject":
+                echo get_the_term_list($post->ID, 'subject', '', ', ', '');
                 break;
         }
     }
@@ -196,8 +192,7 @@ class create_lesson
 
         $new_columns = array(
             'grade' => __('Grade'),
-            'client' => __('Client'),
-            'credits' => __('Credit'),
+            'subject' => __('Subject')
         );
 
         $cols = array_merge($cols, $new_columns);
