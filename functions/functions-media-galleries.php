@@ -15,6 +15,7 @@ require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-jcycle.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-nivoslider.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-anythingslider.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-portfoliomaker.php');
+require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-jquerytools.php');
 
 /*
  * DISPLAY SELECTED GALLERY ASSOCIATED WITH POST/PAGE/CUSTOM POST TYPE

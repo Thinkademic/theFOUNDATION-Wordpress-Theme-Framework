@@ -31,7 +31,7 @@ class create_lesson
     );
 
 
-    var $thelabel = "Lesson";
+    var $thelabel = "Lessons";
 
     // CLASS DEFINITION
     function create_lesson()
