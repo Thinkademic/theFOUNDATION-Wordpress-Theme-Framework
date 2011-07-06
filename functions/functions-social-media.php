@@ -140,8 +140,11 @@ function get_google_plus_one_box_count()
     $username = of_get_option('social_media_twitter_profile', '');
     $text = "I'd sport it...would you?" . $shortlink;
 
-    // return '<a class="DiggThisButton DiggMedium" href="' . $permalink . '"></a>';
-    return '<g:plusone size="tall" href="'.$permalink.'"></g:plusone>';
+
+    return '
+    <div class="google_box_count">
+        <g:plusone size="tall" href="'.$permalink.'"></g:plusone>
+    </div>';
 }
 
 
