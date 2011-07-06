@@ -119,7 +119,7 @@ function build_jquery_nivoslider($atts = null)
  */
 
 
-$(function(){
+jQuery(document).ready(function($) {
 
 $('.post-{$postid} .nivoslider').nivoSlider({
 	effect:'{$effect}', 							// Specify sets like: 'fold,fade,sliceDown'
