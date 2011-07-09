@@ -256,7 +256,7 @@ function build_jcycle_jquery($atts = null)
 
     print <<<END
 
-$(function(){
+jQuery(document).ready(function($) {
 
 	/*****************************
 		JCYCLE FOR {$postid} 
