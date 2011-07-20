@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * EMBED CHECK
+ */
+function embed_foundation_gallery() {
+        if (function_exists('show_foundation_gallery'))
+            show_foundation_gallery();
+}
+add_action('fdt_show_media_galleries', 'embed_foundation_gallery');
+
 /**************************************************************
  FOUNDATION GALLERY - TEMPLATE TAG
 **************************************************************/

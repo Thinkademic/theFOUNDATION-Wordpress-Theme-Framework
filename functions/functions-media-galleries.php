@@ -6,7 +6,7 @@
  */
 
 
-/*
+/**
  *	LOAD MEDIA GALLERIES
  */
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-smoothdiv.php');
@@ -17,31 +17,28 @@ require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-anythingslider.p
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-portfoliomaker.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-jquerytools.php');
 
-/*
+/**
  * DISPLAY SELECTED GALLERY ASSOCIATED WITH POST/PAGE/CUSTOM POST TYPE
  *
  * THE GALLERY IS SELECTED USING A METABOX
  *
  * @param null $targetid
+ * @TODO ADD A FILTER/HOOK AND REMOVE IF STATEMENTS FOR THE UNIQUE GALLERIES
  */
 function show_mediagalleries($targetid = null)
 {
+    global $post;
 
-    if (function_exists('show_jcyclegallery'))
-        show_jcyclegallery();
+    $meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
 
-    if (function_exists('show_anythingslider'))
-        show_anythingslider();
+    if ( !empty($meta["gallery_embed"]) ) :
+        do_action('fdt_show_media_galleries');
+    endif;
 
-    if (function_exists('show_foundation_gallery'))
-        show_foundation_gallery();
-
-    if (function_exists('show_nivoslider'))
-        show_nivoslider();
 }
 
 
-/*
+/**
  * ADDS OUR GALLERY OPTION META BOX TO
  *
  * ADMIN EDIT POST/PAGES/CUSTOM POSTTYPES
@@ -56,7 +53,7 @@ if (!function_exists('create_layout_options')) {
 }
 
 
-/*
+/**
  * UNIVERSAL OPTIONS ARRAY, WILL BE USED BY ALL GALLERIES
  *
  * @param null $targetid
@@ -168,10 +165,13 @@ function postmeta_gallery_array($targetid = null)
 }
 
 
-/*
- *	CREATE A DROPDOWN LISTING OF POSSIBLE IMAGE SIZES
+/**
+ * CREATE A DROPDOWN LISTING OF POSSIBLE IMAGE SIZES
  *
- *	@TODO: INCORPORATE CUSTOM SIZES
+ * @param string $meta_key
+ * @param $customfieldname
+ * @param $labeldecription
+ * @return string
  */
 function gallery_dropdown($meta_key = "", $customfieldname, $labeldecription)
 {
@@ -224,7 +224,7 @@ function gallery_dropdown($meta_key = "", $customfieldname, $labeldecription)
 }
 
 
-/*
+/**
  *	MEDIA GALLERY LAYOUT OPTIONS CLASS
  *
  *	@TODO WRITE A MORE EXTENSIBLE CLASS AND PACKAGE AS A PLUGIN
@@ -235,6 +235,7 @@ class create_layout_options
     # BUILD AN ARRAY TO STORE OUR CUSTOM FIELDS DATA
     var $meta_key = THEMECUSTOMMETAKEY;
     var $meta_fields = array(
+        "gallery_embed",
         "gallery_source",
         "gallery_source_textinfo",
         "gallery_type",
@@ -310,7 +311,7 @@ class create_layout_options
     # -- Class Functions
     function admin_init()
     {
-        // Custom meta boxes for Theme Layout Options
+        // ADD GALLERY OPTIONS FOR PAGES
         add_meta_box(
             "fslmeta_themelayoutoptions_forpage",
             "Dynamic Gallery Options",
@@ -319,7 +320,7 @@ class create_layout_options
             "side",
             "low"
         );
-        // Custom meta boxes for Theme Layout Options
+        // ADD GALLERY OPTIONS FOR POST
         add_meta_box(
             "fslmeta_themelayoutoptions_forpage",
             "Gallery Options",
@@ -339,16 +340,19 @@ class create_layout_options
         $custom = get_post_custom($post->ID);
         $saved_meta_fields = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
 
+        # --- NAVIGATION CONTROL OPTIONS
+        $output .= "<p><strong>EMBED GALLERY</strong></p>";
+        $output .= form_checkbox($this->meta_key, 'gallery_embed', 'Appends Selected Gallery');
+
 
         //	GALLERY TYPE
-        $output .= "<p><strong>SET GALLERY PLUGIN</strong></p>";
+        $output .= "<br /<p><strong>SELECT GALLERY</strong></p>";
         $selectoptions = array(
             'None' => '',
+            'Featured Thumbnail' => 'featuredthumbnail',
             'Jcycle Gallery' => 'jcyclegallery',
             'Anything Slider' => 'anythingslider',
             'Nivo Slider' => 'nivoslider'
-            // 'Fancy Transitions' => 'fancytransitions',
-            // 'Orbit' => 'orbit',
         );
         $output .= form_selectbox($this->meta_key, 'gallery_type', '', $selectoptions);
 
@@ -453,8 +457,8 @@ class create_layout_options
             # "Link to Image Source" => "linktoself",							// Link to Image Source
             # "Link to Image's Parent" => "linktoparent",			   		// Link to Image of Attached Paged
             "Image File" => "link_to_file", // Link to Image file
-            "Image Page" => "link_to_attachment_page", // Link to Image Page
-            "Image Parent" => "link_to_parent", // Link to Image of Attached Paged
+            "Image Template Page" => "link_to_attachment_page", // Link to Image Page
+            "Attached Post/Page" => "link_to_parent", // Link to Image of Attached Paged
         );
         $output .= form_selectbox($this->meta_key, 'gallery_hyperlink_target', '', $radiooptions);
 

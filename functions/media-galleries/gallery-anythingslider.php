@@ -1,4 +1,14 @@
 <?php
+
+/**
+ * EMBED CHECK
+ */
+function embed_anythingslider() {
+        if (function_exists('show_anythingslider'))
+            show_anythingslider();
+}
+add_action('fdt_show_media_galleries', 'embed_anythingslider');
+
 /**
  * ANYTHING SLIDER - TEMPLATE TAG
  */

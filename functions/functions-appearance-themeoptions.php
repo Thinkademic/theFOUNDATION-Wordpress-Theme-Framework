@@ -669,34 +669,15 @@ function thefdt_get_loop_content()
     $current_template = thefdt_get_current_template();
 
     // GRAB THE RIGHT OPTION VALUE
-    $content_display = of_get_option($current_template . "_content", array(
-                                                                          'show_mediagalleries' => false,
-                                                                          'the_post_thumbnail' => false,
-                                                                          'the_content' => true,
-                                                                          'the_excerpt' => false
-                                                                     )
-    );
+    $content_display = of_get_option($current_template . "_content", 'the_content' );
 
-    if ($content_display['show_mediagalleries'])
-        show_mediagalleries();
+    show_mediagalleries();
 
-    if ($content_display['the_post_thumbnail']) :
-        $featured_image = get_the_post_thumbnail($post->ID, 'medium', array('class' => 'none'));
-
-        if ($featured_image) :
-            echo '<div class="featured-image">' . $featured_image . "</div>";
-        else :
-            echo '<div class="first-image">' . get_first_image($post->ID, 'medium') . "</div>";
-        endif;
-
-    endif;
-
-    if ($content_display['the_content'])
+    if ($content_display == 'the_content')
         the_content();
 
-    if ($content_display['the_excerpt'])
+    if ($content_display == 'the_excerpt')
         the_excerpt();
-
 
     wp_link_pages();
 }

@@ -1,7 +1,18 @@
 <?php
-/**************************************************************
-JCYCLE - TEMPLATE TAG
- **************************************************************/
+
+/**
+ * EMBED CHECK
+ */
+function embed_jcyclegallery() {
+        if (function_exists('show_jcyclegallery'))
+            show_jcyclegallery();
+}
+add_action('fdt_show_media_galleries', 'embed_jcyclegallery');
+
+
+/**
+ * JCYCLE - TEMPLATE TAG
+ */
 function show_jcyclegallery()
 {
     global $post;
@@ -16,9 +27,10 @@ function show_jcyclegallery()
     endif;
 }
 
-/**************************************************************
-JCYCLE - SHORT CODE
- **************************************************************/
+/**
+ * JCYCLE - SHORT CODE
+ *
+ */
 add_shortcode('jcyclegallery', 'jcyclegallery_shortcodehandler');
 add_shortcode('mediagallery', 'jcyclegallery_shortcodehandler');
 
@@ -72,9 +84,9 @@ function extractMedia($atts)
     return jcycle_extractMedia($atts);
 }
 
-/**************************************************************
-JCYCLE - QUERY CALL
- **************************************************************/
+/**
+ * JCYCLE - QUERY CALL
+ */
 function jcycle_extractMedia($atts)
 {
     global $wp_query, $post, $paged, $post_count;

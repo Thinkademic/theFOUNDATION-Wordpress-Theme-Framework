@@ -1,6 +1,15 @@
 <?php
 
 /**
+ * EMBED CHECK
+ */
+function embed_nivoslider() {
+        if (function_exists('show_nivoslider'))
+            show_nivoslider();
+}
+add_action('fdt_show_media_galleries', 'embed_nivoslider');
+
+/**
  * NIVOSLIDER - TEMPLATE TAG
  */
 function show_nivoslider()
