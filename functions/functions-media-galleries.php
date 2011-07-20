@@ -16,6 +16,7 @@ require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-nivoslider.php')
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-anythingslider.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-portfoliomaker.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-jquerytools.php');
+require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-featuredthumbnail.php');
 
 /**
  * DISPLAY SELECTED GALLERY ASSOCIATED WITH POST/PAGE/CUSTOM POST TYPE
@@ -349,7 +350,7 @@ class create_layout_options
         $output .= "<br /<p><strong>SELECT GALLERY</strong></p>";
         $selectoptions = array(
             'None' => '',
-            'Featured Thumbnail' => 'featuredthumbnail',
+            'Use Featured Image' => 'featuredthumbnail',
             'Jcycle Gallery' => 'jcyclegallery',
             'Anything Slider' => 'anythingslider',
             'Nivo Slider' => 'nivoslider'

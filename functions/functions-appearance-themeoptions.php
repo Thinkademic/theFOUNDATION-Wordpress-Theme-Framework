@@ -928,11 +928,13 @@ add_action('fdt_print_dynamic_js', 'thefdt_post_edit_links');
 *	@TODO: [5/21/11] WRITE A JQUERY FUNCTION TO REDUCE REPETIVIVE JQUERY CODE
 *	
 */
-function optionsframework_custom_scripts()
+function build_optionsframework_custom_scripts()
 {
-    ?>
 
-<!-- functions-appearance-options.php -->
+
+
+
+    print <<<END
 <script type="text/javascript">
 
     jQuery(document).ready(function($) {
@@ -1032,17 +1034,22 @@ function optionsframework_custom_scripts()
 
     });
 
+END;
 
-        <?php write_cufon_for_admin();     ?>
+    
+write_cufon_for_admin();
 
+    print <<<END
 </script>
-
-<?php
+END;
 
 }
 
-if (function_exists('of_get_option') && of_get_option('enable_cufon_support', false) ) {
-    add_action('optionsframework_custom_scripts', 'optionsframework_custom_scripts');
+/**
+ * @TODO MAKE SURE SCRIPT IS ONLY PRINTED IN THEMEOPTIONS PAGE FOR ADMIN
+ */
+if (function_exists('of_get_option')) {
+    add_action('optionsframework_custom_scripts', 'build_optionsframework_custom_scripts');
 }
 
 

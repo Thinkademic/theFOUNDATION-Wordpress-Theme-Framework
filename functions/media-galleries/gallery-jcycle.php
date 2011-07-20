@@ -402,7 +402,7 @@ function jcycle_jquery()
 
         $meta = get_post_meta($postid, THEMECUSTOMMETAKEY, true);
         $fx = set_default_value($meta["jcyclegallery_effect"], "none");
-        $autoplay = checkbox_truefalse($meta["gallery_autoplay"]);
+        $autoplay = checkbox_truefalse_string($meta["gallery_autoplay"]);
         if ($autoplay == 'false')
             $delay = 0;
         else

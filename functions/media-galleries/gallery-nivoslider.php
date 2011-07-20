@@ -176,7 +176,7 @@ function jquery_nivoslider()
 
         $meta = get_post_meta($postid, THEMECUSTOMMETAKEY, true);
 
-        $buildarrows = checkbox_truefalse($meta["gallery_enablenextprev"]);
+        $buildarrows = checkbox_truefalse_string($meta["gallery_enablenextprev"]);
         $delay = set_default_value($meta["nivoslider_delay"], 2500);
         $effect = set_default_value($meta["nivoslider_effect"], "fade");
         if ($meta["gallery_imagesize"] != "") :
@@ -187,7 +187,7 @@ function jquery_nivoslider()
             $height = get_option('medium_size_h');
         endif;
 
-        $autoplay = checkbox_truefalse($meta["gallery_autoplay"]);
+        $autoplay = checkbox_truefalse_string($meta["gallery_autoplay"]);
         if ($autoplay == 'false')
             $autoplay = '$(".post-' . $postid . ' .nivoslider").data("nivoslider").stop(); //Stop the Slider';
         else

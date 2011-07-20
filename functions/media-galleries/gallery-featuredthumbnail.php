@@ -2,11 +2,11 @@
 /**
  * EMBED CHECK
  */
-function embed_anythingslider() {
+function embed_featured_thumbnail() {
         if (function_exists('show_featured_thumbnail'))
             show_featured_thumbnail();
 }
-add_action('fdt_show_media_galleries', 'embed_anythingslider');
+add_action('fdt_show_media_galleries', 'embed_featured_thumbnail');
 
 /**
  * SHOWS THE FEATURED THUMBNAIL, OTHERWISE DISPLAYS FIRST IMAGE

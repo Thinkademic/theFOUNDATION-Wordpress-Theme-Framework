@@ -498,8 +498,8 @@ function anythingslider_jquery() {
 		}
 		
 		
-		$autoplay = checkbox_truefalse($meta["gallery_autoplay"]);		
-		$buildarrows = checkbox_truefalse($meta["gallery_enablenextprev"]);			
+		$autoplay = checkbox_truefalse_string($meta["gallery_autoplay"]);
+		$buildarrows = checkbox_truefalse_string($meta["gallery_enablenextprev"]);
 		$delay = set_default_value( $meta["gallery_transitiondelay"], 2500 );	
 		
 		$atts = array(

@@ -66,8 +66,11 @@ function wph_right_now_content_table_end() {
 	   $num = "<a href='edit.php?post_type=$post_type->name'>$num</a>";
 	   $text = "<a href='edit.php?post_type=$post_type->name'>$text</a>";
 	  }
-	  echo '<tr><td class="first b b-' . $post_type->name . '">' . $num . '</td>';
-	  echo '<td class="t ' . $post_type->name . '">' . $text . '</td></tr>';
+
+        if( $post_type->name != 'optionsframework') :
+         echo '<tr><td class="first b b-' . $post_type->name . '">' . $num . '</td>';
+         echo '<td class="t ' . $post_type->name . '">' . $text . '</td></tr>';
+        endif;
 	}
  
  

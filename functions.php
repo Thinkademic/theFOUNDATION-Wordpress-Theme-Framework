@@ -1441,8 +1441,13 @@ function buildmarkup_from_query($queryargs, $optionargs, $markup = null, $return
 
 }
 
-
-function checkbox_truefalse($input)
+/**
+ *  CREATES A TRUE OR FALSE STRING FOR JQUERY USAGE
+ *
+ * @param $input
+ * @return string
+ */
+function checkbox_truefalse_string($input)
 {
 
     if ($input == "") {
