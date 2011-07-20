@@ -5,40 +5,10 @@
 
 
 <body <?php body_id(); ?> <?php body_class(); ?>>
-<div id="wrapper">
-<?php get_template_part( 'slide', 'top'); ?>	
 
-<div id="layout"><div id="image">
-			
-<!-- Masthead -->
-<?php get_template_part( 'masthead'); ?>	
+	<?php get_template_part( 'loop', 'image'); ?>
 
-	<!-- Content is King -->
-	<div id="content">
 
-		<?php dynamicsidebar( 'Content Featured', '<div id="content-featured">', '</div>'); ?>
-		
-		<div id="primary">
-			<?php dynamicsidebar( "Primary Featured", '<div id="primary-featured">', '</div>' ); ?>
 
-			<div id="postbox">	
-				<?php get_template_part( 'loop', 'image'); ?>			
-			</div>
-			
-
-		</div>
-   
-		<?php get_template_part( 'secondary', 'image'); ?>	
-
-	</div>
-
-</div></div>
-
-<!-- Footer -->
-<?php get_footer(); ?>
-
-<?php get_template_part( 'slide', 'bottom'); ?>
-</div>
-<?php wp_footer(); ?> 
 </body>
 </html>
