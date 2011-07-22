@@ -717,7 +717,7 @@ add_action('thefdt_loop_footer', 'thefdt_get_loop_footer');
  */
 function thefdt_get_item_title()
 {
-    $title = sprintf(__('Permanent Link to "%s"',TEXTDOMAIN), strip_tags(get_the_title()));
+    $title = sprintf(__('Permanent Link to %s',TEXTDOMAIN), strip_tags(get_the_title()));
 
     echo '
         <h2>
