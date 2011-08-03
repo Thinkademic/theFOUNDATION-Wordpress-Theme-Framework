@@ -41,7 +41,6 @@ function show_mediagalleries($targetid = null)
 
 /**
  * ADDS OUR GALLERY OPTION META BOX TO
- *
  * ADMIN EDIT POST/PAGES/CUSTOM POSTTYPES
  */
 add_action("init", "create_layout_options");

@@ -376,7 +376,8 @@ class create_product {
 			//'taxonomies' => array('category'), 				// defined elsewehre - see register_taxonomy_for_object_type()
 			'menu_position' => 5,					// (5) Below Post (10) Below Media (20) Below Pages
 			'menu_icon' => get_stylesheet_directory_uri() . '/images/admin/product.png',
-			'supports' => array('title', 
+			'has_archive' => true,
+            'supports' => array('title',
 								'editor',
 								//'comments',
 								'thumbnail',	

@@ -11,7 +11,7 @@
 <div id="layout"><div id="single_portfolio">
 
 <!-- Masthead -->
-<?php #include(TEMPLATEPATH . '/masthead.php'); ?>
+<?php get_template_part( 'masthead'); ?>
 
 	<!-- Content is King -->
 	<div id="content">

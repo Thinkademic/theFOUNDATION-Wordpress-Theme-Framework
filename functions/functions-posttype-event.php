@@ -405,16 +405,17 @@ class create_Events
                                          // 'taxonomies' => array() 				// defined elsewehre - see register_taxonomy_for_object_type()
                                          'menu_position' => 5, // (5) Below Post (10) Below Media (20) Below Pages
                                          'menu_icon' => get_stylesheet_directory_uri() . '/images/admin/calendar.gif',
+                                         'has_archive' => true,
                                          'supports' => array('title',
                                                              'editor',
-                                             //'comments',
+                                                            //'comments',
                                                              'thumbnail',
-                                             //'custom-fields'	// Let's use custom fields for debugging purposes only
-                                             //'trackbacks',
-                                             //'revisions',
+                                                            //'custom-fields'	// Let's use custom fields for debugging purposes only
+                                                            //'trackbacks',
+                                                            //'revisions',
                                                              'author',
                                                              'excerpt'
-                                             //'page-attributes'
+                                                            //'page-attributes'
                                          )
                                     )
         );
