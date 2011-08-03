@@ -14,35 +14,42 @@
 			) 
 		); 
 		?>
-	
-		<div class="col1">
-			<?php
-				// Footer Col 1 
-				if ( !function_exists('dynamic_sidebar')	|| !dynamic_sidebar('Footer Column 1') ) : 
-				endif; 
-			?>				
-		</div>
-		<div class="col2">
-			<?php
-				// Footer Col 2 
-				if ( !function_exists('dynamic_sidebar')	|| !dynamic_sidebar('Footer Column 2') ) : 
-				endif; 
-			?>				
-		</div>	
-		<div class="col3">
-			<?php
-				// Footer Col 3 
-				if ( !function_exists('dynamic_sidebar')	|| !dynamic_sidebar('Footer Column 3') ) : 
-				endif; 
-			?>				
-		</div>	
-		<div class="col4">
-			<?php
-				// Footer Col 4 
-				if ( !function_exists('dynamic_sidebar')	|| !dynamic_sidebar('Footer Column 4') ) : 
-				endif; 
-			?>				
-		</div>
+
+        <div id="primary-footer">
+            <div class="col1">
+                <?php
+                    // Footer Col 1
+                    if ( !function_exists('dynamic_sidebar')	|| !dynamic_sidebar('Footer Column 1') ) :
+                    endif;
+                ?>
+            </div>
+        </div>
+
+        <div id="secondary-footer">
+            <div>
+                <div class="col2">
+                    <?php
+                        // Footer Col 2
+                        if ( !function_exists('dynamic_sidebar')	|| !dynamic_sidebar('Footer Column 2') ) :
+                        endif;
+                    ?>
+                </div>
+                <div class="col3">
+                    <?php
+                        // Footer Col 3
+                        if ( !function_exists('dynamic_sidebar')	|| !dynamic_sidebar('Footer Column 3') ) :
+                        endif;
+                    ?>
+                </div>
+                <div class="col4">
+                    <?php
+                        // Footer Col 4
+                        if ( !function_exists('dynamic_sidebar')	|| !dynamic_sidebar('Footer Column 4') ) :
+                        endif;
+                    ?>
+                </div>
+            </div>
+        </div>
 		
 		<?php
 		wp_nav_menu( 
