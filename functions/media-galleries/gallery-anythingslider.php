@@ -18,7 +18,7 @@ function show_anythingslider() {
 	$meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
 
 	if( $meta["gallery_type"] == "anythingslider" ):
-		$atts = postmeta_gallery_array();			
+		$atts = fdt_postmeta_gallery_array();
 		echo get_anythingslider( $atts );
 	endif;
 	

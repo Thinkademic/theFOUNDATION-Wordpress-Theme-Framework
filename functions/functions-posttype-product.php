@@ -43,14 +43,14 @@ function append_product_posttype($content) {
  that works within the single-custompostype.php template
  
 **************************************************************/
-add_action( 'parse_request', 'mytest_parse_request' ); 
+
 function mytest_parse_request( $wp ) { 
         global $wp_query; 
         $wp_query->is_main_loop = true; 
         return $wp; 
 } 
+#add_action( 'parse_request', 'mytest_parse_request' );
 
-add_action( 'pre_get_posts', 'mytest_pre_get_posts' ); 
 function mytest_pre_get_posts( $query ) { 
   if ( isset($query->is_main_loop) && $query->is_main_loop && is_tax() ) { 
     $query->set( 'posts_per_page', 1 ); 
@@ -58,7 +58,7 @@ function mytest_pre_get_posts( $query ) {
   } 
   return $query; 
 } 
-	
+#add_action( 'pre_get_posts', 'mytest_pre_get_posts' );
 
 
 	

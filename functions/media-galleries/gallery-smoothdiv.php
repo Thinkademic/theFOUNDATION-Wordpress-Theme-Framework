@@ -11,7 +11,7 @@ function show_smoothscroller() {
 
 	if( $meta["gallery_type"] == "smoothdiv" ):
 				
-		$atts = postmeta_gallery_array();		
+		$atts = fdt_postmeta_gallery_array();
 		echo get_smoothscroller( $atts );
 	endif;
 	

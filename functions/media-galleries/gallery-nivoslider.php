@@ -19,7 +19,7 @@ function show_nivoslider()
     $meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
 
     if ($meta["gallery_type"] == "nivoslider"):
-        $atts = postmeta_gallery_array();
+        $atts = fdt_postmeta_gallery_array();
         echo nivoslider($atts);
     endif;
 }
@@ -61,6 +61,11 @@ function nivoslider($atts = null)
 function get_nivoslider($atts = null)
 {
     global $wp_query, $post, $paged;
+    
+    $meta = get_post_meta($post->ID, THEMECUSTOMMETAKEY, true);
+    $size = $meta["gallery_imagesize"];
+    if ($size == '')
+        return;
 
     $return = "\n" . '<div class="nivoslider">';
     $return .= nivoslider_extractMedia($atts);

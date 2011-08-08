@@ -13,7 +13,7 @@ require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-smoothdiv.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-thefoundation.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-jcycle.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-nivoslider.php');
-require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-anythingslider.php');
+require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-anythingslider.php');   // DEPRECATED
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-portfoliomaker.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-jquerytools.php');
 require_once(TEMPLATEPATH . '/functions/media-galleries/gallery-featuredthumbnail.php');
@@ -59,7 +59,7 @@ if (!function_exists('create_layout_options')) {
  * @param null $targetid
  * @return array
  */
-function postmeta_gallery_array($targetid = null)
+function fdt_postmeta_gallery_array($targetid = null)
 {
     global $post;
 
@@ -182,12 +182,11 @@ function gallery_dropdown($meta_key = "", $customfieldname, $labeldecription)
     $custom_sizes = array();
 
     /*
-         *	CREATE ARRAY FOR OUR form_selectbox() FUNCTION
-         *	MAPPING, ARRAY KEY BECOMES LABEL,
-         *	ARRAY VALUE MAPS TO OPTION TAG'S VALUE ATTRIBUTE
-         *	PERHAPS CONSIDER using
-         *	http://www.php.net/manual/en/function.array-flip.php
-         */
+     *	CREATE ARRAY FOR OUR form_selectbox() FUNCTION
+     *	MAPPING NOTE : ARRAY KEY BECOMES LABEL THAT IS DISPLAY FOR USER,
+     *	ARRAY VALUE MAPS TO OPTION TAG'S VALUE ATTRIBUTE
+     *	@TODO PERHAPS CONSIDER using http://www.php.net/manual/en/function.array-flip.php
+     */
     foreach ($get_sizes as $key => $value) {
 
         $size_width = get_option($value . '_size_w');
@@ -205,7 +204,7 @@ function gallery_dropdown($meta_key = "", $customfieldname, $labeldecription)
     }
 
 
-    // SBUILD DEFAULT AND CUSTOM SIZE ARRAY
+    // BUILD DEFAULT AND CUSTOM SIZE ARRAY
     $none_options = array(
         'None' => ''
     );
@@ -213,14 +212,14 @@ function gallery_dropdown($meta_key = "", $customfieldname, $labeldecription)
     $custom_sizes = apply_filters("intermediate_image_sizes", $custom_sizes);
 
 
-    $default_options = array(
+    $x_custom_sizes = array(
         'None' => '',
         'Thumbnail' => 'thumbnail',
         'Medium' => 'medium',
         'Large' => 'large',
     );
 
-    return form_selectbox($meta_key, $customfieldname, $labeldecription, $default_options, false);
+    return form_selectbox($meta_key, $customfieldname, $labeldecription, $custom_sizes, false);
 }
 
 
@@ -254,6 +253,7 @@ class create_layout_options
         "gallery_thumbpreviewposition",
         "gallery_alignment",
         "gallery_transitiondelay",
+        "gallery_disable_dynamic_css",
 
         # jcycle specific options
         "jcyclegallery_effect",
@@ -343,7 +343,7 @@ class create_layout_options
         # --- NAVIGATION CONTROL OPTIONS
         $output .= "<p><strong>EMBED GALLERY</strong></p>";
         $output .= form_checkbox($this->meta_key, 'gallery_embed', 'Appends Selected Gallery');
-
+        $output .= form_checkbox($this->meta_key, 'gallery_disable_dynamic_css', 'Disable Generated CSS');
 
         //	GALLERY TYPE
         $output .= "<br /<p><strong>SELECT GALLERY</strong></p>";
@@ -351,8 +351,9 @@ class create_layout_options
             'None' => '',
             'Use Featured Image' => 'featuredthumbnail',
             'Jcycle Gallery' => 'jcyclegallery',
-            'Anything Slider' => 'anythingslider',
-            'Nivo Slider' => 'nivoslider'
+            //  DEPRECATED 'Anything Slider' => 'anythingslider',
+            'Nivo Slider' => 'nivoslider',
+            'Jquerytools Scrollable' => 'jquerytools_scrollable'
         );
         $output .= form_selectbox($this->meta_key, 'gallery_type', '', $selectoptions);
 

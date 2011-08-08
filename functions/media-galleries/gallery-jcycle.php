@@ -21,7 +21,7 @@ function show_jcyclegallery()
 
     if ($meta["gallery_type"] == "jcyclegallery") :
 
-        $atts = postmeta_gallery_array();
+        $atts = fdt_postmeta_gallery_array();
         echo get_jcyclegallery($atts);
 
     endif;
