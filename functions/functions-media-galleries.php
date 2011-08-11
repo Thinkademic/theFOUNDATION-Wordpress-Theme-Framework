@@ -311,19 +311,22 @@ class create_layout_options
     # -- Class Functions
     function admin_init()
     {
+        $box_label = 'THEFDT GALLERY';
+
         // ADD GALLERY OPTIONS FOR PAGES
         add_meta_box(
             "fslmeta_themelayoutoptions_forpage",
-            "Dynamic Gallery Options",
+            $box_label,
             array(&$this, "add_gallerylayoutoptions_forpage"),
             "page",
             "side",
             "low"
         );
+        
         // ADD GALLERY OPTIONS FOR POST
         add_meta_box(
             "fslmeta_themelayoutoptions_forpage",
-            "Gallery Options",
+            $box_label,
             array(&$this, "add_gallerylayoutoptions_forpage"),
             "post",
             "side",
