@@ -82,6 +82,6 @@ if (!function_exists('framework_register_sidebars')) {
 
     }
 }
-framework_register_sidebars();
+
 
 ?>
