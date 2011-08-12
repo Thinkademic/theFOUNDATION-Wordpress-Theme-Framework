@@ -49,5 +49,5 @@ if (!function_exists('thefdt_settings_media')) {
         #add_image_size( "squarelarge", 160, 160, true );			// DIMENSION SIZE FOR 'SQUARELARGE'
     }
 }
-thefdt_settings_media();
+
 ?>

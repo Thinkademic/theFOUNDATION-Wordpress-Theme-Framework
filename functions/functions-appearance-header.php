@@ -38,8 +38,6 @@ if (!function_exists('theme_header_setup')) {
 
     }
 }
-if (of_get_option('enable_wordpress_header', false))
-    theme_header_setup();
 
 
 /**

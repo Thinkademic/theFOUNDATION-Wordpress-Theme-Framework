@@ -18,7 +18,7 @@ if (!function_exists('init_jquery')) {
         add_action('template_redirect', 'enqueue_jquery_plugins');
     }
 }
-init_jquery();
+
 
 
 /**
@@ -66,35 +66,5 @@ if (!function_exists('register_jquery_plugins')) {
 
     }
 }
-
-
-/**
- * FDT HELPER FUNCTION
- * RUN wp_enqueue_script WHEN $check is TRUE
- *
- * @param $scriptname
- * @param bool $check
- */
-function use_wp_enqueue($scriptname, $check = false)
-{
-    if ($check)
-        wp_enqueue_script($scriptname);
-}
-
-
-/**
- * FDT HELPER FUNCTION
- * RUN wp_enqueue_script WHEN $check is TRUE
- *
- * @param $scriptname
- * @param bool $check
- *
- */
-function usagecheck_wp_enqueue($scriptname, $check = false)
-{
-    if ($check)
-        wp_enqueue_script($scriptname);
-}
-
 
 ?>

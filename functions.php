@@ -5,7 +5,6 @@
  * STORES FRAMEWORK FUNCTIONS
  */
 
-
 /**
  * SETUP UNIVERSAL CONSTANTS IF THEY HAVE NOT BEEN SET BY CHILD THEMES
  */
@@ -13,105 +12,180 @@ define('TEXTDOMAIN', 'thefdt');
 define('THEMECUSTOMMETAKEY', '_fsl_media_options');
 if (!isset($content_width)) $content_width = get_option('medium_size_w'); // SHOULD BE OVER WRITTEN IN CHILD THEMES
 
-
 /**
  * DEPRECATED FUNCTIONS
+ *
+ * @deprecated
  */
-require_once(TEMPLATEPATH . '/functions/functions-deprecated.php');
-
+locate_template('functions/functions-deprecated.php', true);
 
 /**
- *    SETUP THEME OPTIONS AND ADDITIONAL APPEARANCE OPTIONS
+ * SETUP THEME OPTIONS AND ADDITIONAL APPEARANCE OPTIONS
  */
-require_once(TEMPLATEPATH . '/functions/functions-appearance-themeoptions.php'); // WORKS WITH OPTIONS FRAMEWORK BY DEVINSAYS
-require_once(TEMPLATEPATH . '/functions/functions-appearance-sidebars.php');
-require_once(TEMPLATEPATH . '/functions/functions-appearance-header.php');
-require_once(TEMPLATEPATH . '/functions/functions-appearance-widgets.php');
-require_once(TEMPLATEPATH . '/functions/functions-appearance-menu.php');
-require_once(TEMPLATEPATH . '/functions/functions-appearance-background.php');
-
+locate_template('functions/functions-appearance-themeoptions.php', true);
+locate_template('functions/functions-appearance-sidebars.php', true);
+locate_template('functions/functions-appearance-widgets.php', true);
+locate_template('functions/functions-appearance-menu.php', true);
+if (of_get_option('enable_wordpress_background', false))
+    locate_template('functions/functions-appearance-background.php', true);
+if (of_get_option('enable_wordpress_header', false))
+    locate_template('functions/functions-appearance-header.php', true);
 
 /**
  * SANDBOX FUNCTIONS
  */
-require_once(TEMPLATEPATH . '/functions/functions-sandbox.php');
-require_once(TEMPLATEPATH . '/functions/functions-social-media.php');
+locate_template('functions/functions-sandbox.php', true);
 
 /**
- * CUSTOM POST TYPE ADDITION
+ * SOCIAL MEDIA FUNCTIONS
+ */
+locate_template('functions/functions-social-media.php', true);
+
+/**
+ * CUSTOM POST TYPE INCLUSIONS
  *
- * @NOTE: CUSTOM POST TYPES CUSTOM POST TYPES ARE LOADED FROM THE PARENT THEME & ENABLED IN ADMIN > APPEARANCE > THEME OPTIONS > CUSTOM POST TYPE
+ * theFOUNDATION THEME HAS A LIBRARY OF USEFUL CUSTOM POST TYPES THAT CAN BE USED AS BASE TO ROLL YOUR OWN
+ * CUSTOM POST TYPE. JUST COPY THEM TO YOUR CHILD THEME AND THEY WILL OVER RIDE THE PARENT THEME
+ *
+ * @NOTE: CUSTOM POST TYPES CAN BE ENABLED IN ADMIN > APPEARANCE > THEME OPTIONS MENU UNDER THE 'CUSTOM POST TYPE' TAB
  */
 if (of_get_option('enable_custom_posttype_event', false) == true)
-    require_once(TEMPLATEPATH . '/functions/functions-posttype-event.php');
+    locate_template('functions/post-type/post_type-event.php', true);
 if (of_get_option('enable_custom_posttype_portfolio', false) == true)
-    require_once(TEMPLATEPATH . '/functions/functions-posttype-portfolio.php');
+    locate_template('functions/post-type/post_type-portfolio.php', true);
 if (of_get_option('enable_custom_posttype_designer', false) == true)
-    require_once(TEMPLATEPATH . '/functions/functions-posttype-designer.php');
+    locate_template('functions/post-type/post_type-designer.php', true);
 if (of_get_option('enable_custom_posttype_swatch', false) == true)
-    require_once(TEMPLATEPATH . '/functions/functions-posttype-swatch.php');
+    locate_template('functions/post-type/post_type-swatch.php', true);
 if (of_get_option('enable_custom_posttype_product', false) == true)
-    require_once(TEMPLATEPATH . '/functions/functions-posttype-product.php');
+    locate_template('functions/post-type/post_type-product.php', true);
 if (of_get_option('enable_custom_posttype_post', false) == true)
-    require_once(TEMPLATEPATH . '/functions/functions-posttype-post.php');
+    locate_template('functions/post-type/post_type-post.php', true);
 if (of_get_option('enable_custom_posttype_dictionary', false) == true)
-    require_once(TEMPLATEPATH . '/functions/functions-posttype-dictionary.php');
+    locate_template('functions/post-type/post_type-dictionary.php', true);
 if (of_get_option('enable_custom_posttype_lesson', false) == true)
-    require_once(TEMPLATEPATH . '/functions/functions-posttype-lesson.php');
+    locate_template('functions/post-type/post_type-lesson.php', true);
 
 
 /**
  * ENQUEUE JQUERY + JQUERY LIBRARIES
  */
-require_once(TEMPLATEPATH . '/functions/functions-jquery.php');
-
+locate_template('functions/functions-jquery.php', true);
 
 /**
  * ENABLE DYNAMIC GENERATED JS + CSS
  */
-require_once(TEMPLATEPATH . '/functions/functions-dynamic-js.php');
-require_once(TEMPLATEPATH . '/functions/functions-dynamic-css.php');
-
+locate_template('functions/functions-dynamic-js.php', true);
+locate_template('functions/functions-dynamic-css.php', true);
 
 /**
  * MEDIA FUNCTIONS
  */
-require_once(TEMPLATEPATH . '/functions/functions-media-galleries.php');
-
+locate_template('functions/functions-media-galleries.php', true);
 
 /**
  * REMOVE WORDPRESS DEFAULT FEATURES
  */
-require_once(TEMPLATEPATH . '/functions/functions-remove-features.php');
-
+locate_template('functions/functions-remove-features.php', true);
 
 /**
  * ADMIN DASHBOARD SETTINGS
  */
-require_once(TEMPLATEPATH . '/functions/functions-dashboard.php');
-
+locate_template('functions/functions-dashboard.php', true);
 
 /**
  * ADMIN BAR
  */
-require_once(TEMPLATEPATH . '/functions/functions-adminbar.php');
-
+locate_template('functions/functions-adminbar.php', true);
 
 /**
  * ADD_THEME_SUPPORT
  */
-require_once(TEMPLATEPATH . '/functions/functions-theme-support.php');
+locate_template('functions/functions-theme-support.php', true);
+
 
 /**
  * SETTINGS FOR MEDIA SIZES
  */
-require_once(TEMPLATEPATH . '/functions/functions-settings-media.php');
+locate_template('functions/functions-settings-media.php', true);
+if (function_exists('thefdt_settings_media')) {
+    thefdt_settings_media();
+}
 
 
-/**************************************************************
-ADMIN ENHANCEMENT :: ADD IMAGE PREVIEW COLUMNS
-REF:  http://wpengineer.com/display-post-thumbnail-post-page-overview
- **************************************************************/
+/**
+ * OVERRIDES FOR 3rd PARTY PLUGINS
+ */
+locate_template('functions/functions-override-plugin.php', true);
+
+
+/**
+ * INTIATE FRAMEWORK JQUERY SETUP
+ *
+ * @TODO MOVE TO DEPRECATED
+ */
+if (function_exists('init_jquery')) {
+    init_jquery();
+}
+
+
+/**
+ * REGISTER SIDEBARS
+ *
+ * @TODO MOVE TO DEPRECATED
+ */
+if (function_exists('framework_register_sidebars')) {
+    framework_register_sidebars();
+}
+
+/**
+ * REGISTER CUSTOM WORDPRESS MENU
+ *
+ * @PLUGGABLE
+ *
+ * @TODO: MOVE TO DEPRECATED
+ */
+if (function_exists('register_theme_menu')) {
+    add_action('init', 'register_theme_menu');
+}
+
+
+/**
+ * FDT HELPER FUNCTION
+ * RUN wp_enqueue_script WHEN $check is TRUE
+ *
+ * @param $scriptname
+ * @param bool $check
+ * @TODO: MOVE TO BETTER LOCATION
+ */
+function use_wp_enqueue($scriptname, $check = false)
+{
+    if ($check)
+        wp_enqueue_script($scriptname);
+}
+
+
+/**
+ * FDT HELPER FUNCTION
+ * RUN wp_enqueue_script WHEN $check is TRUE
+ *
+ * @param $scriptname
+ * @param bool $check
+ * @TODO MOVE TO BETTER LOCATION
+ *
+ */
+function usagecheck_wp_enqueue($scriptname, $check = false)
+{
+    if ($check)
+        wp_enqueue_script($scriptname);
+}
+
+
+/**
+ * ADMIN ENHANCEMENT :: ADD IMAGE PREVIEW COLUMNS
+ *
+ * @link http://wpengineer.com/display-post-thumbnail-post-page-overview
+ */
 add_filter('manage_posts_columns', 'add_image_preview_column');
 add_action('manage_posts_custom_column', 'add_image_value', 10, 2);
 
@@ -158,9 +232,9 @@ function add_image_value($column_name, $post_id)
  * ADD IMAGE SOURCE URL COLUMN FOR MEDIA
  *
  * @param $cols
- * @return
+ * @return array
  * 
- * @todo ADD INPUT BOXES FOR OTHER SIZES
+ * @TODO ADD INPUT BOXES FOR OTHER SIZES
  */
 function muc_column($cols)
 {
@@ -177,11 +251,10 @@ add_filter('manage_media_columns', 'muc_column');
 add_action('manage_media_custom_column', 'muc_value', 10, 2);
 
 
-
-
-/**************************************************************
-ADD ADDITIONAL USER PROFILE FIELDS
- **************************************************************/
+/**
+ * ADD ADDITIONAL USER PROFILE FIELDS
+ *
+ */
 add_filter('user_contactmethods', 'add_more_contactmethods', 10, 1);
 function add_more_contactmethods($contactmethods)
 {
@@ -213,11 +286,12 @@ function add_more_contactmethods($contactmethods)
 }
 
 
-/**************************************************************
-TEMPLATE TAG - SITE CONTACT INFORMATION
- **************************************************************/
-function get_site_contactinfo($userprofile = "admin")
-{
+/**
+ * TEMPLATE TAG - SITE CONTACT INFORMATION
+ *
+ * @return bool|string
+ */
+function get_site_contactinfo($userprofile = "admin") {
 
     $userprofile = get_the_author_meta("ID", $userprofile);
 
@@ -254,11 +328,12 @@ function get_site_contactinfo($userprofile = "admin")
 }
 
 
-/***************************************************************
-FUNCTION MY_OEMBED_WMODE
-FIX OEMBED WINDOW MODE FOR FLASH OBJECTS
-AND ADDS A WRAPPER DIV
- ***************************************************************/
+/**
+ *
+ * @return void
+ *
+ * FIX OEMBED WINDOW MODE FOR FLASH OBJECTS AND ADDS A WRAPPER DIV
+ */
 add_filter('embed_oembed_html', 'my_oembed_wmode', 1);
 function my_oembed_wmode($embed)
 {
@@ -271,9 +346,13 @@ function my_oembed_wmode($embed)
 }
 
 
-/**************************************************************
-SETS A DEFAULT VALUE IF PASSED VALUE IS EMPTY
- **************************************************************/
+/**
+ * SETS A DEFAULT VALUE IF PASSED VALUE IS EMPTY
+ *
+ * @param $val
+ * @param $defaultvalue
+ * @return
+ */
 function set_default_value($val, $defaultvalue)
 {
     if ($val == "") {
@@ -283,19 +362,23 @@ function set_default_value($val, $defaultvalue)
 }
 
 
-/**************************************************************
+/**
+ * THE FOUNDATION THEME FRAMEWORK DEPENDS ON CUSTOM
+ * FUNCTIONS FOR OUTPUTING HTML.
+ *
+ * THESE HELPER FUNCTIONS HELP CREATE CLEAN ERROR
+ * FREE XTHML
+ */
 
-THE FOUNDATION THEME FRAMEWORK DEPENDS ON CUSTOM
-FUNCTIONS FOR OUTPUTING HTML.
-
-THESE HELPER FUNCTIONS HELP CREATE CLEAN ERROR
-FREE XTHML
-
- **************************************************************/
-
-/**************************************************************
-CONSTRUCT XHTML TAGS USING A FUNCTION
- **************************************************************/
+/**
+ * CONSTRUCT XHTML TAGS USING A FUNCTION
+ *
+ * @param string $tag
+ * @param $content
+ * @param string $class
+ * @param string $id
+ * @return null|string
+ */
 function xhtmltag($tag = "div", $content, $class = "", $id = "")
 {
 
@@ -321,10 +404,17 @@ function xhtmltag($tag = "div", $content, $class = "", $id = "")
 }
 
 
-/**************************************************************
-CONSTRUCT XHTML TAGS USING A FUNCTION, $ARS IS A QUERY STRING
-THAT WILL BE EXTRACTED.
- **************************************************************/
+/**
+ * CONSTRUCT XHTML TAGS USING A FUNCTION, $ARS IS A QUERY STRING
+ *
+ * THAT WILL BE EXTRACTED.
+ * @param string $tag
+ * @param $content
+ * @param null $args
+ * @param string $precontent
+ * @param string $postcontent
+ * @return bool|string
+ */
 function xtag($tag = "div", $content, $args = null, $precontent = "", $postcontent = "")
 {
 
@@ -1134,29 +1224,29 @@ function retrieve_media($querytype = "default", $imagesize = "thumbnail", $hyper
         $hyperlink_imagesize = $imagesize;
     endif;
 
-	switch($hyperlink_target) {
-		case "link_to_file" :
-			$imagesrc = wp_get_attachment_image_src( $post->ID, $hyperlink_imagesize, false );
-			$href = $imagesrc[0];
-			if($href == "")
-				$href = get_permalink($post->ID);
-			break;
-		case "link_to_attachment_page" :
-			if($post->post_type != 'attachment') :
-				$href = get_first_image_attachment_link( $post->ID);
-			else:
-				$href = get_attachment_link( $post->ID );
-			endif;
-			break;
-		case "link_to_parent" :
-			if($post->post_parent != '') :
-				$href = get_permalink($post->post_parent);
-			else :
-				$href = get_permalink($post->ID);
-			endif;
-			break;
-		default:
-			// DO NOTHING
+    switch ($hyperlink_target) {
+        case "link_to_file" :
+            $imagesrc = wp_get_attachment_image_src($post->ID, $hyperlink_imagesize, false);
+            $href = $imagesrc[0];
+            if ($href == "")
+                $href = get_permalink($post->ID);
+            break;
+        case "link_to_attachment_page" :
+            if ($post->post_type != 'attachment') :
+                $href = get_first_image_attachment_link($post->ID);
+            else:
+                $href = get_attachment_link($post->ID);
+            endif;
+            break;
+        case "link_to_parent" :
+            if ($post->post_parent != '') :
+                $href = get_permalink($post->post_parent);
+            else :
+                $href = get_permalink($post->ID);
+            endif;
+            break;
+        default:
+            // DO NOTHING
     }
 
     if ($hyperlink_enable) {
@@ -1313,16 +1403,16 @@ function build_query_array($atts)
 }
 
 
-/**************************************************************
-BUILD MARKUP FROM WP QUERY
-
-FUNCTIONS USES 3 SETS OF OPTIONS
-
-1 - DISPLAY
-2 - MARKUP
-3 - WPQUERY
-
- **************************************************************/
+/**
+ * BUILD MARKUP FROM WP QUERY
+ *
+ *
+ * @param $queryargs
+ * @param $optionargs
+ * @param null $markup
+ * @param bool $return_as_array
+ * @return array|bool|string
+ */
 function buildmarkup_from_query($queryargs, $optionargs, $markup = null, $return_as_array = false)
 {
     global $wp_query, $post, $paged, $post_count;
