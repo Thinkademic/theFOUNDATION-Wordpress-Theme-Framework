@@ -37,8 +37,9 @@ if (!function_exists('of_get_option')) {
 
 
 /**
-*	ALTERNATIVE LAYOUT STYLESHEETS READER
-*/
+ * ALTERNATIVE LAYOUT STYLESHEETS READER
+ * @return array
+ */
 function find_alternative_styles()
 {
 
@@ -83,10 +84,8 @@ function find_default_style()
 
 
 
-
 /**
-*	FIND LAYOUTS 
-*	NEEDS TO WORK
+*	FIND LAYOUTS
 */
 function find_layouts()
 {
@@ -108,11 +107,12 @@ function find_layouts()
     return $layouts;
 }
 
+
 /**
 * FIND  A DEFAULT LAYOUT TO USE
 *
 * @TODO SEARCHES FOR DEFAULT.CSS IF NOT FOUND, SEARCH FOR FIRST CSS FILE
-* @RETURN | SHOULD RETURN A FILE NAME AS A STRING
+* @return string
 */
 function find_default_layout()
 {
@@ -135,7 +135,60 @@ function find_default_layout()
 
 
 /**
-*	FIND LAYOUT  FOR CURRENT TEMPLATE,
+ * FIND A DEFAULT STYLE TO USE
+ *
+ * SEARCH FOR FIRST CSS FILE AVAILIABLE
+ * @return string
+ */
+function find_default_nav_menu()
+{
+    $default = "menu-default.css";
+    $layouts_path = STYLESHEETPATH . '/css/nav';
+
+    if (is_dir($layouts_path)) {
+        if ($layout_dir = opendir($layouts_path)) {
+            while (($layout_file = readdir($layout_dir)) !== false) {
+                if (stristr($layout_file, ".css") !== false) {
+                    $default = $layout_file;
+                }
+            }
+        }
+    }
+
+    return $default;
+}
+
+
+/**
+* FIND NAV MENUS
+*
+* @return array
+*/
+function find_nav_menu()
+{
+
+    $imagepath = get_bloginfo('stylesheet_directory') . '/css/nav/icons/';
+    $layouts_path = STYLESHEETPATH . '/css/nav';
+    $layouts = array();
+    if (is_dir($layouts_path)) {
+        if ($layout_dir = opendir($layouts_path)) {
+            while (($layout_file = readdir($layout_dir)) !== false) {
+                if (stristr($layout_file, ".css") !== false) {
+                    $filename = str_replace(".css", ".png", $layout_file);
+                    $layouts[$layout_file] = $imagepath . $filename;
+                }
+            }
+        }
+    }
+
+    return $layouts;
+}
+
+
+
+
+/**
+*	FIND LAYOUT FOR CURRENT TEMPLATE,
 */
 function layout_for_current_template()
 {
@@ -148,6 +201,38 @@ function layout_for_current_template()
 
     return $layout;
 }
+
+/** FIND THE SELECTED NAV MENU STYLE */
+function nav_menu_selected_style(){
+
+    // BASED ON CURRENT TEMPLATE FIND PROPER LAYOUT
+    $layout = of_get_option('nav_menu_css_file', find_default_layout());
+
+    return $layout;
+}
+
+/**
+ * ENQUEUE OUR SELECT NAVIGATION STYLE
+ * 
+ */
+function enqueue_nav_menu(){
+    global $data, $content_width;
+
+    // LAYOUTS PATH
+    $nav_menu_path = get_stylesheet_directory_uri() . '/css/nav/';
+    $nav_menu_file = nav_menu_selected_style();
+
+    // USE DEFAULT LAYOUT
+    if ($nav_menu_file == '')
+        $nav_menu_file = find_default_nav_menu();
+
+    // REGISTER & ENQUEUE STYLE
+    wp_register_style('navmenu', $nav_menu_path . $nav_menu_file);
+    wp_enqueue_style('navmenu');
+}
+
+add_action('fdt_enqueue_dynamic_css', 'enqueue_nav_menu');
+
 
 /**
 *	ENQUEUE OUR SELECTED LAYOUTS FOR VARIOUS TEMPLATES
