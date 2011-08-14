@@ -31,6 +31,8 @@ if (of_get_option('enable_wordpress_background', false))
 if (of_get_option('enable_wordpress_header', false))
     locate_template('functions/functions-appearance-header.php', true);
 
+
+
 /**
  * SANDBOX FUNCTIONS
  */
@@ -50,21 +52,25 @@ locate_template('functions/functions-social-media.php', true);
  * @NOTE: CUSTOM POST TYPES CAN BE ENABLED IN ADMIN > APPEARANCE > THEME OPTIONS MENU UNDER THE 'CUSTOM POST TYPE' TAB
  */
 if (of_get_option('enable_custom_posttype_event', false) == true)
-    locate_template('functions/post-type/post_type-event.php', true);
+    locate_template('functions/post-type/post-type-event.php', true);
 if (of_get_option('enable_custom_posttype_portfolio', false) == true)
-    locate_template('functions/post-type/post_type-portfolio.php', true);
+    locate_template('functions/post-type/post-type-portfolio.php', true);
 if (of_get_option('enable_custom_posttype_designer', false) == true)
-    locate_template('functions/post-type/post_type-designer.php', true);
+    locate_template('functions/post-type/post-type-designer.php', true);
 if (of_get_option('enable_custom_posttype_swatch', false) == true)
-    locate_template('functions/post-type/post_type-swatch.php', true);
+    locate_template('functions/post-type/post-type-swatch.php', true);
 if (of_get_option('enable_custom_posttype_product', false) == true)
-    locate_template('functions/post-type/post_type-product.php', true);
+    locate_template('functions/post-type/post-type-product.php', true);
 if (of_get_option('enable_custom_posttype_post', false) == true)
-    locate_template('functions/post-type/post_type-post.php', true);
+    locate_template('functions/post-type/post-type-post.php', true);
 if (of_get_option('enable_custom_posttype_dictionary', false) == true)
-    locate_template('functions/post-type/post_type-dictionary.php', true);
+    locate_template('functions/post-type/post-type-dictionary.php', true);
 if (of_get_option('enable_custom_posttype_lesson', false) == true)
-    locate_template('functions/post-type/post_type-lesson.php', true);
+    locate_template('functions/post-type/post-type-lesson.php', true);
+if (of_get_option('enable_custom_posttype_company', false) == true)
+    locate_template('functions/post-type/post-type-company.php', true);
+
+
 
 
 /**
