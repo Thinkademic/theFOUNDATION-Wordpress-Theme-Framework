@@ -3,6 +3,7 @@
  * functions/functions-theme-support.php
  *
  * Contains the implementation of Wordpress add_theme_support() function
+ * @link http://codex.wordpress.org/Function_Reference/add_theme_support
  */
 
 

@@ -44,34 +44,10 @@ locate_template('functions/functions-sandbox.php', true);
 locate_template('functions/functions-social-media.php', true);
 
 /**
- * CUSTOM POST TYPE INCLUSIONS
+ * CUSTOM POST TYPE INCLUSIONS HOOK
  *
- * theFOUNDATION THEME HAS A LIBRARY OF USEFUL CUSTOM POST TYPES THAT CAN BE USED AS BASE TO ROLL YOUR OWN
- * CUSTOM POST TYPE. JUST COPY THEM TO YOUR CHILD THEME AND THEY WILL OVER RIDE THE PARENT THEME
- *
- * @NOTE: CUSTOM POST TYPES CAN BE ENABLED IN ADMIN > APPEARANCE > THEME OPTIONS MENU UNDER THE 'CUSTOM POST TYPE' TAB
  */
-if (of_get_option('enable_custom_posttype_event', false) == true)
-    locate_template('functions/post-type/post-type-event.php', true);
-if (of_get_option('enable_custom_posttype_portfolio', false) == true)
-    locate_template('functions/post-type/post-type-portfolio.php', true);
-if (of_get_option('enable_custom_posttype_designer', false) == true)
-    locate_template('functions/post-type/post-type-designer.php', true);
-if (of_get_option('enable_custom_posttype_swatch', false) == true)
-    locate_template('functions/post-type/post-type-swatch.php', true);
-if (of_get_option('enable_custom_posttype_product', false) == true)
-    locate_template('functions/post-type/post-type-product.php', true);
-if (of_get_option('enable_custom_posttype_post', false) == true)
-    locate_template('functions/post-type/post-type-post.php', true);
-if (of_get_option('enable_custom_posttype_dictionary', false) == true)
-    locate_template('functions/post-type/post-type-dictionary.php', true);
-if (of_get_option('enable_custom_posttype_lesson', false) == true)
-    locate_template('functions/post-type/post-type-lesson.php', true);
-if (of_get_option('enable_custom_posttype_company', false) == true)
-    locate_template('functions/post-type/post-type-company.php', true);
-
-
-
+do_action( 'locate_custom_post_type' );
 
 /**
  * ENQUEUE JQUERY + JQUERY LIBRARIES
