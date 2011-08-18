@@ -3,10 +3,12 @@
 /**
  * EMBED CHECK
  */
-function embed_jcyclegallery() {
-        if (function_exists('show_jcyclegallery'))
-            show_jcyclegallery();
+function embed_jcyclegallery()
+{
+    if (function_exists('show_jcyclegallery'))
+        show_jcyclegallery();
 }
+
 add_action('fdt_show_media_galleries', 'embed_jcyclegallery');
 
 
@@ -993,14 +995,36 @@ END;
 
 /**
  * CSS JCYCLE ACTION FUNCTION
+ *
+ * BUILD DYNAMIC CSS
  */
 function css_jcycle()
 {
-    $atts = array(
-        'width' => 100
-    );
+    $pass_postid = explode("-", get_query_var('cssids'));
 
-    build_css_jcycle($atts);
+    foreach ($pass_postid as $key => $postid) {
+        $meta = get_post_meta($postid, THEMECUSTOMMETAKEY, true);
+
+        if ($meta["gallery_imagesize"] != "") {
+            $width = get_option($meta["gallery_imagesize"] . '_size_w');
+            $height = get_option($meta["gallery_imagesize"] . '_size_h');
+        } else {
+            $width = get_option('medium_size_w');
+            $height = get_option('medium_size_h');
+        }
+
+        $atts = array(
+            'width' => $width,
+            'height' => $height
+        );
+
+        if ($meta["gallery_type"] == "jcyclegallery" && $meta["gallery_disable_dynamic_css"] != true ):
+            build_css_jcycle($atts);
+        endif;
+
+    }
+
+
 }
 
 add_action('fdt_print_dynamic_css', 'css_jcycle');

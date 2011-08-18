@@ -9,6 +9,10 @@
 
 /**
  * Enable Post Thumbnail Support
+ *
+ * @note THIS FUNCTION SHOULD BE USED JUST ONCE, IF CALLED MORE THEN ONCE,
+ * THEN THE LAST CALLED VERSION WILL BE APPLIED, BY DEFAULT IT WILL BE APPLIED ALL CUSTOM POST TYPES
+ *
  */
 add_theme_support('post-thumbnails');
 

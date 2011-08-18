@@ -221,9 +221,8 @@ function jquery_jquerytools_scrollable()
             'height' => $height
         );
 
-        if ($meta["gallery_type"] == "jquerytools_scrollable"):
+        if ($meta["gallery_type"] == "jquerytools_scrollable" && $meta["gallery_disable_dynamic_css"] != true ):
             build_jquery_jquerytools_scrollable($atts);
-            $more_jquery_functions = true;
         endif;
 
     }
@@ -256,22 +255,20 @@ function build_css_jquerytools_scrollable($atts = null)
 /*------ JQUERYTOOLS SCROLLABLE -------*/
 #jquerytools-scrollable
 {
-	width: 980px;
+	width: {$width}px;
 	margin: 0 auto;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
-	-o-user-select: none;
-	user-select: none;
 }
 /*------ MAIN DIVS*/
 #flowpanes
 {
 	position: relative;
-	/*[disabled]overflow:hidden;*/
+	overflow:hidden;
 	clear: both;
 	width: 100%;
-	height: 440px;
+	height: {$height}px;
 }
 #flowpanes .items
 {
@@ -290,8 +287,8 @@ function build_css_jquerytools_scrollable($atts = null)
 {
 	float: left;
 	display: block;
-	width: 980px;
-	height: 440px;
+	width: {$width}px;
+	height: {$height}px;
 	background: #D4D4D4;
 	font-size: 14px;
 }
@@ -302,11 +299,9 @@ function build_css_jquerytools_scrollable($atts = null)
 #flowtabs
 {
 /*dimensions*/
-	width: 995px;
+	width: {$width}px;
 	margin: 0 !important;
 	padding: 0;
-/*IE6 specific branch (prefixed with "_")*/
-	-margin-bottom: -2px;
 }
 #flowtabs LI
 {
@@ -368,40 +363,8 @@ function build_css_jquerytools_scrollable($atts = null)
 /*------ PREV/NEXT NAV*/
 .flownav
 {
-	/*[disabled]+placement:anchor-top-left 0px 0px;*/
-	/*[disabled]margin-left:50%;*/
-	/*[disabled]z-index:10000;*/
-	/*[disabled]width:0px;*/
-	/*[disabled]height:0px;*/
-}
-.flownav DIV
-{
-	/*[disabled]cursor:pointer;*/
-	/*[disabled]display:block;*/
-	/*[disabled]width:50px;*/
-	/*[disabled]float:left;*/
-	/*[disabled]height:440px;*/
-	/*[disabled]text-indent:-9999px;*/
-}
-.flownav DIV:hover
-{
-	/*[disabled]+opacity:50%;*/
-}
-.flownav DIV.prev
-{
-	/*[disabled]+placement:anchor-top-left -540px 113px;*/
-	/*[disabled]background:url(http://placehold.it/50x50/EE94AD/000000/&text=<) no-repeat 1px 189px;*/
-}
-.flownav DIV.next
-{
-	/*[disabled]+placement:anchor-top-left 490px 113px;*/
-	/*[disabled]background:url(http://placehold.it/50x50/EE94AD/000000/&text=>) no-repeat 0px 189px;*/
-}
-/*------ PREV/NEXT NAV*/
-.flownav
-{
 	z-index: 10000;
-	width: 940px;
+	width: {$width}px;
 	height: 0px;
 	/*+placement:displace 0px 0px;*/
 	position: absolute;
@@ -414,7 +377,7 @@ function build_css_jquerytools_scrollable($atts = null)
 	display: block;
 	width: 50px;
 	float: left;
-	height: 439px;
+	height: {$height}px;
 	text-indent: -9999px;
 }
 .flownav DIV.prev
@@ -454,6 +417,7 @@ END;
  */
 function css_jquerytools_scrollable()
 {
+    global $_wp_additional_image_sizes;
 
     $pass_postid = explode("-", get_query_var('cssids'));
 
@@ -467,6 +431,14 @@ function css_jquerytools_scrollable()
             $width = get_option('medium_size_w');
             $height = get_option('medium_size_h');
         }
+
+        $size = $meta["gallery_imagesize"];
+
+        if (!is_numeric($size_width))
+            $width = $_wp_additional_image_sizes[$size]['width'];
+
+        if (!is_numeric($size_height))
+            $height = $_wp_additional_image_sizes[$size]['height'];
 
         $atts = array(
             'width' => $width,

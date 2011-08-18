@@ -45,7 +45,6 @@ locate_template('functions/functions-social-media.php', true);
 
 /**
  * CUSTOM POST TYPE INCLUSIONS HOOK
- *
  */
 do_action( 'locate_custom_post_type' );
 

@@ -374,7 +374,7 @@ function css_nivoslider()
             'height' => $height
         );
 
-        if ($meta["gallery_type"] == "nivoslider"):
+        if ($meta["gallery_type"] == "nivoslider" && $meta["gallery_disable_dynamic_css"] != true ):
             build_css_nivoslider($atts);
         endif;
 

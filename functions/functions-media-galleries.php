@@ -181,6 +181,8 @@ function gallery_dropdown($meta_key = "", $customfieldname, $labeldecription)
     $get_sizes = get_intermediate_image_sizes();
     $custom_sizes = array();
 
+
+
     /*
      *	CREATE ARRAY FOR OUR form_selectbox() FUNCTION
      *	MAPPING NOTE : ARRAY KEY BECOMES LABEL THAT IS DISPLAY FOR USER,
@@ -311,7 +313,7 @@ class create_layout_options
     # -- Class Functions
     function admin_init()
     {
-        $box_label = 'THEFDT GALLERY';
+        $box_label = 'theFDT Gallery';
 
         // ADD GALLERY OPTIONS FOR PAGES
         add_meta_box(
