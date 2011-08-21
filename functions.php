@@ -320,7 +320,7 @@ function my_oembed_wmode($embed)
 {
     if (strpos($embed, '<param') !== false) {
         $embed = str_replace('<embed', '<embed wmode="transparent" ', $embed);
-        $embed = preg_replace('/param>/', 'param><param name="wmode" value="transparent" />', $embed, 1);
+        $embed = preg_replace('/param>/', 'param><param name="wmode" value="transparent" />', $embed, 1); 
         $embed = '<div class="oembed">' . $embed . '</div>';
     }
     return $embed;

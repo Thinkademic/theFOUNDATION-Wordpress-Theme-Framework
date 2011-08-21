@@ -206,7 +206,7 @@ function layout_for_current_template()
 function nav_menu_selected_style(){
 
     // BASED ON CURRENT TEMPLATE FIND PROPER LAYOUT
-    $layout = of_get_option('nav_menu_css_file', find_default_layout());
+    $layout = of_get_option('nav_menu_css_file', find_default_nav_menu());
 
     return $layout;
 }
