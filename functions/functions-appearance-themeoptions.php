@@ -271,7 +271,7 @@ function enqueue_alternative_stylesheets()
     global $data;
 
     $alt_styles_path = get_stylesheet_directory_uri() . '/css/styles/';
-    $alt_style = of_get_option('alt_stylesheet', 'default.css');
+    $alt_style = of_get_option('alt_stylesheet', 'style-default.css');
 
     wp_register_style('alt_style', $alt_styles_path . $alt_style);
     wp_enqueue_style('alt_style');
