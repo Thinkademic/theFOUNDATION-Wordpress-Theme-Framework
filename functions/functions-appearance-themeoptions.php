@@ -116,7 +116,7 @@ function find_layouts()
 */
 function find_default_layout()
 {
-    $default = "default.css";
+    $default = "layout-default.css";
     $layouts_path = STYLESHEETPATH . '/css/layouts';
 
     if (is_dir($layouts_path)) {
